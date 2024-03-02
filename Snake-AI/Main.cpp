@@ -1,4 +1,4 @@
-//zatial nic
+#include <iostream>
 #include <SFML/Graphics.hpp>
 
 int main()
