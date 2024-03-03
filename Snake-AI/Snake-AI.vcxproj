@@ -109,12 +109,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\NTB\Documents\SFML-2.6.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\SFML-2.6.1\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\NTB\Documents\SFML-2.6.1\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>.\SFML-2.6.1\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-system-d.lib;sfml-audio-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
