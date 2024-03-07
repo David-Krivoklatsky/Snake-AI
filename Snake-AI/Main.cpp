@@ -4,14 +4,13 @@
 #include <SFML/Graphics.hpp>
 
 int WINDOW_SIZE = 800;
-int PIXEL_SIZE = 20;
+int PIXEL_SIZE = 10;
+int BLOCK_SIZE = WINDOW_SIZE / PIXEL_SIZE;
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SnakeAI");
-
-    int block_size = WINDOW_SIZE / PIXEL_SIZE;
-    sf::RectangleShape block(sf::Vector2f(block_size, block_size));
+    sf::RectangleShape block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
 
     while (window.isOpen())
     {
@@ -26,8 +25,12 @@ int main()
 
         for (int i = 0; i < PIXEL_SIZE; i++) {
             for (int j = 0; j < PIXEL_SIZE; j++) {
-                block.setPosition(sf::Vector2f(block_size * j, block_size * i));
-                block.setFillColor(((i + j) % 2) ? sf::Color::Cyan : sf::Color::Blue);
+                block.setPosition(sf::Vector2f(BLOCK_SIZE * j, BLOCK_SIZE * i));
+
+                sf::Color primary(60, 60, 60);
+                sf::Color secondary(120, 120, 120);
+                block.setFillColor(((i + j) % 2) ? primary : secondary);
+
                 window.draw(block);
             }
         }
