@@ -3,12 +3,15 @@
 #include <thread>
 #include <SFML/Graphics.hpp>
 
+int WINDOW_SIZE = 800;
+int PIXEL_SIZE = 20;
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 800), "SnakeAI");
-    sf::CircleShape shape(100);
-    shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SnakeAI");
 
+    int block_size = WINDOW_SIZE / PIXEL_SIZE;
+    sf::RectangleShape block(sf::Vector2f(block_size, block_size));
 
     while (window.isOpen())
     {
@@ -21,9 +24,13 @@ int main()
 
         window.clear();
 
-
-        shape.setPosition(50 + rand() % 601, 50 + rand() % 601);
-        window.draw(shape);
+        for (int i = 0; i < PIXEL_SIZE; i++) {
+            for (int j = 0; j < PIXEL_SIZE; j++) {
+                block.setPosition(sf::Vector2f(block_size * j, block_size * i));
+                block.setFillColor(((i + j) % 2) ? sf::Color::Cyan : sf::Color::Blue);
+                window.draw(block);
+            }
+        }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         
