@@ -115,11 +115,11 @@ int main()
         nextPos = sf::Vector2f(snake[0].x + changeX, snake[0].y + changeY);
         snake.insert(snake.begin(), nextPos);
 
-        if (food != snake[0]) {
-            snake.pop_back();
+        if (food == snake[0]) {
+            food = generateFood(snake);
         }
         else {
-            food = generateFood(snake);
+            snake.pop_back();
         }
 
         window.clear();
