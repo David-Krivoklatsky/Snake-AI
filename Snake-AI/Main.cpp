@@ -28,6 +28,10 @@ void drawSnake(sf::RenderWindow& window, sf::RectangleShape& block, const std::v
         block.setPosition(pos);
         window.draw(block);
     }
+    //head of the snake has different color
+    block.setFillColor(sf::Color::Yellow);
+    block.setPosition(snake[0]);
+    window.draw(block);
 }
 
 sf::Vector2f generateFood(const std::vector<sf::Vector2f>& snake) {
@@ -68,7 +72,7 @@ int main()
     snake.push_back(sf::Vector2f(rand() % PIXEL_SIZE * BLOCK_SIZE, rand() % PIXEL_SIZE * BLOCK_SIZE));
 
     sf::Vector2f nextPos(0, 0); //set next snake position
-    int changeX = 0, changeY = 0;
+    int changeX = 0, changeY = 0; //koeficients of changing position to the left or right, up or down
 
     sf::Vector2f food = generateFood(snake);
 
@@ -89,7 +93,7 @@ int main()
 
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             {
-                changeX = +BLOCK_SIZE;
+                changeX = BLOCK_SIZE;
                 changeY = 0;
             }
 
