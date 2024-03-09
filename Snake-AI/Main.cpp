@@ -6,7 +6,12 @@
 int WINDOW_SIZE = 800; //width and height
 int PIXEL_SIZE = 20; //size of the grid, number of rows and columns
 int BLOCK_SIZE = WINDOW_SIZE / PIXEL_SIZE; //size of each grid pixel
+bool waiting;
 
+struct changePos {
+    int X = 0;
+    int Y = 0;
+};
 void drawGrid(sf::RenderWindow& window, sf::RectangleShape& block) {
     for (int i = 0; i < PIXEL_SIZE; i++) {
         for (int j = 0; j < PIXEL_SIZE; j++) {
@@ -63,6 +68,50 @@ void drawFood(sf::RenderWindow& window, sf::RectangleShape& block, const sf::Vec
     window.draw(block);
 }
 
+void posChange(changePos& change, sf::Event& event) {  // <<<<------ ---------------------------------
+
+    //Handle LEFT, RIGHT, UP, DOWN
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && (change.X != BLOCK_SIZE))
+    {
+        change.X = -BLOCK_SIZE;
+        change.Y = 0;
+        return;
+    }
+
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && (change.X != -BLOCK_SIZE))
+    {
+        change.X = BLOCK_SIZE;
+        change.Y = 0;
+        return;
+    }
+
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && (change.Y != BLOCK_SIZE))
+    {
+        change.X = 0;
+        change.Y = -BLOCK_SIZE;
+        return;
+    }
+
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && (change.Y != -BLOCK_SIZE))
+    {
+        change.X = 0;
+        change.Y = BLOCK_SIZE;
+        return;
+    }
+}
+
+void processEvents(sf::RenderWindow& window, bool& waiting, changePos& change) {
+    sf::Event event;
+
+    while (window.pollEvent(event) && waiting) {
+        if (event.type == sf::Event::Closed)
+            window.close();
+
+        posChange(change, event); // Handle LEFT, RIGHT, UP, DOWN
+    }
+}
+
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SnakeAI");
@@ -72,47 +121,20 @@ int main()
     snake.push_back(sf::Vector2f(rand() % PIXEL_SIZE * BLOCK_SIZE, rand() % PIXEL_SIZE * BLOCK_SIZE));
 
     sf::Vector2f nextPos(0, 0); //set next snake position
-    int changeX = 0, changeY = 0; //koeficients of changing position to the left or right, up or down
+    changePos change; //koeficients of changing position to the left or right, up or down
 
     sf::Vector2f food = generateFood(snake);
 
     while (window.isOpen())
     {
+        waiting = true;
         sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
 
-            //Handle LEFT, RIGHT, UP, DOWN
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            {
-                changeX = -BLOCK_SIZE;
-                changeY = 0;
-            }
-
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            {
-                changeX = BLOCK_SIZE;
-                changeY = 0;
-            }
-
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            {
-                changeX = 0;
-                changeY = -BLOCK_SIZE;
-            }
-
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            {
-                changeX = 0;
-                changeY = BLOCK_SIZE;
-            }
-
-        }
+        std::thread handling(processEvents, window, waiting, change);
+        //processEvents(window, waiting, change);
 
         //move snake
-        nextPos = sf::Vector2f(snake[0].x + changeX, snake[0].y + changeY);
+        nextPos = sf::Vector2f(snake[0].x + change.X, snake[0].y + change.Y);
         snake.insert(snake.begin(), nextPos);
 
         if (food == snake[0]) {
@@ -130,7 +152,9 @@ int main()
 
         //sleep
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
-        
+        waiting = false;
+        handling.join();
+
         window.display();
     }
 
