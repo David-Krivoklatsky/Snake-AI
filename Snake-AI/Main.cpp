@@ -73,7 +73,7 @@ int main()
     sf::RectangleShape block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
 
     std::vector<sf::Vector2f> snake;
-    snake.push_back(sf::Vector2f(rand() % PIXEL_SIZE * BLOCK_SIZE, rand() % PIXEL_SIZE * BLOCK_SIZE));
+    snake.push_back(sf::Vector2f(PIXEL_SIZE / 2 * BLOCK_SIZE, PIXEL_SIZE / 2 * BLOCK_SIZE));
 
     sf::Vector2f nextPos(0, 0); //set next snake position
     int changeX = 0, changeY = 0; //koeficients of changing position to the left or right, up or down
@@ -91,13 +91,14 @@ int main()
         return EXIT_FAILURE;
     }
 
-    sf::Text fps_text("Hello, SFML!", font, 24);
+    sf::Text fps_text("FPS", font);
     fps_text.setFillColor(sf::Color::White);
     fps_text.setPosition(0, 0);
 
     while (window.isOpen())
     {
         sf::Event event;
+        //handle input
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
@@ -109,19 +110,16 @@ int main()
                 changeX = -BLOCK_SIZE;
                 changeY = 0;
             }
-
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             {
                 changeX = BLOCK_SIZE;
                 changeY = 0;
             }
-
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
             {
                 changeX = 0;
                 changeY = -BLOCK_SIZE;
             }
-
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
             {
                 changeX = 0;
