@@ -7,6 +7,9 @@ int WINDOW_SIZE = 800; //width and height
 int PIXEL_SIZE = 20; //size of the grid, number of rows and columns
 int BLOCK_SIZE = WINDOW_SIZE / PIXEL_SIZE; //size of each grid pixel
 
+int FPS_LIMIT = 60;
+float SNAKE_SPEED = 10.f; // block / sekunda
+
 void drawGrid(sf::RenderWindow& window, sf::RectangleShape& block) {
     for (int i = 0; i < PIXEL_SIZE; i++) {
         for (int j = 0; j < PIXEL_SIZE; j++) {
@@ -66,7 +69,7 @@ void drawFood(sf::RenderWindow& window, sf::RectangleShape& block, const sf::Vec
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SnakeAI");
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(FPS_LIMIT);
     sf::RectangleShape block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
 
     std::vector<sf::Vector2f> snake;
@@ -80,6 +83,8 @@ int main()
     //time vars for fps count
     std::chrono::high_resolution_clock::time_point last_time, now = std::chrono::high_resolution_clock::now();;
     float fps;
+
+    int fps_counter = 0;
 
     sf::Font font;
     if (!font.loadFromFile("font.ttf")) {
@@ -125,17 +130,24 @@ int main()
 
         }
 
-        //move snake
-        nextPos = sf::Vector2f(snake[0].x + changeX, snake[0].y + changeY);
-        if (nextPos.x >= 0 && nextPos.x < WINDOW_SIZE && nextPos.y >= 0 && nextPos.y < WINDOW_SIZE) {
+        //speed of snake adjusted by moving once a few frames
+        fps_counter++;
+        std::cout << fps_counter << std::endl;
+        if (fps_counter >= (FPS_LIMIT / SNAKE_SPEED)) {
+            fps_counter = 0;
 
-            snake.insert(snake.begin(), nextPos);
+            //move snake
+            nextPos = sf::Vector2f(snake[0].x + changeX, snake[0].y + changeY);
+            if (nextPos.x >= 0 && nextPos.x < WINDOW_SIZE && nextPos.y >= 0 && nextPos.y < WINDOW_SIZE) {
 
-            if (food == snake[0]) {
-                food = generateFood(snake);
-            }
-            else {
-                snake.pop_back();
+                snake.insert(snake.begin(), nextPos);
+
+                if (food == snake[0]) {
+                    food = generateFood(snake);
+                }
+                else {
+                    snake.pop_back();
+                }
             }
         }
 
