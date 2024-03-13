@@ -10,6 +10,8 @@ int BLOCK_SIZE = WINDOW_SIZE / PIXEL_SIZE; //size of each grid pixel
 int FPS_LIMIT = 60;
 float SNAKE_SPEED = 10.f; // block / sekunda
 
+bool gameOver = false;
+
 void drawGrid(sf::RenderWindow& window, sf::RectangleShape& block) {
     for (int i = 0; i < PIXEL_SIZE; i++) {
         for (int j = 0; j < PIXEL_SIZE; j++) {
@@ -58,12 +60,10 @@ sf::Vector2f generateFood(const std::vector<sf::Vector2f>& snake) {
     return foodPos;
 }
 
-void drawFood(sf::RenderWindow& window, sf::RectangleShape& block, const sf::Vector2f& food)
+void drawFood(sf::RenderWindow& window, sf::Image& Jablko, const sf::Vector2f& food)
 {
-    block.setFillColor(sf::Color::Red);
-
-    block.setPosition(food);
-    window.draw(block);
+    Jablko.setPixel(food.x, food.y);
+    window.draw(Jablko);
 }
 
 int main()
@@ -71,6 +71,12 @@ int main()
     sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SnakeAI");
     window.setFramerateLimit(FPS_LIMIT);
     sf::RectangleShape block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
+
+    sf::Image Jablko;
+    Jablko.loadFromFile("taninkine - jablko.png");
+
+    sf::Sprite jablcko;
+    jablcko.
 
     std::vector<sf::Vector2f> snake;
     snake.push_back(sf::Vector2f(PIXEL_SIZE / 2 * BLOCK_SIZE, PIXEL_SIZE / 2 * BLOCK_SIZE));
@@ -147,6 +153,13 @@ int main()
                     snake.pop_back();
                 }
             }
+            else {
+                gameOver = true;
+            }
+        }
+
+        if (gameOver) {
+
         }
 
         //fps count
@@ -161,7 +174,7 @@ int main()
 
         drawGrid(window, block);
         drawSnake(window, block, snake);
-        drawFood(window, block, food);
+        drawFood(window, Jablko, food);
         window.draw(fps_text);
 
         //sleep
