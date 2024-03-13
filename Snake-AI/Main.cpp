@@ -60,10 +60,10 @@ sf::Vector2f generateFood(const std::vector<sf::Vector2f>& snake) {
     return foodPos;
 }
 
-void drawFood(sf::RenderWindow& window, sf::Image& Jablko, const sf::Vector2f& food)
+void drawFood(sf::RenderWindow& window, sf::Sprite& food, const sf::Vector2f& food_pos)
 {
-    Jablko.setPixel(food.x, food.y);
-    window.draw(Jablko);
+    food.setPosition(food_pos);
+    window.draw(food);
 }
 
 int main()
@@ -72,11 +72,12 @@ int main()
     window.setFramerateLimit(FPS_LIMIT);
     sf::RectangleShape block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
 
-    sf::Image Jablko;
-    Jablko.loadFromFile("taninkine - jablko.png");
+    sf::Texture jablko;
+    if (!jablko.loadFromFile("jablcko.png")) {
+        return EXIT_FAILURE;
+    }
 
-    sf::Sprite jablcko;
-    jablcko.
+    sf::Sprite food(jablko);
 
     std::vector<sf::Vector2f> snake;
     snake.push_back(sf::Vector2f(PIXEL_SIZE / 2 * BLOCK_SIZE, PIXEL_SIZE / 2 * BLOCK_SIZE));
@@ -84,7 +85,7 @@ int main()
     sf::Vector2f nextPos(0, 0); //set next snake position
     int changeX = 0, changeY = 0; //koeficients of changing position to the left or right, up or down
 
-    sf::Vector2f food = generateFood(snake);
+    sf::Vector2f food_pos = generateFood(snake);
 
     //time vars for fps count
     std::chrono::high_resolution_clock::time_point last_time, now = std::chrono::high_resolution_clock::now();;
@@ -146,8 +147,8 @@ int main()
 
                 snake.insert(snake.begin(), nextPos);
 
-                if (food == snake[0]) {
-                    food = generateFood(snake);
+                if (food_pos == snake[0]) {
+                    food_pos = generateFood(snake);
                 }
                 else {
                     snake.pop_back();
@@ -174,7 +175,7 @@ int main()
 
         drawGrid(window, block);
         drawSnake(window, block, snake);
-        drawFood(window, Jablko, food);
+        drawFood(window, food, food_pos);
         window.draw(fps_text);
 
         //sleep
