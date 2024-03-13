@@ -105,22 +105,22 @@ int main()
                 window.close();
 
             //Handle LEFT, RIGHT, UP, DOWN
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && (changeX != BLOCK_SIZE))
             {
                 changeX = -BLOCK_SIZE;
                 changeY = 0;
             }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && (changeX != -BLOCK_SIZE))
             {
                 changeX = BLOCK_SIZE;
                 changeY = 0;
             }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && (changeY != BLOCK_SIZE))
             {
                 changeX = 0;
                 changeY = -BLOCK_SIZE;
             }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && (changeY != -BLOCK_SIZE))
             {
                 changeX = 0;
                 changeY = BLOCK_SIZE;
@@ -172,3 +172,4 @@ int main()
 
     return 0;
 }
+//verzia zakazane otacanie
