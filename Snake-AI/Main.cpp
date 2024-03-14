@@ -13,8 +13,6 @@ int BLOCK_SIZE = WINDOW_SIZE / PIXEL_SIZE; //size of each grid pixel
 int FPS_LIMIT = 60;
 float SNAKE_SPEED = 10.f; // block / sekunda
 
-bool gameOver = false;
-bool res = false;
 
 HWND button; //this button dude
 
@@ -82,6 +80,9 @@ int main()
         sf::Text endOfGame;
         sf::RectangleShape retry;
         sf::Text restart;
+        bool gameOver = false;
+        bool res = false;
+        bool turnOff = false;
 
         sf::Texture jablko;
         if (!jablko.loadFromFile("jablcko.png")) {
@@ -125,8 +126,12 @@ int main()
             //handle input
             while (window.pollEvent(event))
             {
-                if (event.type == sf::Event::Closed)
+                if (event.type == sf::Event::Closed) {
                     window.close();
+                    turnOff = true;
+                    goto p;
+                }
+                
 
                 //Handle LEFT, RIGHT, UP, DOWN
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && (lastChangedX != BLOCK_SIZE))
@@ -224,8 +229,9 @@ int main()
                     if (retry.getGlobalBounds().contains(mousePos))
                     {
                         res = true;
-                        goto p;
                         std::cout << "Restart" << std::endl;
+                        goto p;
+                        //continue;
                     }
                 }
 
@@ -258,9 +264,12 @@ int main()
 
             window.display();
         }
-    p:
+        p:
         if (res) {
             continue;
+        }
+        if (turnOff) {
+            return 0;
         }
     }
     return 0;
