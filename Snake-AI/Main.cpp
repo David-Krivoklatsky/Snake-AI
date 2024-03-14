@@ -2,6 +2,7 @@
 #include <chrono>
 #include <thread>
 #include <SFML/Graphics.hpp>
+#include <Windows.h>
 
 int WINDOW_SIZE = 800; //width and height
 int PIXEL_SIZE = 20; //size of the grid, number of rows and columns
@@ -11,6 +12,8 @@ int FPS_LIMIT = 60;
 float SNAKE_SPEED = 10.f; // block / sekunda
 
 bool gameOver = false;
+
+HWND button; //this button dude
 
 void drawGrid(sf::RenderWindow& window, sf::RectangleShape& block) {
     for (int i = 0; i < PIXEL_SIZE; i++) {
@@ -84,6 +87,7 @@ int main()
 
     sf::Vector2f nextPos(0, 0); //set next snake position
     int changeX = 0, changeY = 0; //koeficients of changing position to the left or right, up or down
+    int lastChangedX = 0, lastChangedY = 0;
 
     sf::Vector2f food_pos = generateFood(snake);
 
@@ -112,22 +116,22 @@ int main()
                 window.close();
 
             //Handle LEFT, RIGHT, UP, DOWN
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && (changeX != BLOCK_SIZE))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && (lastChangedX != BLOCK_SIZE))
             {
                 changeX = -BLOCK_SIZE;
                 changeY = 0;
             }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && (changeX != -BLOCK_SIZE))
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && (lastChangedX != -BLOCK_SIZE))
             {
                 changeX = BLOCK_SIZE;
                 changeY = 0;
             }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && (changeY != BLOCK_SIZE))
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && (lastChangedY != BLOCK_SIZE))
             {
                 changeX = 0;
                 changeY = -BLOCK_SIZE;
             }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && (changeY != -BLOCK_SIZE))
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && (lastChangedY != -BLOCK_SIZE))
             {
                 changeX = 0;
                 changeY = BLOCK_SIZE;
@@ -159,9 +163,21 @@ int main()
             }
         }
 
-        if (gameOver) {
-
+        //if snake is crossing with himself game over 
+        for (int i = 0; i < snake.size() - 1; i++) { 
+            for (int j = i + 1; j < snake.size(); j++) {
+                if (snake[i] == snake[j]) {
+                    gameOver = true;
+                }
+            }
         }
+
+        if (gameOver) {
+            //button = CreateWindow(TEXT("BUTTON"), TEXT("Quit"), WS_CHILD | WS_VISIBLE, 560, 440, 80, 40, window, NULL, NULL, NULL);
+        }
+
+        lastChangedX = changeX;
+        lastChangedY = changeY;
 
         //fps count
         last_time = now;
