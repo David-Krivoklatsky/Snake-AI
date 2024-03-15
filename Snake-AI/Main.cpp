@@ -11,7 +11,7 @@ int PIXEL_SIZE = 20; //size of the grid, number of rows and columns
 int BLOCK_SIZE = WINDOW_SIZE / PIXEL_SIZE; //size of each grid pixel
 
 int FPS_LIMIT = 60;
-float SNAKE_SPEED = 10.f; // block / sekunda
+float SNAKE_SPEED = 7.f; // block / sekunda
 
 bool gameOver = false;
 
