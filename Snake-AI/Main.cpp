@@ -17,6 +17,7 @@ bool gameOver = false;
 
 HWND button; //this button dude
 
+//draw the whole playground for snake, chess pattern
 void drawGrid(sf::RenderWindow& window, sf::RectangleShape& block) {
     for (int i = 0; i < PIXEL_SIZE; i++) {
         for (int j = 0; j < PIXEL_SIZE; j++) {
@@ -31,6 +32,7 @@ void drawGrid(sf::RenderWindow& window, sf::RectangleShape& block) {
     }
 }
 
+//draw snake to window, using block
 void drawSnake(sf::RenderWindow& window, sf::RectangleShape& block, const std::vector<sf::Vector2f>& snake) {
     block.setFillColor(sf::Color::Green);
     
@@ -44,6 +46,7 @@ void drawSnake(sf::RenderWindow& window, sf::RectangleShape& block, const std::v
     window.draw(block);
 }
 
+//creates food on free block, this func is only called when there is no food
 sf::Vector2f generateFood(const std::vector<sf::Vector2f>& snake) {
     sf::Vector2f foodPos;
 
@@ -65,6 +68,7 @@ sf::Vector2f generateFood(const std::vector<sf::Vector2f>& snake) {
     return foodPos;
 }
 
+//draw food
 void drawFood(sf::RenderWindow& window, sf::Sprite& food, const sf::Vector2f& food_pos)
 {
     food.setPosition(food_pos);
@@ -75,23 +79,24 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SnakeAI");
     window.setFramerateLimit(FPS_LIMIT);
-    sf::RectangleShape block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
+
+    sf::RectangleShape block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE)); //used to display anything
 
     sf::Text endOfGame; 
-    sf::RectangleShape retry;
     sf::Text restart;
+    sf::RectangleShape retry;
 
-    sf::Texture jablko;
+    sf::Texture jablko; //image of an apple
     if (!jablko.loadFromFile("jablcko.png")) {
         return EXIT_FAILURE;
     }
 
-    sf::Sprite food(jablko);
+    sf::Sprite food(jablko); //sprite with texture of an apple
 
     std::vector<sf::Vector2f> snake;
     snake.push_back(sf::Vector2f(PIXEL_SIZE / 2 * BLOCK_SIZE, PIXEL_SIZE / 2 * BLOCK_SIZE));
 
-    sf::Vector2f nextPos(0, 0); //set next snake position
+    sf::Vector2f nextPos; //set next snake position
     int changeX = 0, changeY = 0; //koeficients of changing position to the left or right, up or down
     int lastChangedX = 0, lastChangedY = 0;
 
@@ -101,7 +106,7 @@ int main()
     std::chrono::high_resolution_clock::time_point last_time, now = std::chrono::high_resolution_clock::now();;
     float fps;
 
-    int fps_counter = 0;
+    int fps_counter = 0; //used to move snake only once a while
 
     sf::Font font;
     if (!font.loadFromFile("font.ttf")) {
@@ -115,15 +120,16 @@ int main()
     
     sf::Text fps_text("FPS", font);
     fps_text.setFillColor(sf::Color::White);
-    fps_text.setPosition(0, 0);
+    fps_text.setPosition(0, 0); //left up corner
 
     while (window.isOpen())
     {
         sf::Event event;
+
         //handle input
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) //zavretie okna
                 window.close();
 
             //Handle LEFT, RIGHT, UP, DOWN
@@ -152,8 +158,8 @@ int main()
 
         //speed of snake adjusted by moving once a few frames
         fps_counter++;
-        std::cout << fps_counter << std::endl;
         if (fps_counter >= (FPS_LIMIT / SNAKE_SPEED)) {
+            
             fps_counter = 0;
 
             //move snake
