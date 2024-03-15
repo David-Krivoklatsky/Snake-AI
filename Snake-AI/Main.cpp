@@ -174,12 +174,10 @@ int main()
             }
         }
 
-        //if snake is crossing with himself game over 
-        for (int i = 0; i < snake.size() - 1; i++) { 
-            for (int j = i + 1; j < snake.size(); j++) {
-                if (snake[i] == snake[j]) {
-                    gameOver = true;
-                }
+        //if snakes head is crossing with himself then game over
+        for (int i = 1; i < snake.size(); i++) {
+            if (snake[0] == snake[i]) {
+                gameOver = true;
             }
         }
 
