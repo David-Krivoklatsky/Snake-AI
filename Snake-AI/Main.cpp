@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <Windows.h>
 #include <cmath>
+#include <ctime>
 
 
 int WINDOW_SIZE = 800; //width and height
@@ -77,6 +78,8 @@ void drawFood(sf::RenderWindow& window, sf::Sprite& food, const sf::Vector2f& fo
 
 int main()
 {
+    srand(time(0)); //nahodne cisla podla casu
+
     sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SnakeAI");
     window.setFramerateLimit(FPS_LIMIT);
 
