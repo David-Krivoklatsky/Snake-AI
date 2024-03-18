@@ -181,6 +181,10 @@ int main()
             else {
                 gameOver = true;
             }
+
+            //last move
+            lastChangedX = changeX;
+            lastChangedY = changeY;
         }
 
         //if snakes head is crossing with himself then game over
@@ -235,9 +239,6 @@ int main()
 
             //button = CreateWindow(TEXT("BUTTON"), TEXT("Quit"), WS_CHILD | WS_VISIBLE, 560, 440, 80, 40, window, NULL, NULL, NULL);
         }
-
-        lastChangedX = changeX;
-        lastChangedY = changeY;
 
         //fps count
         last_time = now;
