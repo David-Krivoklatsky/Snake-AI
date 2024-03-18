@@ -75,6 +75,7 @@ int main()
     while (true) {
         sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SnakeAI");
         window.setFramerateLimit(FPS_LIMIT);
+
         sf::RectangleShape block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE));
 
         sf::Text endOfGame;
@@ -83,6 +84,17 @@ int main()
         bool gameOver = false;
         bool res = false;
         bool turnOff = false;
+
+        sf::Font font;
+        if (!font.loadFromFile("font.ttf")) {
+            return EXIT_FAILURE;
+        }
+
+        endOfGame.setFont(font);
+        endOfGame.setCharacterSize(20);
+        endOfGame.setFillColor(sf::Color::Red);
+        endOfGame.setStyle(sf::Text::Bold);
+        endOfGame.setString("Game Over");
 
         sf::Texture jablko;
         if (!jablko.loadFromFile("jablcko.png")) {
@@ -105,11 +117,6 @@ int main()
         float fps;
 
         int fps_counter = 0;
-
-        sf::Font font;
-        if (!font.loadFromFile("font.ttf")) {
-            return EXIT_FAILURE;
-        }
 
         /*sf::Font papyrus; //I wanted to add another font for "Game Over" text but it applied also for FPS :(
         if (!font.loadFromFile("papyrus.ttf")) {
@@ -191,12 +198,6 @@ int main()
             }
 
             if (gameOver) {
-                endOfGame.setFont(font);
-                endOfGame.setString("Game Over");
-                endOfGame.setCharacterSize(80);
-                endOfGame.setFillColor(sf::Color::Red);
-                endOfGame.setStyle(sf::Text::Bold);
-
                 // real size of text px
                 sf::FloatRect textRect = endOfGame.getLocalBounds();
                 //centred text (not in fullscreen)
