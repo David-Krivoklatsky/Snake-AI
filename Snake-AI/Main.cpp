@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <chrono>
 #include <thread>
 #include <SFML/Graphics.hpp>
@@ -34,17 +34,83 @@ void drawGrid(sf::RenderWindow& window, sf::RectangleShape& block) {
 }
 
 //draw snake to window, using block
-void drawSnake(sf::RenderWindow& window, sf::RectangleShape& block, const std::vector<sf::Vector2f>& snake) {
-    block.setFillColor(sf::Color::Green);
+void drawSnake(sf::RenderWindow& window, sf::RectangleShape& block, const std::vector<sf::Vector2f>& snake, int& changeX, int& changeY, sf::Sprite& tailLeft, sf::Sprite& tailRight, sf::Sprite& tailUp, sf::Sprite& tailDown, sf::Sprite& horiz, sf::Sprite& vertic, sf::Sprite& topRight, sf::Sprite& topLeft, sf::Sprite& bottomLeft, sf::Sprite& bottomRight, sf::Sprite& headDown, sf::Sprite& headUp, sf::Sprite& headRight, sf::Sprite& headLeft) {
+    /*block.setFillColor(sf::Color::Green);
     
     for (const sf::Vector2f pos : snake) {
         block.setPosition(pos);
         window.draw(block);
     }
+    */
+
+    if (changeX == -BLOCK_SIZE) { //head
+        headLeft.setPosition(snake[0]);
+        window.draw(headLeft);
+    }
+    else if (changeX == BLOCK_SIZE) {
+        headRight.setPosition(snake[0]);
+        window.draw(headRight);
+    }
+    else if (changeY == -BLOCK_SIZE) {
+        headUp.setPosition(snake[0]);
+        window.draw(headUp);
+    }
+    else if (changeY == BLOCK_SIZE) {
+        headDown.setPosition(snake[0]);
+        window.draw(headDown);
+    }
+
+    if (snake.size() > 1) {
+        if (snake[snake.size() - 2].x == snake[snake.size() - 1].x && snake[snake.size() - 2].y > snake[snake.size() - 1].y) {  //tail
+            tailUp.setPosition(snake[snake.size() - 1]);
+            window.draw(tailUp);
+        }
+        else if (snake[snake.size() - 2].x == snake[snake.size() - 1].x && snake[snake.size() - 2].y < snake[snake.size() - 1].y) {
+            tailDown.setPosition(snake[snake.size() - 1]);
+            window.draw(tailDown);
+        }
+        else if (snake[snake.size() - 2].x < snake[snake.size() - 1].x && snake[snake.size() - 2].y == snake[snake.size() - 1].y) {
+            tailRight.setPosition(snake[snake.size() - 1]);
+            window.draw(tailRight);
+        }
+        else if (snake[snake.size() - 2].x > snake[snake.size() - 1].x && snake[snake.size() - 2].y == snake[snake.size() - 1].y) {
+            tailLeft.setPosition(snake[snake.size() - 1]);
+            window.draw(tailLeft);
+        }
+    }
+
+    if (snake.size() > 2) {
+        for (int i = 1; i < snake.size() - 1; i++) {
+            if (snake[i + 1].x == snake[i - 1].x && snake[i + 1].y != snake[i - 1].y ) {  
+                vertic.setPosition(snake[i]);
+                window.draw(vertic);
+            }
+            else if (snake[i + 1].x != snake[i - 1].x && snake[i + 1].y == snake[i - 1].y) {  
+                horiz.setPosition(snake[i]);
+                window.draw(horiz);
+            }
+            else if ((snake[i - 1].x > snake[i].x && snake[i + 1].y > snake[i].y) || (snake[i + 1].x > snake[i].x && snake[i - 1].y > snake[i].y)) {
+                bottomRight.setPosition(snake[i]);
+                window.draw(bottomRight);
+            }
+            else if ((snake[i - 1].x < snake[i].x && snake[i + 1].y < snake[i].y) || (snake[i + 1].x < snake[i].x && snake[i - 1].y < snake[i].y)) {
+                topLeft.setPosition(snake[i]);
+                window.draw(topLeft);
+            }
+            else if ((snake[i - 1].x < snake[i].x && snake[i + 1].y > snake[i].y) || (snake[i + 1].x < snake[i].x && snake[i - 1].y > snake[i].y)) {
+                bottomLeft.setPosition(snake[i]);
+                window.draw(bottomLeft);
+            }
+            else if ((snake[i - 1].x > snake[i].x && snake[i + 1].y < snake[i].y) || (snake[i + 1].x > snake[i].x && snake[i - 1].y < snake[i].y)) {
+                topRight.setPosition(snake[i]);
+                window.draw(topRight);
+            }
+        }
+    }
     //head of the snake has different color
-    block.setFillColor(sf::Color::Yellow);
-    block.setPosition(snake[0]);
-    window.draw(block);
+   /* block.setFillColor(sf::Color::Yellow);
+    block.setPosition(snake[0]);*/
+    /*window.draw(block);*/
 }
 
 //creates food on free block, this func is only called when there is no food
@@ -76,6 +142,93 @@ void drawFood(sf::RenderWindow& window, sf::Sprite& food, const sf::Vector2f& fo
     window.draw(food);
 }
 
+void snakeTexture() {
+    sf::Texture tail_left; // <-
+    if (!tail_left.loadFromFile("Snake_texture/tail_left.png")) {
+        return;
+    }
+    sf::Sprite tailLeft(tail_left);
+
+    sf::Texture tail_right; // ->
+    if (!tail_right.loadFromFile("Snake_texture/tail_right.png")) {
+        return;
+    }
+    sf::Sprite tailRight(tail_right);
+
+    sf::Texture tail_down; // V
+    if (!tail_down.loadFromFile("Snake_texture/tail_down.png")) {
+        return;
+    }
+    sf::Sprite tailDown(tail_down);
+
+    sf::Texture tail_up; // A
+    if (!tail_up.loadFromFile("Snake_texture/tail_up.png")) {
+        return;
+    }
+    sf::Sprite tailUp(tail_up);
+
+    sf::Texture horizontal; // --
+    if (!horizontal.loadFromFile("Snake_texture/horizontal.png")) {
+        return;
+    }
+    sf::Sprite horiz(horizontal);
+
+    sf::Texture vertical; // |
+    if (!vertical.loadFromFile("Snake_texture/body_vertical.png")) {
+        return;
+    }
+    sf::Sprite vertic(vertical);
+
+    sf::Texture topright; // L
+    if (!topright.loadFromFile("Snake_texture/body_topright.png")) {
+        return;
+    }
+    sf::Sprite topRight(topright);
+
+    sf::Texture topleft; // ⅃
+    if (!topleft.loadFromFile("Snake_texture/body_topleft.png")) {
+        return;
+    }
+    sf::Sprite topLeft(topleft);
+
+    sf::Texture bottomleft; // ꓶ
+    if (!bottomleft.loadFromFile("Snake_texture/body_bottomleft.png")) {
+        return;
+    }
+    sf::Sprite bottomLeft(bottomleft);
+
+    sf::Texture bottomright; // F
+    if (!bottomright.loadFromFile("Snake_texture/body_bottomright.png")) {
+        return;
+    }
+    sf::Sprite bottomRight(bottomright);
+
+    sf::Texture head_left; // <- hlava
+    if (!head_left.loadFromFile("Snake_texture/head_left.png")) {
+        return;
+    }
+    sf::Sprite headLeft(head_left);
+
+    sf::Texture head_right; // -> hlava
+    if (!head_right.loadFromFile("Snake_texture/head_right.png")) {
+        return;
+    }
+    sf::Sprite headRight(head_right);
+
+    sf::Texture head_down; // V hlava
+    if (!head_down.loadFromFile("Snake_texture/head_down.png")) {
+        return;
+    }
+    sf::Sprite headDown(head_down);
+
+    sf::Texture head_up; // A hlava
+    if (!head_up.loadFromFile("Snake_texture/head_up.png")) {
+        return;
+    }
+    sf::Sprite headUp(head_up);
+
+}
+
 int main()
 {
     srand(time(0)); //nahodne cisla podla casu
@@ -93,6 +246,93 @@ int main()
     if (!jablko.loadFromFile("jablcko.png")) {
         return EXIT_FAILURE;
     }
+
+    //
+    sf::Texture tail_left; // <-
+    if (!tail_left.loadFromFile("Snake_texture/tail_left.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite tailLeft(tail_left);
+
+    sf::Texture tail_right; // ->
+    if (!tail_right.loadFromFile("Snake_texture/tail_right.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite tailRight(tail_right);
+
+    sf::Texture tail_down; // V
+    if (!tail_down.loadFromFile("Snake_texture/tail_down.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite tailDown(tail_down);
+
+    sf::Texture tail_up; // A
+    if (!tail_up.loadFromFile("Snake_texture/tail_up.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite tailUp(tail_up);
+
+    sf::Texture horizontal; // --
+    if (!horizontal.loadFromFile("Snake_texture/body_horizontal.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite horiz(horizontal);
+
+    sf::Texture vertical; // |
+    if (!vertical.loadFromFile("Snake_texture/body_vertical.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite vertic(vertical);
+
+    sf::Texture topright; // L
+    if (!topright.loadFromFile("Snake_texture/body_topright.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite topRight(topright);
+
+    sf::Texture topleft; // ⅃
+    if (!topleft.loadFromFile("Snake_texture/body_topleft.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite topLeft(topleft);
+
+    sf::Texture bottomleft; // ꓶ
+    if (!bottomleft.loadFromFile("Snake_texture/body_bottomleft.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite bottomLeft(bottomleft);
+
+    sf::Texture bottomright; // F
+    if (!bottomright.loadFromFile("Snake_texture/body_bottomright.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite bottomRight(bottomright);
+
+    sf::Texture head_left; // <- hlava
+    if (!head_left.loadFromFile("Snake_texture/head_left.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite headLeft(head_left);
+
+    sf::Texture head_right; // -> hlava
+    if (!head_right.loadFromFile("Snake_texture/head_right.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite headRight(head_right);
+
+    sf::Texture head_down; // V hlava
+    if (!head_down.loadFromFile("Snake_texture/head_down.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite headDown(head_down);
+
+    sf::Texture head_up; // A hlava
+    if (!head_up.loadFromFile("Snake_texture/head_up.png")) {
+        return EXIT_FAILURE;
+    }
+    sf::Sprite headUp(head_up);
+
+    //snakeTexture();
 
     sf::Sprite food(jablko); //sprite with texture of an apple
 
@@ -251,7 +491,7 @@ int main()
         window.clear();
 
         drawGrid(window, block);
-        drawSnake(window, block, snake);
+        drawSnake(window, block, snake, lastChangedX, lastChangedY, tailLeft, tailRight, tailUp, tailDown, horiz, vertic, topRight, topLeft, bottomLeft, bottomRight, headDown, headUp, headRight, headLeft);
         drawFood(window, food, food_pos);
         window.draw(fps_text);
         window.draw(endOfGame);
