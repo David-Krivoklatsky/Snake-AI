@@ -435,47 +435,71 @@ int main()
         }
 
         if (gameOver) {
-            endOfGame.setFont(font);
-            endOfGame.setString("Game Over");
-            endOfGame.setCharacterSize(80);
-            endOfGame.setFillColor(sf::Color::Red);
-            endOfGame.setStyle(sf::Text::Bold);
+            while (true) {
+                if (event.type == sf::Event::Closed) //zavretie okna
+                    window.close();
 
-            // real size of text px
-            sf::FloatRect textRect = endOfGame.getLocalBounds();
-            //centred text (not in fullscreen)
-            endOfGame.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-            endOfGame.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+                endOfGame.setFont(font);
+                endOfGame.setString("Game Over");
+                endOfGame.setCharacterSize(80);
+                endOfGame.setFillColor(sf::Color::Red);
+                endOfGame.setStyle(sf::Text::Bold);
+
+                // real size of text px
+                sf::FloatRect textRect = endOfGame.getLocalBounds();
+                //centred text (not in fullscreen)
+                endOfGame.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+                endOfGame.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 
 
-            sf::Color jj(255,255,255);
-            retry.setFillColor(jj);
-            retry.setSize(sf::Vector2f(100, 50));
+                sf::Color jj(255, 255, 255);
+                retry.setFillColor(jj);
+                retry.setSize(sf::Vector2f(100, 50));
 
-            retry.setOrigin(retry.getSize().x / 2.0f, retry.getSize().y / 2.0f);
-            retry.setPosition(WINDOW_SIZE / 2.0f, WINDOW_SIZE / 2.0f + 70);
+                retry.setOrigin(retry.getSize().x / 2.0f, retry.getSize().y / 2.0f);
+                retry.setPosition(WINDOW_SIZE / 2.0f, WINDOW_SIZE / 2.0f + 70);
 
-            restart.setFont(font);
-            restart.setCharacterSize(20);
-            restart.setString("Retry");
-            restart.setFillColor(sf::Color::Black);
-            restart.setStyle(sf::Text::Bold);
+                restart.setFont(font);
+                restart.setCharacterSize(20);
+                restart.setString("Retry");
+                restart.setFillColor(sf::Color::Black);
+                restart.setStyle(sf::Text::Bold);
 
-            // real size of text px
-            sf::FloatRect textRect2 = restart.getLocalBounds();
-            //centred text (not in fullscreen)
-            restart.setOrigin(textRect2.left + textRect2.width / 2.0f, textRect2.top + textRect2.height / 2.0f);
-            restart.setPosition(WINDOW_SIZE / 2.0f, WINDOW_SIZE / 2.0f + 70);
+                // real size of text px
+                sf::FloatRect textRect2 = restart.getLocalBounds();
+                //centred text (not in fullscreen)
+                restart.setOrigin(textRect2.left + textRect2.width / 2.0f, textRect2.top + textRect2.height / 2.0f);
+                restart.setPosition(WINDOW_SIZE / 2.0f, WINDOW_SIZE / 2.0f + 70);
 
-            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
-            {
-                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-                if (retry.getGlobalBounds().contains(mousePos))
+                if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
                 {
-                    std::cout << "Restart" << std::endl;
+                    sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                    if (retry.getGlobalBounds().contains(mousePos))
+                    {
+                        std::cout << "Restart" << std::endl;
+                    }
                 }
-            }
 
+                last_time = now;
+                now = std::chrono::high_resolution_clock::now();
+                fps = 1.0f / std::chrono::duration_cast<std::chrono::duration<float>>(now - last_time).count();
+
+
+                fps_text.setString(std::to_string(fps));
+
+                window.clear();
+
+                drawGrid(window, block);
+                drawSnake(window, block, snake, lastChangedX, lastChangedY, tailLeft, tailRight, tailUp, tailDown, horiz, vertic, topRight, topLeft, bottomLeft, bottomRight, headDown, headUp, headRight, headLeft);
+                drawFood(window, food, food_pos);
+                window.draw(fps_text);
+                window.draw(endOfGame);
+                window.draw(retry);
+                window.draw(restart);
+
+                window.display();
+
+            }
 
             //button = CreateWindow(TEXT("BUTTON"), TEXT("Quit"), WS_CHILD | WS_VISIBLE, 560, 440, 80, 40, window, NULL, NULL, NULL);
         }
