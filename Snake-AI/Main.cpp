@@ -60,8 +60,8 @@ void drawSnake(sf::RenderWindow& window, sf::RectangleShape& block, const std::v
         window.draw(headDown);
     }
 
-    if (snake.size() > 1) {
-        if (snake[snake.size() - 2].x == snake[snake.size() - 1].x && snake[snake.size() - 2].y > snake[snake.size() - 1].y) {  //tail
+    if (snake.size() > 1) { //tail
+        if (snake[snake.size() - 2].x == snake[snake.size() - 1].x && snake[snake.size() - 2].y > snake[snake.size() - 1].y) { 
             tailUp.setPosition(snake[snake.size() - 1]);
             window.draw(tailUp);
         }
@@ -79,7 +79,7 @@ void drawSnake(sf::RenderWindow& window, sf::RectangleShape& block, const std::v
         }
     }
 
-    if (snake.size() > 2) {
+    if (snake.size() > 2) { // if snakes length is bigger then 2 it has middle snake part (chest or smth like that) (everything except tail and head)
         for (int i = 1; i < snake.size() - 1; i++) {
             if (snake[i + 1].x == snake[i - 1].x && snake[i + 1].y != snake[i - 1].y ) {  
                 vertic.setPosition(snake[i]);
@@ -247,7 +247,7 @@ int main()
         return EXIT_FAILURE;
     }
 
-    //
+    
     sf::Texture tail_left; // <-
     if (!tail_left.loadFromFile("Snake_texture/tail_left.png")) {
         return EXIT_FAILURE;
@@ -331,8 +331,8 @@ int main()
         return EXIT_FAILURE;
     }
     sf::Sprite headUp(head_up);
-
-    //snakeTexture();
+    
+    //snakeTexture();  << nefunguje
 
     sf::Sprite food(jablko); //sprite with texture of an apple
 
