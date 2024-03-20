@@ -3,9 +3,11 @@
 
 int main() {
     SnakeGame game;
-    while (game.restartGame) {
+
+    while (!game.restartGame) {
         game.run();
         game.retryMenu();
     }
+
     return 0;
 }

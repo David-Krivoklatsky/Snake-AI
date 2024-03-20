@@ -13,6 +13,7 @@ SnakeGame::SnakeGame()
     , fpsCounter(0)
     , now(std::chrono::high_resolution_clock::now())
 {
+    window.setSize(sf::Vector2u(WINDOW_SIZE, WINDOW_SIZE));
     window.setFramerateLimit(FPS_LIMIT);
 
     //load fonts
@@ -255,7 +256,7 @@ void SnakeGame::update() {
     if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
         sf::Vector2f nextPos(snake[0].x + changeX, snake[0].y + changeY);
         moveSnake(nextPos);
-        gameOver = legalMove();
+        gameOver = !legalMove();
 
 
         //last move
