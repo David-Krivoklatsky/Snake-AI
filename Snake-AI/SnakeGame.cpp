@@ -1,6 +1,8 @@
 ﻿#include "SnakeGame.h"
 //#include <Windows.h>
+#include <iostream>
 #include <ctime>
+
 
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SnakeAI")
@@ -19,9 +21,11 @@ SnakeGame::SnakeGame()
     //load fonts
     if (!font_fps.loadFromFile("font.ttf")) {
         isError = true;
+        Errors.push_back("Error loading font.ttf");
     }
     if (!font_papyrus.loadFromFile("papyrus.ttf")) {
         isError = true;
+        Errors.push_back("Error loading papyrus.ttf");
     }
 
     setTextures(); //food and snakes
@@ -45,6 +49,11 @@ SnakeGame::~SnakeGame() {
 void SnakeGame::run() {
     gameOver = false;
     while (window.isOpen()) {
+        if (isError) std::cout << "Error\n";
+        for (auto& a : Errors) {
+            std::cout << a << std::endl;
+        }
+
         handleInput();
         update();
         render();
@@ -294,6 +303,7 @@ void SnakeGame::setTextures() {
     //load jablko texture
     if (!jablko.loadFromFile("jablcko.png")) {
         isError = true;
+        Errors.push_back("Error loading jablcko.png");
         food.setColor(sf::Color::Red);
     }
     else {

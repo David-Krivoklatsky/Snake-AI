@@ -21,13 +21,73 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="originalmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SnakeGame.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Snake-AI.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Snake_texture\body_bottomleft.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\body_bottomright.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\body_horizontal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\body_topleft.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\body_topright.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\body_vertical.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\head_down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\head_left.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\head_right.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\head_up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\tail_down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\tail_left.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\tail_right.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Snake_texture\tail_up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="jablcko.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="font.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="papyrus.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

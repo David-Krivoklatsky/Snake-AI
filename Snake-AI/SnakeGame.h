@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef SNAKE_GAME_H
 #define SNAKE_GAME_H
 
@@ -45,6 +43,8 @@ private:
     sf::RectangleShape retry;
     std::chrono::high_resolution_clock::time_point lastTime, now;
     float fps;
+
+    std::vector<std::string> Errors;
 
     sf::Texture jablko;
     sf::Texture tail_left;
