@@ -147,7 +147,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="originalmain.cpp" />
     <ClCompile Include="SnakeGame.cpp" />
   </ItemGroup>
   <ItemGroup>
