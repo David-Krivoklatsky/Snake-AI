@@ -150,7 +150,32 @@
     <ClCompile Include="SnakeGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SnakeGame.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="font.ttf" />
+    <Font Include="papyrus.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Snake-AI.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Snake_texture\body_bottomleft.png" />
+    <Image Include="..\Snake_texture\body_bottomright.png" />
+    <Image Include="..\Snake_texture\body_horizontal.png" />
+    <Image Include="..\Snake_texture\body_topleft.png" />
+    <Image Include="..\Snake_texture\body_topright.png" />
+    <Image Include="..\Snake_texture\body_vertical.png" />
+    <Image Include="..\Snake_texture\head_down.png" />
+    <Image Include="..\Snake_texture\head_left.png" />
+    <Image Include="..\Snake_texture\head_right.png" />
+    <Image Include="..\Snake_texture\head_up.png" />
+    <Image Include="..\Snake_texture\tail_down.png" />
+    <Image Include="..\Snake_texture\tail_left.png" />
+    <Image Include="..\Snake_texture\tail_right.png" />
+    <Image Include="..\Snake_texture\tail_up.png" />
+    <Image Include="jablcko.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

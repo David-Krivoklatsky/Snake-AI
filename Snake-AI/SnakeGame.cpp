@@ -44,10 +44,12 @@ SnakeGame::~SnakeGame() {
 
 void SnakeGame::run() {
     gameOver = false;
-    while (window.isOpen() && !gameOver) {
+    while (window.isOpen()) {
         handleInput();
         update();
         render();
+
+        if (gameOver) retryMenu();
     }
 }
 
@@ -254,6 +256,8 @@ void SnakeGame::update() {
     fpsCounter++; //increase frame counter
 
     if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
+        fpsCounter = 0;
+
         sf::Vector2f nextPos(snake[0].x + changeX, snake[0].y + changeY);
         moveSnake(nextPos);
         gameOver = !legalMove();

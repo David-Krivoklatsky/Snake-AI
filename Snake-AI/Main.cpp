@@ -4,10 +4,12 @@
 int main() {
     SnakeGame game;
 
-    while (!game.restartGame) {
+    game.run();
+
+    /*while (!game.restartGame) {
         game.run();
         game.retryMenu();
-    }
+    }*/
 
     return 0;
 }
