@@ -435,9 +435,13 @@ int main()
         }
 
         if (gameOver) {
-            while (true) {
-                if (event.type == sf::Event::Closed) //zavretie okna
-                    window.close();
+            while (window.isOpen()) {
+                
+                while (window.pollEvent(event))
+                {
+                    if (event.type == sf::Event::Closed) //zavretie okna
+                        window.close();
+                }
 
                 endOfGame.setFont(font);
                 endOfGame.setString("Game Over");
