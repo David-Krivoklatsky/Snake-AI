@@ -1,11 +1,12 @@
 ﻿#include "SnakeGame.h"
 //#include <Windows.h>
+//#include <SFML/Graphics.hpp> // included already in snakegame.h
 #include <iostream>
 #include <ctime>
 
 
 SnakeGame::SnakeGame()
-    : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "SnakeAI")
+    : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AIO")
     , block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE))
     , gameOver(false)
     , isError(false)
@@ -13,9 +14,10 @@ SnakeGame::SnakeGame()
     , changeX(0)
     , changeY(0)
     , fpsCounter(0)
-    , now(std::chrono::high_resolution_clock::now())
 {
-    window.setSize(sf::Vector2u(WINDOW_SIZE, WINDOW_SIZE));
+    //window.create();
+    //window.setSize(sf::Vector2u(WINDOW_SIZE, WINDOW_SIZE));
+    //window.setTitle("Snake AI");
     window.setFramerateLimit(FPS_LIMIT);
 
     //load fonts
@@ -40,6 +42,12 @@ SnakeGame::SnakeGame()
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(0, 0); //left up corner
 
+    //block.setFillColor(sf::Color::Red);
+    //block.setPosition(50, 50);
+    //window.clear();
+    //window.draw(block);
+    //window.display();
+    std::cout << "Constructor done\n";
 }
 
 SnakeGame::~SnakeGame() {
@@ -47,12 +55,14 @@ SnakeGame::~SnakeGame() {
 }
 
 void SnakeGame::run() {
+    std::cout << "run()\n";
+
     gameOver = false;
     while (window.isOpen()) {
-        if (isError) std::cout << "Error\n";
-        for (auto& a : Errors) {
-            std::cout << a << std::endl;
-        }
+        //if (isError) std::cout << "-------------------------------\nError\n\n";
+        //for (auto& a : Errors) {
+        //    std::cout << a << std::endl;
+        //}
 
         handleInput();
         update();
@@ -84,21 +94,25 @@ void SnakeGame::handleInput() {
         {
             changeX = -BLOCK_SIZE;
             changeY = 0;
+        std::cout << "Input = Left\n";
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && (lastChangedX != -BLOCK_SIZE))
         {
             changeX = BLOCK_SIZE;
             changeY = 0;
+            std::cout << "Input = Right\n";
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && (lastChangedY != BLOCK_SIZE))
         {
             changeX = 0;
             changeY = -BLOCK_SIZE;
+            std::cout << "Input = Up\n";
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && (lastChangedY != -BLOCK_SIZE))
         {
             changeX = 0;
             changeY = BLOCK_SIZE;
+            std::cout << "Input = Down\n";
         }
     }
 }
@@ -261,44 +275,6 @@ void SnakeGame::moveSnake(const sf::Vector2f& nextPos) {
     }
 }
 
-void SnakeGame::update() {
-    fpsCounter++; //increase frame counter
-
-    if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
-        fpsCounter = 0;
-
-        sf::Vector2f nextPos(snake[0].x + changeX, snake[0].y + changeY);
-        moveSnake(nextPos);
-        gameOver = !legalMove();
-
-
-        //last move
-        lastChangedX = changeX;
-        lastChangedY = changeY;
-    }
-
-    lastTime = now;
-    now = std::chrono::high_resolution_clock::now();
-    fps = 1.f / std::chrono::duration_cast<std::chrono::duration<float>>(now - lastTime).count();
-    
-    fpsText.setString(std::to_string(fps));
-}
-
-void SnakeGame::render() {
-    window.clear();
-
-    drawGrid();
-    drawSnake();
-    drawFood();
-
-    window.draw(fpsText);
-    window.draw(endOfGame);
-    window.draw(retry);
-    window.draw(restart);
-
-    window.display();
-}
-
 void SnakeGame::setTextures() {
     //load jablko texture
     if (!jablko.loadFromFile("jablcko.png")) {
@@ -438,4 +414,44 @@ void SnakeGame::setRetryText() {
     restart.setFillColor(sf::Color::Black);
     restart.setStyle(sf::Text::Bold);
     restart.setPosition(WINDOW_SIZE / 2.f, WINDOW_SIZE / 2.f - 70);
+}
+
+void SnakeGame::update() {
+    fpsCounter++; //increase frame counter
+
+    if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
+        fpsCounter = 0;
+
+        sf::Vector2f nextPos(snake[0].x + changeX, snake[0].y + changeY);
+        moveSnake(nextPos);
+        gameOver = !legalMove();
+
+
+        //last move
+        lastChangedX = changeX;
+        lastChangedY = changeY;
+    }
+
+    lastTime = now;
+    now = std::chrono::high_resolution_clock::now();
+    fps = 1.f / std::chrono::duration_cast<std::chrono::duration<float>>(now - lastTime).count();
+    
+    fpsText.setString(std::to_string(fps));
+}
+
+void SnakeGame::render() {
+    window.clear();
+
+    drawGrid();
+    drawSnake();
+    drawFood();
+
+
+    window.draw(fpsText);
+    window.draw(endOfGame);
+    window.draw(retry);
+    window.draw(restart);
+
+    window.display();
+    //std::cout << "Render done\n";
 }
