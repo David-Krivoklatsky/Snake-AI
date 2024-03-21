@@ -243,6 +243,7 @@ int main()
         sf::Text restart;
         sf::RectangleShape retry;
         bool restartTheGame = false;
+        bool pause = false;
 
         sf::Texture jablko; //image of an apple
         if (!jablko.loadFromFile("jablcko.png")) {
@@ -398,6 +399,46 @@ int main()
                 {
                     changeX = 0;
                     changeY = BLOCK_SIZE;
+                }
+                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+                {
+                    pause = true;
+                }
+
+            }
+
+            if (pause) {
+                while (window.isOpen() && pause) {
+
+                    while (window.pollEvent(event))
+                    {
+                        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+                        {
+                            pause = false;
+                        }
+                        if (event.type == sf::Event::Closed) //zavretie okna
+                            window.close();
+                    }
+
+                    last_time = now;
+                    now = std::chrono::high_resolution_clock::now();
+                    fps = 1.0f / std::chrono::duration_cast<std::chrono::duration<float>>(now - last_time).count();
+
+
+                    fps_text.setString(std::to_string(fps));
+
+                    window.clear();
+
+                    drawGrid(window, block);
+                    drawSnake(window, block, snake, lastChangedX, lastChangedY, tailLeft, tailRight, tailUp, tailDown, horiz, vertic, topRight, topLeft, bottomLeft, bottomRight, headDown, headUp, headRight, headLeft);
+                    drawFood(window, food, food_pos);
+                    window.draw(fps_text);
+                    window.draw(endOfGame);
+                    window.draw(retry);
+                    window.draw(restart);
+
+                    window.display();
+
                 }
 
             }
