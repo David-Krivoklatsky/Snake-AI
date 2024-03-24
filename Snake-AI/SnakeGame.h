@@ -1,5 +1,4 @@
-#ifndef SNAKE_GAME_H
-#define SNAKE_GAME_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <chrono>
@@ -11,7 +10,7 @@ public:
     ~SnakeGame();
     void run();
     void retryMenu();
-    bool restartGame;
+    bool restartGame = false;;
 
 private:
     void setTextures();
@@ -31,10 +30,10 @@ private:
     sf::RectangleShape block;
     std::vector<sf::Vector2f> snake;
     sf::Vector2f food_pos;
-    int changeX, changeY, lastChangedX, lastChangedY;
-    bool gameOver;
-    bool isError;
-    int fpsCounter;
+    int changeX = 0, changeY = 0, lastChangedX, lastChangedY;
+    bool gameOver = false;
+    bool isError = false;
+    int fpsCounter = 0;
     sf::Font font_fps;
     sf::Font font_papyrus;
     sf::Text fpsText;
@@ -84,5 +83,3 @@ private:
     const int FPS_LIMIT = 60;
     const float SNAKE_SPEED = 7.f;
 };
-
-#endif

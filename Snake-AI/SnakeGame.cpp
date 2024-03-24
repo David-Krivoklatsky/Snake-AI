@@ -8,12 +8,6 @@
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AIO")
     , block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE))
-    , gameOver(false)
-    , isError(false)
-    , restartGame(false)
-    , changeX(0)
-    , changeY(0)
-    , fpsCounter(0)
 {
     //window.create();
     //window.setSize(sf::Vector2u(WINDOW_SIZE, WINDOW_SIZE));
