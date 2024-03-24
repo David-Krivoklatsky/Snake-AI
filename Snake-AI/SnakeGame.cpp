@@ -5,7 +5,6 @@
 
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
-    , block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE))
 {
     //window.create();
     //window.setSize(sf::Vector2u(WINDOW_SIZE, WINDOW_SIZE));
@@ -33,6 +32,8 @@ SnakeGame::SnakeGame()
     fpsText.setFont(font_fps);
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(0, 0); //left up corner
+
+    objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
 
     //block.setFillColor(sf::Color::Red);
     //block.setPosition(50, 50);
@@ -130,17 +131,19 @@ void SnakeGame::retryInput() {
 }
 
 void SnakeGame::drawGrid() {
-    for (int i = 0; i < PIXEL_SIZE; i++) {
-        for (int j = 0; j < PIXEL_SIZE; j++) {
-            block.setPosition(sf::Vector2f(BLOCK_SIZE * j, BLOCK_SIZE * i));
 
-            sf::Color primary(60, 60, 60);
-            sf::Color secondary(120, 120, 120);
-            block.setFillColor(((i + j) % 2) ? primary : secondary);
 
-            window.draw(block);
-        }
-    }
+    //for (int i = 0; i < PIXEL_SIZE; i++) {
+    //    for (int j = 0; j < PIXEL_SIZE; j++) {
+    //        block.setPosition(sf::Vector2f(BLOCK_SIZE * j, BLOCK_SIZE * i));
+
+    //        sf::Color primary(60, 60, 60);
+    //        sf::Color secondary(120, 120, 120);
+    //        block.setFillColor(((i + j) % 2) ? primary : secondary);
+
+    //        window.draw(block);
+    //    }
+    //}
 }
 
 void SnakeGame::drawSnake() {
@@ -434,7 +437,9 @@ void SnakeGame::update() {
 void SnakeGame::render() {
     window.clear();
 
-    drawGrid();
+    for (auto& object : objects)
+        object->draw(window);
+
     drawSnake();
     drawFood();
 
