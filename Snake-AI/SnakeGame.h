@@ -4,13 +4,20 @@
 #include <chrono>
 #include <vector>
 
+
+
+constexpr int WINDOW_SIZE = 800;
+constexpr int PIXEL_SIZE = 20;
+constexpr int BLOCK_SIZE = WINDOW_SIZE / PIXEL_SIZE;
+constexpr int FPS_LIMIT = 60;
+constexpr float SNAKE_SPEED = 7.f;
+
 class SnakeGame {
 public:
     SnakeGame();
     ~SnakeGame();
     void run();
     void retryMenu();
-    bool restartGame = false;;
 
 private:
     void setTextures();
@@ -26,6 +33,10 @@ private:
     void update();
     void render();
 
+public:
+    bool restartGame = false;
+
+private:
     sf::RenderWindow window;
     sf::RectangleShape block;
     std::vector<sf::Vector2f> snake;
@@ -76,10 +87,4 @@ private:
     sf::Sprite headRight;
     sf::Sprite headDown;
     sf::Sprite headUp;
-
-    const int WINDOW_SIZE = 800;
-    const int PIXEL_SIZE = 20;
-    const int BLOCK_SIZE = WINDOW_SIZE / PIXEL_SIZE;
-    const int FPS_LIMIT = 60;
-    const float SNAKE_SPEED = 7.f;
 };

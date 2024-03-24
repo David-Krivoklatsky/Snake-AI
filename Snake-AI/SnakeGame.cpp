@@ -1,12 +1,10 @@
 ﻿#include "SnakeGame.h"
-//#include <Windows.h>
-//#include <SFML/Graphics.hpp> // included already in snakegame.h
 #include <iostream>
 #include <ctime>
 
 
 SnakeGame::SnakeGame()
-    : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AIO")
+    : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
     , block(sf::Vector2f(BLOCK_SIZE, BLOCK_SIZE))
 {
     //window.create();
