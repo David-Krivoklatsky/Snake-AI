@@ -6,6 +6,7 @@
 
 #include "DrawObjects.h"
 #include "Globals.h"
+#include "Snake.h"
 
 class SnakeGame {
 public:
@@ -15,13 +16,11 @@ public:
     void retryMenu();
 
 private:
-    void setTextures();
     void setRetryText();
-    void drawGrid();
     void drawSnake();
     void drawFood();
     sf::Vector2f generateFood();
-    void moveSnake(const sf::Vector2f&);
+    //void moveSnake(const sf::Vector2f&);
     bool legalMove();
     void handleInput();
     void retryInput();
@@ -33,7 +32,7 @@ public:
 
 private:
     sf::RenderWindow window;
-    std::vector<sf::Vector2f> snake;
+
     sf::Vector2f food_pos;
     int changeX = 0, changeY = 0, lastChangedX, lastChangedY;
     bool gameOver = false;
@@ -53,34 +52,6 @@ private:
     std::vector<std::string> Errors;
 
     sf::Texture jablko;
-    sf::Texture tail_left;
-    sf::Texture tail_right;
-    sf::Texture tail_down;
-    sf::Texture tail_up;
-    sf::Texture horizontal;
-    sf::Texture vertical;
-    sf::Texture topright;
-    sf::Texture topleft;
-    sf::Texture bottomleft;
-    sf::Texture bottomright;
-    sf::Texture head_left;
-    sf::Texture head_right;
-    sf::Texture head_down;
-    sf::Texture head_up;
 
     sf::Sprite food;
-    sf::Sprite tailLeft;
-    sf::Sprite tailRight;
-    sf::Sprite tailDown;
-    sf::Sprite tailUp;
-    sf::Sprite horiz;
-    sf::Sprite vertic;
-    sf::Sprite topRight;
-    sf::Sprite topLeft;
-    sf::Sprite bottomLeft;
-    sf::Sprite bottomRight;
-    sf::Sprite headLeft;
-    sf::Sprite headRight;
-    sf::Sprite headDown;
-    sf::Sprite headUp;
 };

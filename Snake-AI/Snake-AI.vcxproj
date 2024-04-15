@@ -153,6 +153,7 @@
     <ClInclude Include="DrawObjects.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Snake.h" />
     <ClInclude Include="SnakeGame.h" />
   </ItemGroup>
   <ItemGroup>

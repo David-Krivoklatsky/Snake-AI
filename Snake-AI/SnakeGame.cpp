@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "SnakeGame.h"
 #include "DrawObjects.h"
+#include "Snake.h"
 
 
 SnakeGame::SnakeGame()
@@ -35,12 +36,15 @@ SnakeGame::SnakeGame()
 
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
 
-    //block.setFillColor(sf::Color::Red);
-    //block.setPosition(50, 50);
-    //window.clear();
-    //window.draw(block);
-    //window.display();
-    std::cout << "Constructor done\n";
+    //set food textures
+    if (!jablko.loadFromFile("jablcko.png")) {
+        isError = true;
+        Errors.push_back("Error loading jablcko.png");
+        food.setColor(sf::Color::Red);
+    }
+    else {
+        food.setTexture(jablko); //set texture only if it loaded
+    }
 }
 
 SnakeGame::~SnakeGame() {
@@ -130,89 +134,73 @@ void SnakeGame::retryInput() {
     }
 }
 
-void SnakeGame::drawGrid() {
-
-
-    //for (int i = 0; i < PIXEL_SIZE; i++) {
-    //    for (int j = 0; j < PIXEL_SIZE; j++) {
-    //        block.setPosition(sf::Vector2f(BLOCK_SIZE * j, BLOCK_SIZE * i));
-
-    //        sf::Color primary(60, 60, 60);
-    //        sf::Color secondary(120, 120, 120);
-    //        block.setFillColor(((i + j) % 2) ? primary : secondary);
-
-    //        window.draw(block);
-    //    }
-    //}
-}
-
 void SnakeGame::drawSnake() {
     //dufam ze to funguje len som to skopiroval od mina XD
 
-    if (changeX == -BLOCK_SIZE) { //head
-        headLeft.setPosition(snake[0]);
-        window.draw(headLeft);
-    }
-    else if (changeX == BLOCK_SIZE) {
-        headRight.setPosition(snake[0]);
-        window.draw(headRight);
-    }
-    else if (changeY == -BLOCK_SIZE) {
-        headUp.setPosition(snake[0]);
-        window.draw(headUp);
-    }
-    else if (changeY == BLOCK_SIZE) {
-        headDown.setPosition(snake[0]);
-        window.draw(headDown);
-    }
+    //if (changeX == -BLOCK_SIZE) { //head
+    //    headLeft.setPosition(snake[0]);
+    //    window.draw(headLeft);
+    //}
+    //else if (changeX == BLOCK_SIZE) {
+    //    headRight.setPosition(snake[0]);
+    //    window.draw(headRight);
+    //}
+    //else if (changeY == -BLOCK_SIZE) {
+    //    headUp.setPosition(snake[0]);
+    //    window.draw(headUp);
+    //}
+    //else if (changeY == BLOCK_SIZE) {
+    //    headDown.setPosition(snake[0]);
+    //    window.draw(headDown);
+    //}
 
-    if (snake.size() > 1) { //tail
-        if (snake[snake.size() - 2].x == snake[snake.size() - 1].x && snake[snake.size() - 2].y > snake[snake.size() - 1].y) {
-            tailUp.setPosition(snake[snake.size() - 1]);
-            window.draw(tailUp);
-        }
-        else if (snake[snake.size() - 2].x == snake[snake.size() - 1].x && snake[snake.size() - 2].y < snake[snake.size() - 1].y) {
-            tailDown.setPosition(snake[snake.size() - 1]);
-            window.draw(tailDown);
-        }
-        else if (snake[snake.size() - 2].x < snake[snake.size() - 1].x && snake[snake.size() - 2].y == snake[snake.size() - 1].y) {
-            tailRight.setPosition(snake[snake.size() - 1]);
-            window.draw(tailRight);
-        }
-        else if (snake[snake.size() - 2].x > snake[snake.size() - 1].x && snake[snake.size() - 2].y == snake[snake.size() - 1].y) {
-            tailLeft.setPosition(snake[snake.size() - 1]);
-            window.draw(tailLeft);
-        }
-    }
+    //if (snake.size() > 1) { //tail
+    //    if (snake[snake.size() - 2].x == snake[snake.size() - 1].x && snake[snake.size() - 2].y > snake[snake.size() - 1].y) {
+    //        tailUp.setPosition(snake[snake.size() - 1]);
+    //        window.draw(tailUp);
+    //    }
+    //    else if (snake[snake.size() - 2].x == snake[snake.size() - 1].x && snake[snake.size() - 2].y < snake[snake.size() - 1].y) {
+    //        tailDown.setPosition(snake[snake.size() - 1]);
+    //        window.draw(tailDown);
+    //    }
+    //    else if (snake[snake.size() - 2].x < snake[snake.size() - 1].x && snake[snake.size() - 2].y == snake[snake.size() - 1].y) {
+    //        tailRight.setPosition(snake[snake.size() - 1]);
+    //        window.draw(tailRight);
+    //    }
+    //    else if (snake[snake.size() - 2].x > snake[snake.size() - 1].x && snake[snake.size() - 2].y == snake[snake.size() - 1].y) {
+    //        tailLeft.setPosition(snake[snake.size() - 1]);
+    //        window.draw(tailLeft);
+    //    }
+    //}
 
-    if (snake.size() > 2) { // if snakes length is bigger then 2 it has middle snake part (chest or smth like that) (everything except tail and head)
-        for (int i = 1; i < snake.size() - 1; i++) {
-            if (snake[i + 1].x == snake[i - 1].x && snake[i + 1].y != snake[i - 1].y) {
-                vertic.setPosition(snake[i]);
-                window.draw(vertic);
-            }
-            else if (snake[i + 1].x != snake[i - 1].x && snake[i + 1].y == snake[i - 1].y) {
-                horiz.setPosition(snake[i]);
-                window.draw(horiz);
-            }
-            else if ((snake[i - 1].x > snake[i].x && snake[i + 1].y > snake[i].y) || (snake[i + 1].x > snake[i].x && snake[i - 1].y > snake[i].y)) {
-                bottomRight.setPosition(snake[i]);
-                window.draw(bottomRight);
-            }
-            else if ((snake[i - 1].x < snake[i].x && snake[i + 1].y < snake[i].y) || (snake[i + 1].x < snake[i].x && snake[i - 1].y < snake[i].y)) {
-                topLeft.setPosition(snake[i]);
-                window.draw(topLeft);
-            }
-            else if ((snake[i - 1].x < snake[i].x && snake[i + 1].y > snake[i].y) || (snake[i + 1].x < snake[i].x && snake[i - 1].y > snake[i].y)) {
-                bottomLeft.setPosition(snake[i]);
-                window.draw(bottomLeft);
-            }
-            else if ((snake[i - 1].x > snake[i].x && snake[i + 1].y < snake[i].y) || (snake[i + 1].x > snake[i].x && snake[i - 1].y < snake[i].y)) {
-                topRight.setPosition(snake[i]);
-                window.draw(topRight);
-            }
-        }
-    }
+    //if (snake.size() > 2) { // if snakes length is bigger then 2 it has middle snake part (chest or smth like that) (everything except tail and head)
+    //    for (int i = 1; i < snake.size() - 1; i++) {
+    //        if (snake[i + 1].x == snake[i - 1].x && snake[i + 1].y != snake[i - 1].y) {
+    //            vertic.setPosition(snake[i]);
+    //            window.draw(vertic);
+    //        }
+    //        else if (snake[i + 1].x != snake[i - 1].x && snake[i + 1].y == snake[i - 1].y) {
+    //            horiz.setPosition(snake[i]);
+    //            window.draw(horiz);
+    //        }
+    //        else if ((snake[i - 1].x > snake[i].x && snake[i + 1].y > snake[i].y) || (snake[i + 1].x > snake[i].x && snake[i - 1].y > snake[i].y)) {
+    //            bottomRight.setPosition(snake[i]);
+    //            window.draw(bottomRight);
+    //        }
+    //        else if ((snake[i - 1].x < snake[i].x && snake[i + 1].y < snake[i].y) || (snake[i + 1].x < snake[i].x && snake[i - 1].y < snake[i].y)) {
+    //            topLeft.setPosition(snake[i]);
+    //            window.draw(topLeft);
+    //        }
+    //        else if ((snake[i - 1].x < snake[i].x && snake[i + 1].y > snake[i].y) || (snake[i + 1].x < snake[i].x && snake[i - 1].y > snake[i].y)) {
+    //            bottomLeft.setPosition(snake[i]);
+    //            window.draw(bottomLeft);
+    //        }
+    //        else if ((snake[i - 1].x > snake[i].x && snake[i + 1].y < snake[i].y) || (snake[i + 1].x > snake[i].x && snake[i - 1].y < snake[i].y)) {
+    //            topRight.setPosition(snake[i]);
+    //            window.draw(topRight);
+    //        }
+    //    }
+    //}
 }
 
 void SnakeGame::drawFood() {
@@ -256,7 +244,7 @@ bool SnakeGame::legalMove() {
     return true;
 }
 
-void SnakeGame::moveSnake(const sf::Vector2f& nextPos) {
+void Snake::move(const sf::Vector2f& nextPos) {
     //inserts new pos to snake depending on the direction it is moving
     snake.insert(snake.begin(), nextPos);
 
@@ -270,17 +258,7 @@ void SnakeGame::moveSnake(const sf::Vector2f& nextPos) {
     }
 }
 
-void SnakeGame::setTextures() {
-    //load jablko texture
-    if (!jablko.loadFromFile("jablcko.png")) {
-        isError = true;
-        Errors.push_back("Error loading jablcko.png");
-        food.setColor(sf::Color::Red);
-    }
-    else {
-        food.setTexture(jablko); //set texture only if it loaded
-    }
-
+void Snake::setTextures() {
     if (!tail_left.loadFromFile("Snake_texture/tail_left.png")) {
         isError = true;
     }
