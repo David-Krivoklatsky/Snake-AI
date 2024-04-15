@@ -1,14 +1,14 @@
-﻿#include "SnakeGame.h"
-#include <iostream>
+﻿#include <iostream>
 #include <ctime>
+#include "Globals.h"
+#include "SnakeGame.h"
+#include "DrawObjects.h"
 
 
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
 {
-    //window.create();
-    //window.setSize(sf::Vector2u(WINDOW_SIZE, WINDOW_SIZE));
-    //window.setTitle("Snake AI");
+
     window.setFramerateLimit(FPS_LIMIT);
 
     //load fonts
@@ -33,7 +33,7 @@ SnakeGame::SnakeGame()
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(0, 0); //left up corner
 
-    objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
+    draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
 
     //block.setFillColor(sf::Color::Red);
     //block.setPosition(50, 50);
@@ -437,7 +437,7 @@ void SnakeGame::update() {
 void SnakeGame::render() {
     window.clear();
 
-    for (auto& object : objects)
+    for (auto& object : draw_objects)
         object->draw(window);
 
     drawSnake();
