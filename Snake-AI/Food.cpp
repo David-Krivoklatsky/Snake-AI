@@ -6,8 +6,8 @@ Food::Food(const std::vector<sf::Vector2f>& snake) {
 
     //set food textures
     if (!jablko.loadFromFile("jablcko.png")) {
-        isError = true;
-        Errors.push_back("Error loading jablcko.png");
+        //isError = true;
+        //Errors.push_back("Error loading jablcko.png");
         food_sprite.setColor(sf::Color::Red);
     }
     else {

@@ -18,7 +18,6 @@ public:
 
 private:
     void setRetryText();
-    bool legalMove();
     void handleInput();
     void retryInput();
     void update();

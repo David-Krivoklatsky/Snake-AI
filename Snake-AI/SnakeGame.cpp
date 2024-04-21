@@ -19,12 +19,12 @@ SnakeGame::SnakeGame()
 
     //load fonts
     if (!font_fps.loadFromFile("font.ttf")) {
-        isError = true;
-        Errors.push_back("Error loading font.ttf");
+        //isError = true;
+        //Errors.push_back("Error loading font.ttf");
     }
     if (!font_papyrus.loadFromFile("papyrus.ttf")) {
-        isError = true;
-        Errors.push_back("Error loading papyrus.ttf");
+        //isError = true;
+        //Errors.push_back("Error loading papyrus.ttf");
     }
 
     //generate head of snake
@@ -37,7 +37,7 @@ SnakeGame::SnakeGame()
     fpsText.setPosition(0, 0); //left up corner
 
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
-    draw_objects.push_back(std::make_unique<Snake>()); // fix this one
+    //draw_objects.push_back(std::make_unique<Snake>()); // fix this one
 }
 
 SnakeGame::~SnakeGame() {
@@ -127,20 +127,6 @@ void SnakeGame::retryInput() {
     }
 }
 
-bool SnakeGame::legalMove() {
-    if (snake[0].x < 0 && snake[0].x >= WINDOW_SIZE && snake[0].y < 0 && snake[0].y >= WINDOW_SIZE) {
-        return false;
-    }
-    
-    for (int i = 1; i < snake.size(); i++) {
-        if (snake[0] == snake[i]) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 void SnakeGame::setRetryText() {
     endOfGame.setFont(font_papyrus);
     endOfGame.setString("Game Over");
@@ -165,9 +151,7 @@ void SnakeGame::update() {
     if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
         fpsCounter = 0;
 
-        snake.move();
-        gameOver = !legalMove();
-
+        gameOver = snake.move();
 
         //last move
         snake.lastChangedX = snake.changeX;

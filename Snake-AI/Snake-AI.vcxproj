@@ -155,7 +155,7 @@
     <ClInclude Include="DrawObjects.hpp" />
     <ClInclude Include="Food.hpp" />
     <ClInclude Include="Globals.hpp" />
-    <ClInclude Include="resource.hpp" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Snake.hpp" />
     <ClInclude Include="SnakeGame.hpp" />
   </ItemGroup>

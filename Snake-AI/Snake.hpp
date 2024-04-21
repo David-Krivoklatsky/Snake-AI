@@ -5,10 +5,10 @@
 #include "DrawObjects.hpp"
 
 class Snake : public DrawObject {
-	Snake(const sf::Vector2f&);
 public:
+	Snake(const sf::Vector2f&);
 	void setTextures();
-	void move();
+	bool move();
 
     virtual void draw(sf::RenderWindow& window) override;
 

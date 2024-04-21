@@ -5,118 +5,130 @@ Snake::Snake(const sf::Vector2f& pos) {
     positions.push_back(pos);
 }
 
-void Snake::move() {
+bool Snake::move() {
     //inserts new pos to positions depending on the direction it is moving
     positions.insert(positions.begin(), sf::Vector2f(positions[0].x + changeX, positions[0].y + changeY));
+
+    if (positions[0].x < 0 && positions[0].x >= WINDOW_SIZE && positions[0].y < 0 && positions[0].y >= WINDOW_SIZE) {
+        return false;
+    }
+
+    for (int i = 1; i < positions.size(); i++) {
+        if (positions[0] == positions[i]) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void Snake::setTextures() {
-    if (!tail_left.loadFromFile("positions_texture/tail_left.png")) {
-        isError = true;
+    if (!tail_left.loadFromFile("Snake_texture/tail_left.png")) {
+        //isError = true;
     }
     else {
         tailLeft.setTexture(tail_left);
     }
 
     sf::Texture tail_right; // ->
-    if (!tail_right.loadFromFile("positions_texture/tail_right.png")) {
-        isError = true;
+    if (!tail_right.loadFromFile("Snake_texture/tail_right.png")) {
+        //isError = true;
     }
     else {
         tailRight.setTexture(tail_right);
     }
 
     sf::Texture tail_down; // V
-    if (!tail_down.loadFromFile("positions_texture/tail_down.png")) {
-        isError = true;
+    if (!tail_down.loadFromFile("Snake_texture/tail_down.png")) {
+        //isError = true;
     }
     else {
         tailDown.setTexture(tail_down);
     }
 
     sf::Texture tail_up; // A
-    if (!tail_up.loadFromFile("positions_texture/tail_up.png")) {
-        isError = true;
+    if (!tail_up.loadFromFile("Snake_texture/tail_up.png")) {
+        //isError = true;
     }
     else {
         tailUp.setTexture(tail_up);
     }
 
     sf::Texture horizontal; // --
-    if (!horizontal.loadFromFile("positions_texture/body_horizontal.png")) {
-        isError = true;
+    if (!horizontal.loadFromFile("Snake_texture/body_horizontal.png")) {
+        //isError = true;
     }
     else {
         horiz.setTexture(horizontal);
     }
 
     sf::Texture vertical; // |
-    if (!vertical.loadFromFile("positions_texture/body_vertical.png")) {
-        isError = true;
+    if (!vertical.loadFromFile("Snake_texture/body_vertical.png")) {
+        //isError = true;
     }
     else {
         vertic.setTexture(vertical);
     }
 
     sf::Texture topright; // L
-    if (!topright.loadFromFile("positions_texture/body_topright.png")) {
-        isError = true;
+    if (!topright.loadFromFile("Snake_texture/body_topright.png")) {
+        //isError = true;
     }
     else {
         topRight.setTexture(topright);
     }
 
     sf::Texture topleft; // _|
-    if (!topleft.loadFromFile("positions_texture/body_topleft.png")) {
-        isError = true;
+    if (!topleft.loadFromFile("Snake_texture/body_topleft.png")) {
+        //isError = true;
     }
     else {
         topLeft.setTexture(topleft);
     }
 
     sf::Texture bottomleft; // -,
-    if (!bottomleft.loadFromFile("positions_texture/body_bottomleft.png")) {
-        isError = true;
+    if (!bottomleft.loadFromFile("Snake_texture/body_bottomleft.png")) {
+        //isError = true;
     }
     else {
         bottomLeft.setTexture(bottomleft);
     }
 
     sf::Texture bottomright; // F
-    if (!bottomright.loadFromFile("positions_texture/body_bottomright.png")) {
-        isError = true;
+    if (!bottomright.loadFromFile("Snake_texture/body_bottomright.png")) {
+        //isError = true;
     }
     else {
         bottomRight.setTexture(bottomright);
     }
 
     sf::Texture head_left; // <- hlava
-    if (!head_left.loadFromFile("positions_texture/head_left.png")) {
-        isError = true;
+    if (!head_left.loadFromFile("Snake_texture/head_left.png")) {
+        //isError = true;
     }
     else {
         headLeft.setTexture(head_left);
     }
 
     sf::Texture head_right; // -> hlava
-    if (!head_right.loadFromFile("positions_texture/head_right.png")) {
-        isError = true;
+    if (!head_right.loadFromFile("Snake_texture/head_right.png")) {
+        //isError = true;
     }
     else {
         headRight.setTexture(head_right);
     }
 
     sf::Texture head_down; // V hlava
-    if (!head_down.loadFromFile("positions_texture/head_down.png")) {
-        isError = true;
+    if (!head_down.loadFromFile("Snake_texture/head_down.png")) {
+        //isError = true;
     }
     else {
         headDown.setTexture(head_down);
     }
 
     sf::Texture head_up; // A hlava
-    if (!head_up.loadFromFile("positions_texture/head_up.png")) {
-        isError = true;
+    if (!head_up.loadFromFile("Snake_texture/head_up.png")) {
+        //isError = true;
     }
     else {
         headUp.setTexture(head_up);
