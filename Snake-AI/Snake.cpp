@@ -154,20 +154,20 @@ void Snake::draw(sf::RenderWindow& window) {
     }
 
     if (positions.size() > 1) { //tail
-        if (positions[positions.size() - 2].x == positions[positions.size() - 1].x && positions[positions.size() - 2].y > positions[positions.size() - 1].y) {
-            tailUp.setPosition(positions[positions.size() - 1]);
+        if (positions[positions.size() - 2].x == positions.back().x && positions[positions.size() - 2].y > positions.back().y) {
+            tailUp.setPosition(positions.back());
             window.draw(tailUp);
         }
-        else if (positions[positions.size() - 2].x == positions[positions.size() - 1].x && positions[positions.size() - 2].y < positions[positions.size() - 1].y) {
-            tailDown.setPosition(positions[positions.size() - 1]);
+        else if (positions[positions.size() - 2].x == positions.back().x && positions[positions.size() - 2].y < positions.back().y) {
+            tailDown.setPosition(positions.back());
             window.draw(tailDown);
         }
-        else if (positions[positions.size() - 2].x < positions[positions.size() - 1].x && positions[positions.size() - 2].y == positions[positions.size() - 1].y) {
-            tailRight.setPosition(positions[positions.size() - 1]);
+        else if (positions[positions.size() - 2].x < positions.back().x && positions[positions.size() - 2].y == positions.back().y) {
+            tailRight.setPosition(positions.back());
             window.draw(tailRight);
         }
-        else if (positions[positions.size() - 2].x > positions[positions.size() - 1].x && positions[positions.size() - 2].y == positions[positions.size() - 1].y) {
-            tailLeft.setPosition(positions[positions.size() - 1]);
+        else if (positions[positions.size() - 2].x > positions.back().x && positions[positions.size() - 2].y == positions.back().y) {
+            tailLeft.setPosition(positions.back());
             window.draw(tailLeft);
         }
     }

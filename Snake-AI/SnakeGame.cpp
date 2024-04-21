@@ -76,33 +76,70 @@ void SnakeGame::handleInput() {
     sf::Event event;
     while (window.pollEvent(event))
     {
-        if (event.type == sf::Event::Closed) //zavretie okna
-            window.close();
+        switch (event.type)
+        {
+            case sf::Event::Closed:
+            {
+                window.close();
 
-        //Handle LEFT, RIGHT, UP, DOWN
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && (snake.lastChangedX != BLOCK_SIZE))
-        {
-            snake.changeX = -BLOCK_SIZE;
-            snake.changeY = 0;
-        std::cout << "Input = Left\n";
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && (snake.lastChangedX != -BLOCK_SIZE))
-        {
-            snake.changeX = BLOCK_SIZE;
-            snake.changeY = 0;
-            std::cout << "Input = Right\n";
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && (snake.lastChangedY != BLOCK_SIZE))
-        {
-            snake.changeX = 0;
-            snake.changeY = -BLOCK_SIZE;
-            std::cout << "Input = Up\n";
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && (snake.lastChangedY != -BLOCK_SIZE))
-        {
-            snake.changeX = 0;
-            snake.changeY = BLOCK_SIZE;
-            std::cout << "Input = Down\n";
+                break;
+            }
+
+            case sf::Event::KeyPressed:
+            {
+                switch (event.key.code)
+                {
+                    case sf::Keyboard::Escape:
+                    {
+                        window.close();
+
+                        break;
+                    }
+
+                    case sf::Keyboard::Left:
+                    {
+                        snake.changeX = -BLOCK_SIZE;
+                        snake.changeY = 0;
+                        std::cout << "Input = Left\n";
+                        
+                        break;
+                    }
+
+                    case sf::Keyboard::Right:
+                    {
+                        snake.changeX = BLOCK_SIZE;
+                        snake.changeY = 0;
+                        std::cout << "Input = Right\n";
+
+                        break;
+                    }
+
+                    case sf::Keyboard::Up:
+                    {
+                        snake.changeX = 0;
+                        snake.changeY = -BLOCK_SIZE;
+                        std::cout << "Input = Up\n";
+
+                        break;
+                    }
+
+                    case sf::Keyboard::Down:
+                    {
+                        snake.changeX = 0;
+                        snake.changeY = BLOCK_SIZE;
+                        std::cout << "Input = Down\n";
+
+                        break;
+                    }
+                    default:
+                        std::cout << "whats that brother?\n";
+                    break;
+                }
+            }
+
+        default:
+            //std::cout << "unknown event type\n";
+            break;
         }
     }
 }
@@ -151,7 +188,7 @@ void SnakeGame::update() {
     if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
         fpsCounter = 0;
 
-        gameOver = snake.move();
+        gameOver != snake.move();
 
         //last move
         snake.lastChangedX = snake.changeX;
@@ -170,6 +207,9 @@ void SnakeGame::render() {
 
     for (auto& object : draw_objects)
         object->draw(window);
+
+    snake.draw(window);
+    food.draw(window);
 
     window.draw(fpsText);
     window.draw(endOfGame);
