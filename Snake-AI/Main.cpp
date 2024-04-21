@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "SnakeGame.h"
+#include "SnakeGame.hpp"
 
 int main() {
     SnakeGame game;

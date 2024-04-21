@@ -4,9 +4,9 @@
 #include <chrono>
 #include <vector>
 
-#include "DrawObjects.h"
-#include "Globals.h"
-#include "Snake.h"
+#include "DrawObjects.hpp"
+#include "Globals.hpp"
+#include "Snake.hpp"
 
 class SnakeGame {
 public:
@@ -17,10 +17,7 @@ public:
 
 private:
     void setRetryText();
-    void drawSnake();
     void drawFood();
-    sf::Vector2f generateFood();
-    //void moveSnake(const sf::Vector2f&);
     bool legalMove();
     void handleInput();
     void retryInput();
@@ -33,10 +30,7 @@ public:
 private:
     sf::RenderWindow window;
 
-    sf::Vector2f food_pos;
-    int changeX = 0, changeY = 0, lastChangedX, lastChangedY;
     bool gameOver = false;
-    bool isError = false;
     int fpsCounter = 0;
     sf::Font font_fps;
     sf::Font font_papyrus;
@@ -48,10 +42,4 @@ private:
     float fps;
 
     std::vector<std::unique_ptr<DrawObject>> draw_objects;
-
-    std::vector<std::string> Errors;
-
-    sf::Texture jablko;
-
-    sf::Sprite food;
 };

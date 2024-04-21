@@ -2,14 +2,23 @@
 
 #include <SFML/Graphics.hpp>
 
-class Snake {
+#include "DrawObjects.hpp"
+
+class Snake : public DrawObject {
+	Snake(const sf::Vector2f&);
 public:
 	void setTextures();
-	void move(sf::Vector2f);
+	void move();
+
+    virtual void draw(sf::RenderWindow& window) override;
 
 private:
-	std::vector<sf::Vector2f> snake;
+	std::vector<sf::Vector2f> positions;
 
+public:
+	int changeX = 0, changeY = 0, lastChangedX = 0, lastChangedY = 0;
+
+private:
 	sf::Texture tail_left;
 	sf::Texture tail_right;
 	sf::Texture tail_down;
