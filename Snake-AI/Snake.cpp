@@ -189,3 +189,8 @@ void Snake::draw(sf::RenderWindow& window) {
         }
     }
 }
+
+std::vector<sf::Vector2f> Snake::get_positions()
+{
+    return positions;
+}

@@ -7,6 +7,7 @@
 #include "DrawObjects.hpp"
 #include "Globals.hpp"
 #include "Snake.hpp"
+#include "Food.hpp"
 
 class SnakeGame {
 public:
@@ -17,7 +18,6 @@ public:
 
 private:
     void setRetryText();
-    void drawFood();
     bool legalMove();
     void handleInput();
     void retryInput();
@@ -29,6 +29,9 @@ public:
 
 private:
     sf::RenderWindow window;
+
+    Snake snake;
+    Food food;
 
     bool gameOver = false;
     int fpsCounter = 0;

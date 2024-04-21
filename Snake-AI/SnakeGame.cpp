@@ -1,14 +1,18 @@
 ﻿#include <iostream>
 #include <ctime>
+#include <SFML/Graphics.hpp>
 
 #include "Globals.hpp"
 #include "SnakeGame.hpp"
 #include "DrawObjects.hpp"
 #include "Snake.hpp"
+#include "Food.hpp"
 
 
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
+    , snake(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2))
+    , food(snake.get_positions())
 {
 
     window.setFramerateLimit(FPS_LIMIT);
@@ -23,12 +27,8 @@ SnakeGame::SnakeGame()
         Errors.push_back("Error loading papyrus.ttf");
     }
 
-
     //generate head of snake
-    Snake snake(sf::Vector2f(PIXEL_SIZE / 2 * BLOCK_SIZE, PIXEL_SIZE / 2 * BLOCK_SIZE));
     snake.setTextures(); //food and snakes
-
-    food_pos = generateFood(); //generate first food
 
     srand(time(0));
 
@@ -37,8 +37,7 @@ SnakeGame::SnakeGame()
     fpsText.setPosition(0, 0); //left up corner
 
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
-
-
+    draw_objects.push_back(std::make_unique<Snake>()); // fix this one
 }
 
 SnakeGame::~SnakeGame() {
@@ -81,28 +80,28 @@ void SnakeGame::handleInput() {
             window.close();
 
         //Handle LEFT, RIGHT, UP, DOWN
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && (lastChangedX != BLOCK_SIZE))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && (snake.lastChangedX != BLOCK_SIZE))
         {
-            changeX = -BLOCK_SIZE;
-            changeY = 0;
+            snake.changeX = -BLOCK_SIZE;
+            snake.changeY = 0;
         std::cout << "Input = Left\n";
         }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && (lastChangedX != -BLOCK_SIZE))
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && (snake.lastChangedX != -BLOCK_SIZE))
         {
-            changeX = BLOCK_SIZE;
-            changeY = 0;
+            snake.changeX = BLOCK_SIZE;
+            snake.changeY = 0;
             std::cout << "Input = Right\n";
         }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && (lastChangedY != BLOCK_SIZE))
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && (snake.lastChangedY != BLOCK_SIZE))
         {
-            changeX = 0;
-            changeY = -BLOCK_SIZE;
+            snake.changeX = 0;
+            snake.changeY = -BLOCK_SIZE;
             std::cout << "Input = Up\n";
         }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && (lastChangedY != -BLOCK_SIZE))
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && (snake.lastChangedY != -BLOCK_SIZE))
         {
-            changeX = 0;
-            changeY = BLOCK_SIZE;
+            snake.changeX = 0;
+            snake.changeY = BLOCK_SIZE;
             std::cout << "Input = Down\n";
         }
     }
@@ -187,9 +186,6 @@ void SnakeGame::render() {
 
     for (auto& object : draw_objects)
         object->draw(window);
-
-    drawFood();
-
 
     window.draw(fpsText);
     window.draw(endOfGame);

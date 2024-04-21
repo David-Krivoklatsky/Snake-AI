@@ -12,6 +12,8 @@ public:
 
     virtual void draw(sf::RenderWindow& window) override;
 
+	std::vector<sf::Vector2f> get_positions();
+
 private:
 	std::vector<sf::Vector2f> positions;
 
