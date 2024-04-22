@@ -2,7 +2,7 @@
 #include "Globals.hpp"
 
 Food::Food(const std::vector<sf::Vector2f>& snake) {
-	position = generateFood(snake);
+	generateFood(snake);
 
     //set food textures
     if (!jablko.loadFromFile("jablcko.png")) {
@@ -15,7 +15,7 @@ Food::Food(const std::vector<sf::Vector2f>& snake) {
     }
 }
 
-sf::Vector2f Food::generateFood(const std::vector<sf::Vector2f>& snake) {
+void Food::generateFood(const std::vector<sf::Vector2f>& snake) {
     sf::Vector2f foodPos;
 
     //find valid position
@@ -34,7 +34,12 @@ sf::Vector2f Food::generateFood(const std::vector<sf::Vector2f>& snake) {
         }
     } while (invalidPos);
 
-    return foodPos;
+    position = foodPos;
+}
+
+sf::Vector2f Food::get_position()
+{
+    return position;
 }
 
 void Food::draw(sf::RenderWindow& window)

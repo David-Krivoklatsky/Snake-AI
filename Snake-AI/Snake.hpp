@@ -7,12 +7,13 @@
 class Snake : public DrawObject {
 public:
 	Snake(const sf::Vector2f&);
-	void setTextures();
-	bool move();
-
     virtual void draw(sf::RenderWindow& window) override;
 
 	std::vector<sf::Vector2f> get_positions();
+
+	void setTextures();
+	bool move();
+	bool eats(const sf::Vector2f&);
 
 	void set_direction(int, int);
 	void set_old_direction();

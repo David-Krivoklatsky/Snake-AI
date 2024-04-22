@@ -185,6 +185,10 @@ void SnakeGame::update() {
         fpsCounter = 0;
 
         gameOver != snake.move();
+        
+        if (snake.eats(food.get_position())) {
+            food.generateFood(snake.get_positions());
+        }
 
         //last move
         snake.set_old_direction();

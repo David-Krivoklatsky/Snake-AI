@@ -22,6 +22,17 @@ bool Snake::move() {
     return true;
 }
 
+bool Snake::eats(const sf::Vector2f& jedlo)
+{
+    if (positions[0] == jedlo) {
+        return true;
+    }
+    else {
+        positions.pop_back();
+        return false;
+    }
+}
+
 void Snake::setTextures() {
     if (!tail_left.loadFromFile("Snake_texture/tail_left.png")) {
         //isError = true;
