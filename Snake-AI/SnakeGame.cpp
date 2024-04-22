@@ -98,8 +98,7 @@ void SnakeGame::handleInput() {
 
                     case sf::Keyboard::Left:
                     {
-                        snake.changeX = -BLOCK_SIZE;
-                        snake.changeY = 0;
+                        snake.set_direction(-BLOCK_SIZE, 0);
                         std::cout << "Input = Left\n";
                         
                         break;
@@ -107,8 +106,7 @@ void SnakeGame::handleInput() {
 
                     case sf::Keyboard::Right:
                     {
-                        snake.changeX = BLOCK_SIZE;
-                        snake.changeY = 0;
+                        snake.set_direction(BLOCK_SIZE, 0);
                         std::cout << "Input = Right\n";
 
                         break;
@@ -116,8 +114,7 @@ void SnakeGame::handleInput() {
 
                     case sf::Keyboard::Up:
                     {
-                        snake.changeX = 0;
-                        snake.changeY = -BLOCK_SIZE;
+                        snake.set_direction(0, -BLOCK_SIZE);
                         std::cout << "Input = Up\n";
 
                         break;
@@ -125,8 +122,7 @@ void SnakeGame::handleInput() {
 
                     case sf::Keyboard::Down:
                     {
-                        snake.changeX = 0;
-                        snake.changeY = BLOCK_SIZE;
+                        snake.set_direction(0, BLOCK_SIZE);
                         std::cout << "Input = Down\n";
 
                         break;
@@ -191,8 +187,7 @@ void SnakeGame::update() {
         gameOver != snake.move();
 
         //last move
-        snake.lastChangedX = snake.changeX;
-        snake.lastChangedY = snake.changeY;
+        snake.set_old_direction();
     }
 
     lastTime = now;

@@ -206,3 +206,15 @@ std::vector<sf::Vector2f> Snake::get_positions()
 {
     return positions;
 }
+
+void Snake::set_direction(int x, int y)
+{
+    changeX = x;
+    changeY = y;
+}
+
+void Snake::set_old_direction()
+{
+    lastChangedX = changeX;
+    lastChangedY = changeY;
+}

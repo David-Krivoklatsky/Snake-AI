@@ -14,13 +14,14 @@ public:
 
 	std::vector<sf::Vector2f> get_positions();
 
+	void set_direction(int, int);
+	void set_old_direction();
+
 private:
 	std::vector<sf::Vector2f> positions;
 
-public:
 	int changeX = 0, changeY = 0, lastChangedX = 0, lastChangedY = 0;
 
-private:
 	sf::Texture tail_left;
 	sf::Texture tail_right;
 	sf::Texture tail_down;
