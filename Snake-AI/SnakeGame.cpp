@@ -11,6 +11,7 @@
 
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
+    , event()
     , snake(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2))
     , food(snake.get_positions())
 {
@@ -59,6 +60,7 @@ void SnakeGame::run() {
         render();
 
         if (gameOver) retryMenu();
+        //else std::cout << "Game is not over\n";
     }
 }
 
@@ -73,7 +75,6 @@ void SnakeGame::retryMenu() {
 }
 
 void SnakeGame::handleInput() {
-    sf::Event event;
     while (window.pollEvent(event))
     {
         switch (event.type)
@@ -141,7 +142,6 @@ void SnakeGame::handleInput() {
 }
 
 void SnakeGame::retryInput() {
-    sf::Event event;
     while (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed) window.close();

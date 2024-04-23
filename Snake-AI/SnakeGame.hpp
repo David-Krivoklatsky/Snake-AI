@@ -28,6 +28,7 @@ public:
 
 private:
     sf::RenderWindow window;
+    sf::Event event;
 
     Snake snake;
     Food food;
