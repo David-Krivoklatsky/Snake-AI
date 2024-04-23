@@ -34,6 +34,7 @@ private:
 
     bool gameOver = false;
     int fpsCounter = 0;
+    float fps = 60;
     sf::Font font_fps;
     sf::Font font_papyrus;
     sf::Text fpsText;
@@ -41,7 +42,6 @@ private:
     sf::Text restart;
     sf::RectangleShape retry;
     std::chrono::high_resolution_clock::time_point lastTime, now;
-    float fps = 60;
 
     std::vector<std::unique_ptr<DrawObject>> draw_objects;
 };
