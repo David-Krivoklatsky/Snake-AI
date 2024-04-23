@@ -88,49 +88,35 @@ void SnakeGame::handleInput() {
 
             case sf::Event::KeyPressed:
             {
-                switch (event.key.code)
+                Direction last_dir = snake.get_direction();
+
+                if (event.key.code == sf::Keyboard::Escape)
                 {
-                    case sf::Keyboard::Escape:
-                    {
-                        window.close();
-
-                        break;
-                    }
-
-                    case sf::Keyboard::Left:
-                    {
-                        snake.set_direction(-BLOCK_SIZE, 0);
-                        std::cout << "Input = Left\n";
-                        
-                        break;
-                    }
-
-                    case sf::Keyboard::Right:
-                    {
-                        snake.set_direction(BLOCK_SIZE, 0);
-                        std::cout << "Input = Right\n";
-
-                        break;
-                    }
-
-                    case sf::Keyboard::Up:
-                    {
-                        snake.set_direction(0, -BLOCK_SIZE);
-                        std::cout << "Input = Up\n";
-
-                        break;
-                    }
-
-                    case sf::Keyboard::Down:
-                    {
-                        snake.set_direction(0, BLOCK_SIZE);
-                        std::cout << "Input = Down\n";
-
-                        break;
-                    }
-                    default:
-                        std::cout << "whats that brother?\n";
-                    break;
+                    window.close();
+                }
+                else if (event.key.code == sf::Keyboard::Left && last_dir != Right)
+                {
+                    snake.set_direction(-BLOCK_SIZE, 0);
+                    std::cout << "Input = Left\n";
+                }
+                else if (event.key.code == sf::Keyboard::Right && last_dir != Left)
+                {
+                    snake.set_direction(BLOCK_SIZE, 0);
+                    std::cout << "Input = Right\n";
+                }
+                else if (event.key.code == sf::Keyboard::Up && last_dir != Down)
+                {
+                    snake.set_direction(0, -BLOCK_SIZE);
+                    std::cout << "Input = Up\n";
+                }
+                else if (event.key.code == sf::Keyboard::Down && last_dir != Up)
+                {
+                    snake.set_direction(0, BLOCK_SIZE);
+                    std::cout << "Input = Down\n";
+                }
+                else
+                {
+                    std::cout << "whats that brother?\n";
                 }
             }
 

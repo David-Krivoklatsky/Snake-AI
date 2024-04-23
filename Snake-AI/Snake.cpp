@@ -216,3 +216,11 @@ void Snake::set_old_direction()
     lastChangedX = changeX;
     lastChangedY = changeY;
 }
+
+Direction Snake::get_direction()
+{
+    if (lastChangedY < 0) return Up;
+    if (lastChangedY > 0) return Down;
+    if (lastChangedX < 0) return Left;
+    if (lastChangedX > 0) return Right;
+}

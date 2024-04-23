@@ -1,8 +1,14 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
 #include "DrawObjects.hpp"
+
+enum Direction {
+	Up = 1,
+	Down = 2,
+	Left = 3,
+	Right = 4
+};
 
 class Snake : public DrawObject {
 public:
@@ -17,6 +23,8 @@ public:
 
 	void set_direction(int, int);
 	void set_old_direction();
+
+	Direction get_direction();
 
 private:
 	std::vector<sf::Vector2f> positions;
