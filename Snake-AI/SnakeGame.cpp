@@ -158,7 +158,8 @@ void SnakeGame::update() {
 
     if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
         fpsCounter = 0;
-
+        
+        std::cout << gameOver;
         gameOver = !snake.move();
         std::cout << gameOver;
 
