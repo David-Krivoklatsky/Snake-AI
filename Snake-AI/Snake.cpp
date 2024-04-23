@@ -41,7 +41,6 @@ void Snake::setTextures() {
         tailLeft.setTexture(tail_left);
     }
 
-    sf::Texture tail_right; // ->
     if (!tail_right.loadFromFile("Snake_texture/tail_right.png")) {
         //isError = true;
     }
@@ -49,7 +48,6 @@ void Snake::setTextures() {
         tailRight.setTexture(tail_right);
     }
 
-    sf::Texture tail_down; // V
     if (!tail_down.loadFromFile("Snake_texture/tail_down.png")) {
         //isError = true;
     }
@@ -57,7 +55,6 @@ void Snake::setTextures() {
         tailDown.setTexture(tail_down);
     }
 
-    sf::Texture tail_up; // A
     if (!tail_up.loadFromFile("Snake_texture/tail_up.png")) {
         //isError = true;
     }
@@ -65,7 +62,6 @@ void Snake::setTextures() {
         tailUp.setTexture(tail_up);
     }
 
-    sf::Texture horizontal; // --
     if (!horizontal.loadFromFile("Snake_texture/body_horizontal.png")) {
         //isError = true;
     }
@@ -73,7 +69,6 @@ void Snake::setTextures() {
         horiz.setTexture(horizontal);
     }
 
-    sf::Texture vertical; // |
     if (!vertical.loadFromFile("Snake_texture/body_vertical.png")) {
         //isError = true;
     }
@@ -81,7 +76,6 @@ void Snake::setTextures() {
         vertic.setTexture(vertical);
     }
 
-    sf::Texture topright; // L
     if (!topright.loadFromFile("Snake_texture/body_topright.png")) {
         //isError = true;
     }
@@ -89,7 +83,6 @@ void Snake::setTextures() {
         topRight.setTexture(topright);
     }
 
-    sf::Texture topleft; // _|
     if (!topleft.loadFromFile("Snake_texture/body_topleft.png")) {
         //isError = true;
     }
@@ -97,7 +90,6 @@ void Snake::setTextures() {
         topLeft.setTexture(topleft);
     }
 
-    sf::Texture bottomleft; // -,
     if (!bottomleft.loadFromFile("Snake_texture/body_bottomleft.png")) {
         //isError = true;
     }
@@ -105,7 +97,6 @@ void Snake::setTextures() {
         bottomLeft.setTexture(bottomleft);
     }
 
-    sf::Texture bottomright; // F
     if (!bottomright.loadFromFile("Snake_texture/body_bottomright.png")) {
         //isError = true;
     }
@@ -113,7 +104,6 @@ void Snake::setTextures() {
         bottomRight.setTexture(bottomright);
     }
 
-    sf::Texture head_left; // <- hlava
     if (!head_left.loadFromFile("Snake_texture/head_left.png")) {
         //isError = true;
     }
@@ -121,7 +111,6 @@ void Snake::setTextures() {
         headLeft.setTexture(head_left);
     }
 
-    sf::Texture head_right; // -> hlava
     if (!head_right.loadFromFile("Snake_texture/head_right.png")) {
         //isError = true;
     }
@@ -129,7 +118,6 @@ void Snake::setTextures() {
         headRight.setTexture(head_right);
     }
 
-    sf::Texture head_down; // V hlava
     if (!head_down.loadFromFile("Snake_texture/head_down.png")) {
         //isError = true;
     }
@@ -137,7 +125,6 @@ void Snake::setTextures() {
         headDown.setTexture(head_down);
     }
 
-    sf::Texture head_up; // A hlava
     if (!head_up.loadFromFile("Snake_texture/head_up.png")) {
         //isError = true;
     }
