@@ -16,5 +16,5 @@ private:
 	sf::Vector2f position;
 
 	sf::Texture jablko;
-	sf::Sprite food_sprite;
+	sf::Sprite sprite;
 };

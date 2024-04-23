@@ -8,10 +8,10 @@ Food::Food(const std::vector<sf::Vector2f>& snake) {
     if (!jablko.loadFromFile("jablcko.png")) {
         //isError = true;
         //Errors.push_back("Error loading jablcko.png");
-        food_sprite.setColor(sf::Color::Red);
+        sprite.setColor(sf::Color::Red);
     }
     else {
-        food_sprite.setTexture(jablko); //set texture only if it loaded
+        sprite.setTexture(jablko); //set texture only if it loaded
     }
 }
 
@@ -44,6 +44,6 @@ sf::Vector2f Food::get_position()
 
 void Food::draw(sf::RenderWindow& window)
 {
-    food_sprite.setPosition(position);
-    window.draw(food_sprite);
+    sprite.setPosition(position);
+    window.draw(sprite);
 }

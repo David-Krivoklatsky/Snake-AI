@@ -139,9 +139,11 @@ void SnakeGame::retryInput() {
             if (retry.getGlobalBounds().contains(mousePos))
             {
                 restartGame = true;
-                //std::cout << "Restart" << std::endl;
-                //button pressed
             }
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+            restartGame = true;
         }
     }
 }
