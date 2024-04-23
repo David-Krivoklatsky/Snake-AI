@@ -8,6 +8,7 @@
 #include "Globals.hpp"
 #include "Snake.hpp"
 #include "Food.hpp"
+#include "Menu.hpp"
 
 class SnakeGame {
 public:
@@ -32,16 +33,15 @@ private:
 
     Snake snake;
     Food food;
+    Menu menu;
+
+    sf::Text fpsText;
+    sf::Font fps_font;
 
     bool gameOver = false;
     int fpsCounter = 0;
     float fps = 60;
-    sf::Font font_fps;
-    sf::Font font_papyrus;
-    sf::Text fpsText;
-    sf::Text endOfGame;
-    sf::Text restart;
-    sf::RectangleShape retry;
+
     std::chrono::high_resolution_clock::time_point lastTime, now;
 
     std::vector<std::unique_ptr<DrawObject>> draw_objects;

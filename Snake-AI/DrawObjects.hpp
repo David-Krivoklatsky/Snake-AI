@@ -2,6 +2,8 @@
 
 #include "Globals.hpp"
 
+#include <SFML/Graphics.hpp>
+
 class DrawObject {
 public:
     virtual void draw(sf::RenderWindow& window) = 0;

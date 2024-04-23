@@ -1,6 +1,7 @@
 #include "Snake.hpp"
 #include "Globals.hpp"
 
+
 Snake::Snake(const sf::Vector2f& pos) {
     positions.push_back(pos);
 }
@@ -9,17 +10,18 @@ bool Snake::move() {
     //inserts new pos to positions depending on the direction it is moving
     positions.insert(positions.begin(), sf::Vector2f(positions[0].x + changeX, positions[0].y + changeY));
 
-    if (positions[0].x < 0 && positions[0].x >= WINDOW_SIZE && positions[0].y < 0 && positions[0].y >= WINDOW_SIZE) {
-        return false;
+    bool legal = true;
+
+    if (positions[0].x < 0 || positions[0].x >= WINDOW_SIZE || positions[0].y < 0 || positions[0].y >= WINDOW_SIZE) {
+        legal = false;
     }
 
     for (int i = 1; i < positions.size(); i++) {
         if (positions[0] == positions[i]) {
-            return false;
+            legal = false;
         }
     }
-
-    return true;
+    return legal;
 }
 
 bool Snake::eats(const sf::Vector2f& jedlo)

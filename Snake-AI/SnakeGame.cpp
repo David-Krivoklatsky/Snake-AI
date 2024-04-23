@@ -7,6 +7,7 @@
 #include "DrawObjects.hpp"
 #include "Snake.hpp"
 #include "Food.hpp"
+#include "Menu.hpp"
 
 
 SnakeGame::SnakeGame()
@@ -14,31 +15,25 @@ SnakeGame::SnakeGame()
     , event()
     , snake(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2))
     , food(snake.get_positions())
+    , menu()
 {
 
     window.setFramerateLimit(FPS_LIMIT);
-
-    //load fonts
-    if (!font_fps.loadFromFile("font.ttf")) {
-        //isError = true;
-        //Errors.push_back("Error loading font.ttf");
-    }
-    if (!font_papyrus.loadFromFile("papyrus.ttf")) {
-        //isError = true;
-        //Errors.push_back("Error loading papyrus.ttf");
-    }
+    srand(time(0));
 
     //generate head of snake
     snake.setTextures(); //food and snakes
 
-    srand(time(0));
+    if (!fps_font.loadFromFile("font.ttf")) {
+        //isError = true;
+        //Errors.push_back("Error loading font.ttf");
+    }
 
-    fpsText.setFont(font_fps);
+    fpsText.setFont(fps_font);
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(0, 0); //left up corner
 
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
-    //draw_objects.push_back(std::make_unique<Snake>()); // fix this one
 }
 
 SnakeGame::~SnakeGame() {
@@ -60,6 +55,7 @@ void SnakeGame::run() {
         render();
 
         if (gameOver) retryMenu();
+        gameOver = false;
         //else std::cout << "Game is not over\n";
     }
 }
@@ -68,9 +64,15 @@ void SnakeGame::retryMenu() {
     setRetryText();
     restartGame = false;
 
+    std::cout << "- retry menu\n";
+
     while (window.isOpen() && !restartGame) {
+
         retryInput();
-        render();
+
+        window.clear();
+        menu.draw(window);
+        window.display();
     }
 }
 
@@ -135,8 +137,7 @@ void SnakeGame::retryInput() {
         //check mouse click
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
         {
-            sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-            if (retry.getGlobalBounds().contains(mousePos))
+            if (menu.click(window))
             {
                 restartGame = true;
             }
@@ -149,21 +150,7 @@ void SnakeGame::retryInput() {
 }
 
 void SnakeGame::setRetryText() {
-    endOfGame.setFont(font_papyrus);
-    endOfGame.setString("Game Over");
-    endOfGame.setFillColor(sf::Color::Red);
-    endOfGame.setStyle(sf::Text::Bold);
-    endOfGame.setPosition(WINDOW_SIZE / 2.f, WINDOW_SIZE / 2.f);
 
-    retry.setFillColor(sf::Color::White);
-    retry.setSize(sf::Vector2f(100, 50));
-    retry.setPosition(WINDOW_SIZE / 2.f, WINDOW_SIZE / 2.f + 70);
-
-    restart.setFont(font_papyrus);
-    restart.setString("Try Again");
-    restart.setFillColor(sf::Color::Black);
-    restart.setStyle(sf::Text::Bold);
-    restart.setPosition(WINDOW_SIZE / 2.f, WINDOW_SIZE / 2.f - 70);
 }
 
 void SnakeGame::update() {
@@ -172,8 +159,9 @@ void SnakeGame::update() {
     if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
         fpsCounter = 0;
 
-        gameOver != snake.move();
-        
+        gameOver = !snake.move();
+        std::cout << gameOver;
+
         if (snake.eats(food.get_position())) {
             food.generateFood(snake.get_positions());
         }
@@ -199,9 +187,6 @@ void SnakeGame::render() {
     food.draw(window);
 
     window.draw(fpsText);
-    window.draw(endOfGame);
-    window.draw(retry);
-    window.draw(restart);
 
     window.display();
     //std::cout << "Render done\n";
