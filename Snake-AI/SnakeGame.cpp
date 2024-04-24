@@ -21,7 +21,6 @@ SnakeGame::SnakeGame()
     window.setFramerateLimit(FPS_LIMIT);
     srand(time(0));
 
-    //generate head of snake
     snake.setTextures(); //food and snakes
 
     if (!fps_font.loadFromFile("font.ttf")) {
@@ -41,7 +40,6 @@ SnakeGame::~SnakeGame() {
 }
 
 void SnakeGame::run() {
-    std::cout << "run()\n";
 
     gameOver = false;
     while (window.isOpen()) {
@@ -56,15 +54,12 @@ void SnakeGame::run() {
 
         if (gameOver) retryMenu();
         gameOver = false;
-        //else std::cout << "Game is not over\n";
     }
 }
 
 void SnakeGame::retryMenu() {
     setRetryText();
     restartGame = false;
-
-    std::cout << "- retry menu\n";
 
     snake.reset(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2));
 
@@ -101,26 +96,18 @@ void SnakeGame::handleInput() {
                 else if (event.key.code == sf::Keyboard::Left && last_dir != Right)
                 {
                     snake.set_direction(-BLOCK_SIZE, 0);
-                    std::cout << "Input = Left\n";
                 }
                 else if (event.key.code == sf::Keyboard::Right && last_dir != Left)
                 {
                     snake.set_direction(BLOCK_SIZE, 0);
-                    std::cout << "Input = Right\n";
                 }
                 else if (event.key.code == sf::Keyboard::Up && last_dir != Down)
                 {
                     snake.set_direction(0, -BLOCK_SIZE);
-                    std::cout << "Input = Up\n";
                 }
                 else if (event.key.code == sf::Keyboard::Down && last_dir != Up)
                 {
                     snake.set_direction(0, BLOCK_SIZE);
-                    std::cout << "Input = Down\n";
-                }
-                else
-                {
-                    std::cout << "whats that brother?\n";
                 }
             }
 
@@ -161,9 +148,7 @@ void SnakeGame::update() {
     if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
         fpsCounter = 0;
         
-        std::cout << gameOver;
         gameOver = !snake.move();
-        std::cout << gameOver;
 
         if (snake.eats(food.get_position())) {
             food.generateFood(snake.get_positions());
@@ -192,5 +177,4 @@ void SnakeGame::render() {
     window.draw(fpsText);
 
     window.display();
-    //std::cout << "Render done\n";
 }
