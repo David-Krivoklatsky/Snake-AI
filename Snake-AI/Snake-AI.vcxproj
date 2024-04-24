@@ -149,6 +149,7 @@
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Milan.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="SnakeGame.cpp" />
   </ItemGroup>
@@ -157,6 +158,7 @@
     <ClInclude Include="Food.hpp" />
     <ClInclude Include="Globals.hpp" />
     <ClInclude Include="Menu.hpp" />
+    <ClInclude Include="Milan.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Snake.hpp" />
     <ClInclude Include="SnakeGame.hpp" />

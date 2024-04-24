@@ -9,6 +9,8 @@
 #include "Food.hpp"
 #include "Menu.hpp"
 
+#include "Milan.hpp"
+
 
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
@@ -33,6 +35,7 @@ SnakeGame::SnakeGame()
     fpsText.setPosition(0, 0); //left up corner
 
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
+    draw_objects.push_back(std::make_unique<Milan>());
 }
 
 SnakeGame::~SnakeGame() {
