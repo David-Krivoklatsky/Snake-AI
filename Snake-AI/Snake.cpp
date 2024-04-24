@@ -226,3 +226,12 @@ Direction Snake::get_direction()
     if (lastChangedX < 0) return Left;
     if (lastChangedX > 0) return Right;
 }
+
+void Snake::reset(const sf::Vector2f& pos)
+{
+    positions.clear();
+    
+    changeX = 0, changeY = -BLOCK_SIZE, lastChangedX = 0, lastChangedY = 0;
+
+    positions.push_back(pos);
+}

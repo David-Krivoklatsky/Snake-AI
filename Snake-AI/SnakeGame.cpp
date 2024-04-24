@@ -66,6 +66,8 @@ void SnakeGame::retryMenu() {
 
     std::cout << "- retry menu\n";
 
+    snake.reset(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2));
+
     while (window.isOpen() && !restartGame) {
 
         retryInput();

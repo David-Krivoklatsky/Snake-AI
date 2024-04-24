@@ -26,10 +26,12 @@ public:
 
 	Direction get_direction();
 
+	void reset(const sf::Vector2f&);
+
 private:
 	std::vector<sf::Vector2f> positions;
 
-	int changeX = 0, changeY = -BLOCK_SIZE, lastChangedX = 0, lastChangedY = 0;
+	int changeX = 0, changeY = -BLOCK_SIZE, lastChangedX = 0, lastChangedY = 0; //had pojde smerom hore natvrdo sorry jako
 
 	sf::Texture tail_left;
 	sf::Texture tail_right;
