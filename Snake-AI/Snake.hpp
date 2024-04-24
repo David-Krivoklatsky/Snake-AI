@@ -32,7 +32,7 @@ private:
 	std::vector<sf::Vector2f> positions;
 
 	//had pojde smerom hore natvrdo sorry jako
-	int changeX = 0, changeY = 0, lastChangedX = 0, lastChangedY = 0; 
+	int changeX = 0, changeY = -BLOCK_SIZE, lastChangedX = 0, lastChangedY = 0; 
 
 	sf::Texture tail_left;
 	sf::Texture tail_right;
