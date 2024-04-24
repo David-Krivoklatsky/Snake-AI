@@ -4,6 +4,7 @@
 
 Snake::Snake(const sf::Vector2f& pos) {
     positions.push_back(pos);
+    move();
 }
 
 bool Snake::move() {
@@ -136,19 +137,19 @@ void Snake::setTextures() {
 }
 
 void Snake::draw(sf::RenderWindow& window) {
-    if (changeX == -BLOCK_SIZE) { //head
+    if (lastChangedX == -BLOCK_SIZE) { //head
         headLeft.setPosition(positions[0]);
         window.draw(headLeft);
     }
-    else if (changeX == BLOCK_SIZE) {
+    else if (lastChangedX == BLOCK_SIZE) {
         headRight.setPosition(positions[0]);
         window.draw(headRight);
     }
-    else if (changeY == -BLOCK_SIZE) {
+    else if (lastChangedY == -BLOCK_SIZE) {
         headUp.setPosition(positions[0]);
         window.draw(headUp);
     }
-    else if (changeY == BLOCK_SIZE) {
+    else if (lastChangedY == BLOCK_SIZE) {
         headDown.setPosition(positions[0]);
         window.draw(headDown);
     }
