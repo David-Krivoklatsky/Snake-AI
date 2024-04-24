@@ -154,25 +154,25 @@ void Snake::draw(sf::RenderWindow& window) {
     }
 
     if (positions.size() > 1) { //tail
-        if (positions[positions.size() - 2].x == positions.back().x && positions[positions.size() - 2].y > positions.back().y) {
-            tailUp.setPosition(positions.back());
+        if (positions[positions.size() - 2].x == positions[positions.size() - 1].x && positions[positions.size() - 2].y > positions[positions.size() - 1].y) {
+            tailUp.setPosition(positions[positions.size() - 1]);
             window.draw(tailUp);
         }
-        else if (positions[positions.size() - 2].x == positions.back().x && positions[positions.size() - 2].y < positions.back().y) {
-            tailDown.setPosition(positions.back());
+        else if (positions[positions.size() - 2].x == positions[positions.size() - 1].x && positions[positions.size() - 2].y < positions[positions.size() - 1].y) {
+            tailDown.setPosition(positions[positions.size() - 1]);
             window.draw(tailDown);
         }
-        else if (positions[positions.size() - 2].x < positions.back().x && positions[positions.size() - 2].y == positions.back().y) {
-            tailRight.setPosition(positions.back());
+        else if (positions[positions.size() - 2].x < positions[positions.size() - 1].x && positions[positions.size() - 2].y == positions[positions.size() - 1].y) {
+            tailRight.setPosition(positions[positions.size() - 1]);
             window.draw(tailRight);
         }
-        else if (positions[positions.size() - 2].x > positions.back().x && positions[positions.size() - 2].y == positions.back().y) {
-            tailLeft.setPosition(positions.back());
+        else if (positions[positions.size() - 2].x > positions[positions.size() - 1].x && positions[positions.size() - 2].y == positions[positions.size() - 1].y) {
+            tailLeft.setPosition(positions[positions.size() - 1]);
             window.draw(tailLeft);
         }
     }
 
-    if (positions.size() > 2) { // if positionss length is bigger then 2 it has middle positions part (chest or smth like that) (everything except tail and head)
+    if (positions.size() > 2) { // if snakes length is bigger then 2 it has middle snake part (chest or smth like that) (everything except tail and head)
         for (int i = 1; i < positions.size() - 1; i++) {
             if (positions[i + 1].x == positions[i - 1].x && positions[i + 1].y != positions[i - 1].y) {
                 vertic.setPosition(positions[i]);
