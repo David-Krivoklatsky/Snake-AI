@@ -235,4 +235,5 @@ void Snake::reset(const sf::Vector2f& pos)
     changeX = 0, changeY = -BLOCK_SIZE, lastChangedX = 0, lastChangedY = 0;
 
     positions.push_back(pos);
+    move();
 }
