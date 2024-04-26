@@ -5,25 +5,25 @@
 #include <vector>
 #include <random>
 
-class NeuralNetwork {
+struct Neuron {
+    double value = 0;
+    double bias = 0;
+    std::vector<double> input_weights;
+};
 
+class NeuralNetwork {
 public:
     NeuralNetwork(const std::vector<int>& layers);
 
-    void SGD(const std::vector<std::vector<double>>& trainingData, int epochs, int miniBatchSize, double learningRate);
-    void updateMiniBatch(const std::vector<std::vector<double>>& miniBatch, double learningRate);
-
 private:
-    void forwardPass(const std::vector<double>& input, std::vector<std::vector<double>>& activations, std::vector<std::vector<double>>& zs) const;
+    std::vector<std::vector<Neuron>> net;
+
+    std::vector<double> forwardPass(const std::vector<double>& input);
     void backprop(const std::vector<double>& input, const std::vector<double>& expected, std::vector<std::vector<double>>& nablaB, std::vector<std::vector<std::vector<double>>>& nablaW) const;
 
-    double sigmoid(double z);
-    double sigmoidPrime(double z);
-    double costDerivative(double activation, double expected);
-
+    double sigmoid(double z) const;
+    double sigmoidPrime(double z) const;
 
     std::vector<int> layers;
     int numLayers;
-    std::vector<std::vector<double>> biases;
-    std::vector<std::vector<std::vector<double>>> weights;
 };
