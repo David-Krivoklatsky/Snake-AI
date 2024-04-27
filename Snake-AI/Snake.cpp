@@ -17,7 +17,7 @@ bool Snake::move() {
         legal = false;
     }
 
-    for (int i = 1; i < positions.size(); i++) {
+    for (int i = 1; i < positions.size() - 1; i++) {
         if (positions[0] == positions[i]) {
             legal = false;
         }
