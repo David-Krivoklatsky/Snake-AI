@@ -143,6 +143,9 @@ void SnakeGame::retryInput() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             restartGame = true;
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+            window.close();
+        }
     }
 }
 
