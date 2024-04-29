@@ -1,6 +1,12 @@
 #include "Snake.hpp"
 #include "Globals.hpp"
 
+#include <iostream>
+
+Snake::Snake() {
+    positions.push_back(find_empty_cell());
+    move();
+}
 
 Snake::Snake(const sf::Vector2f& pos) {
     positions.push_back(pos);
@@ -236,6 +242,44 @@ void Snake::reset(const sf::Vector2f& pos)
     
     changeX = 0, changeY = -BLOCK_SIZE, lastChangedX = 0, lastChangedY = 0;
 
+    positions.push_back(pos);
+    move();
+}
+
+void AI_Snake::set_random_direction()
+{
+    Direction new_dir;
+    do {
+        new_dir = static_cast<Direction>(std::rand() % 4 + 1);
+    } while (new_dir == get_direction());
+
+    switch (new_dir) {
+    case Up:
+        changeX = 0;
+        changeY = -BLOCK_SIZE;
+        break;
+    case Down:
+        changeX = 0;
+        changeY = BLOCK_SIZE;
+        break;
+    case Left:
+        changeX = -BLOCK_SIZE;
+        changeY = 0;
+        break;
+    case Right:
+        changeX = BLOCK_SIZE;
+        changeY = 0;
+        break;
+    }
+}
+
+AI_Snake::AI_Snake()
+{
+    positions.push_back(find_empty_cell());
+    move();
+}
+
+AI_Snake::AI_Snake(const sf::Vector2f& pos) {
     positions.push_back(pos);
     move();
 }

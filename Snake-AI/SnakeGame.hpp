@@ -35,6 +35,8 @@ private:
     Food food;
     Menu menu;
 
+    std::vector<std::unique_ptr<Snake>> ai_snakes;
+
     sf::Text fpsText;
     sf::Font fps_font;
 

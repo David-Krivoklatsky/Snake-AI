@@ -36,6 +36,11 @@ SnakeGame::SnakeGame()
 
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
     //draw_objects.push_back(std::make_unique<Milan>());
+
+    ai_snakes.push_back(std::make_unique<Snake>());
+    ai_snakes.push_back(std::make_unique<Snake>());
+    ai_snakes.push_back(std::make_unique<Snake>());
+
 }
 
 SnakeGame::~SnakeGame() {

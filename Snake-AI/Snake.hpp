@@ -4,14 +4,15 @@
 #include "DrawObjects.hpp"
 
 enum Direction {
-	Up,
-	Down,
-	Left,
-	Right
+	Up = 1,
+	Down = 2,
+	Left = 3,
+	Right = 4
 };
 
 class Snake : public DrawObject {
 public:
+	Snake();
 	Snake(const sf::Vector2f&);
     virtual void draw(sf::RenderWindow& window) override;
 
@@ -28,8 +29,10 @@ public:
 
 	void reset(const sf::Vector2f&);
 
-private:
+protected:
 	std::vector<sf::Vector2f> positions;
+
+	sf::Vector2f find_empty_cell();
 
 	//had pojde smerom hore natvrdo sorry jako
 	int changeX = 0, changeY = -BLOCK_SIZE, lastChangedX = 0, lastChangedY = 0; 
@@ -63,4 +66,14 @@ private:
 	sf::Sprite headRight;
 	sf::Sprite headDown;
 	sf::Sprite headUp;
+};
+
+class AI_Snake : private Snake {
+public:
+	AI_Snake();
+	AI_Snake(const sf::Vector2f&);
+
+	void set_random_direction();
+
+private:
 };
