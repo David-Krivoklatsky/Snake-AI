@@ -149,10 +149,6 @@ void SnakeGame::retryInput() {
     }
 }
 
-void SnakeGame::setRetryText() {
-
-}
-
 void SnakeGame::update() {
     fpsCounter++; //increase frame counter
 
