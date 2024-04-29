@@ -24,6 +24,8 @@ private:
     void update();
     void render();
 
+    sf::Vector2f find_empty_cell();
+
 public:
     bool restartGame = false;
 

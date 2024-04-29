@@ -1,8 +1,7 @@
 #include "Food.hpp"
 #include "Globals.hpp"
 
-Food::Food(const std::vector<sf::Vector2f>& snake) {
-	generateFood(snake);
+Food::Food(const sf::Vector2f& foodPos) {
 
     //set food textures
     if (!jablko.loadFromFile("jablcko.png")) {
@@ -13,28 +12,12 @@ Food::Food(const std::vector<sf::Vector2f>& snake) {
     else {
         sprite.setTexture(jablko); //set texture only if it loaded
     }
+
+	generateFood(foodPos);
 }
 
-void Food::generateFood(const std::vector<sf::Vector2f>& snake) {
-    sf::Vector2f foodPos;
-
-    //find valid position
-    bool invalidPos;
-    do {
-        invalidPos = false;
-
-        foodPos.x = rand() % PIXEL_SIZE * BLOCK_SIZE;
-        foodPos.y = rand() % PIXEL_SIZE * BLOCK_SIZE;
-
-        for (const sf::Vector2f s : snake) {
-            if (foodPos == s) {
-                invalidPos = true;
-                break;
-            }
-        }
-    } while (invalidPos);
-
-    position = foodPos;
+void Food::generateFood(const sf::Vector2f& pos) {
+    position = pos;
 }
 
 sf::Vector2f Food::get_position()

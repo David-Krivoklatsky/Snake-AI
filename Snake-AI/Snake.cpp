@@ -273,12 +273,6 @@ void AI_Snake::set_random_direction()
     }
 }
 
-AI_Snake::AI_Snake()
-{
-    positions.push_back(find_empty_cell());
-    move();
-}
-
 AI_Snake::AI_Snake(const sf::Vector2f& pos) {
     positions.push_back(pos);
     move();

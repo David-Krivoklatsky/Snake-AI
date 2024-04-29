@@ -12,7 +12,7 @@ enum Direction {
 
 class Snake : public DrawObject {
 public:
-	Snake();
+	Snake() = default;
 	Snake(const sf::Vector2f&);
     virtual void draw(sf::RenderWindow& window) override;
 
@@ -29,10 +29,10 @@ public:
 
 	void reset(const sf::Vector2f&);
 
-protected:
-	std::vector<sf::Vector2f> positions;
+	void set_random_direction();
 
-	sf::Vector2f find_empty_cell();
+private:
+	std::vector<sf::Vector2f> positions;
 
 	//had pojde smerom hore natvrdo sorry jako
 	int changeX = 0, changeY = -BLOCK_SIZE, lastChangedX = 0, lastChangedY = 0; 
@@ -66,14 +66,4 @@ protected:
 	sf::Sprite headRight;
 	sf::Sprite headDown;
 	sf::Sprite headUp;
-};
-
-class AI_Snake : private Snake {
-public:
-	AI_Snake();
-	AI_Snake(const sf::Vector2f&);
-
-	void set_random_direction();
-
-private:
 };

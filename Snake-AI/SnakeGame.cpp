@@ -159,7 +159,7 @@ void SnakeGame::update() {
         gameOver = !snake.move();
 
         if (snake.eats(food.get_position())) {
-            food.generateFood(snake.get_positions());
+            food.generateFood(find_empty_cell());
         }
 
         //last move
@@ -185,4 +185,39 @@ void SnakeGame::render() {
     window.draw(fpsText);
 
     window.display();
+}
+
+sf::Vector2f SnakeGame::find_empty_cell()
+{
+    sf::Vector2f freePos;
+
+    //find valid position
+    bool invalidPos;
+    do {
+        invalidPos = false;
+
+        freePos.x = rand() % PIXEL_SIZE * BLOCK_SIZE;
+        freePos.y = rand() % PIXEL_SIZE * BLOCK_SIZE;
+
+        if (freePos == food.get_position()) invalidPos = true;
+
+        for (const sf::Vector2f s : snake.get_positions()) {
+            if (freePos == s) {
+                invalidPos = true;
+                break;
+            }
+        }
+
+        for (const auto& snake : ai_snakes) {
+            for (const sf::Vector2f s : snake->get_positions()) {
+                if (freePos == s) {
+                    invalidPos = true;
+                    break;
+                }
+            }
+        }
+
+    } while (invalidPos);
+
+    return freePos;
 }
