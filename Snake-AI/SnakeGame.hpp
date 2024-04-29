@@ -39,7 +39,8 @@ private:
 
     sf::Text fpsText;
     sf::Font fps_font;
-
+    
+	bool pause = false;
     bool gameOver = false;
     int fpsCounter = 0;
     float fps = 60;

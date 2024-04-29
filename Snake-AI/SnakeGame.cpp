@@ -52,6 +52,10 @@ void SnakeGame::run() {
         //    std::cout << a << std::endl;
         //}
 
+        while (pause) {
+            handleInput();
+        }
+
         handleInput();
         update();
         render();
@@ -112,6 +116,10 @@ void SnakeGame::handleInput() {
                 {
                     snake.set_direction(0, BLOCK_SIZE);
                 }
+
+				if (event.key.code == sf::Keyboard::P) {
+					pause = !pause;
+				}
             }
 
         default:
