@@ -13,12 +13,10 @@
 class SnakeGame {
 public:
     SnakeGame();
-    ~SnakeGame();
     void run();
     void retryMenu();
 
 private:
-    void setRetryText();
     void handleInput();
     void retryInput();
     void update();

@@ -62,7 +62,6 @@ void SnakeGame::run() {
 }
 
 void SnakeGame::retryMenu() {
-    setRetryText();
     restartGame = false;
 
     snake.reset(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2));
