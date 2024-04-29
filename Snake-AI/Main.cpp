@@ -1,18 +1,15 @@
-#include <iostream>
+﻿#include <iostream>
 #include <chrono>
 #include <thread>
 #include <SFML/Graphics.hpp>
-#include "SnakeGame.hpp"
+#include <Windows.h>
+#include <cmath>
+#include <ctime>
 
-int main() {
-    SnakeGame game;
 
-    game.run();
-
-    /*while (!game.restartGame) {
-        game.run();
-        game.retryMenu();
-    }*/
+int WINDOW_SIZE = 800; //width and height
+int PIXEL_SIZE = 20; //size of the grid, number of rows and columns
+int BLOCK_SIZE = WINDOW_SIZE / PIXEL_SIZE; //size of each grid pixel
 
 int FPS_LIMIT = 60;
 float SNAKE_SPEED = 7.f; // block / sekunda
@@ -588,3 +585,4 @@ int main()
     }
     return 0;
 }
+//verzia zakazane otacanie

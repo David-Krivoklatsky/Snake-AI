@@ -146,48 +146,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Food.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Milan.cpp" />
-    <ClCompile Include="NeuralNetwork.cpp" />
-    <ClCompile Include="Snake.cpp" />
-    <ClCompile Include="SnakeGame.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="DrawObjects.hpp" />
-    <ClInclude Include="Food.hpp" />
-    <ClInclude Include="Globals.hpp" />
-    <ClInclude Include="Menu.hpp" />
-    <ClInclude Include="Milan.hpp" />
-    <ClInclude Include="NeuralNetwork.hpp" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Snake.hpp" />
-    <ClInclude Include="SnakeGame.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="font.ttf" />
-    <Font Include="papyrus.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Snake-AI.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Snake_texture\body_bottomleft.png" />
-    <Image Include="..\Snake_texture\body_bottomright.png" />
-    <Image Include="..\Snake_texture\body_horizontal.png" />
-    <Image Include="..\Snake_texture\body_topleft.png" />
-    <Image Include="..\Snake_texture\body_topright.png" />
-    <Image Include="..\Snake_texture\body_vertical.png" />
-    <Image Include="..\Snake_texture\head_down.png" />
-    <Image Include="..\Snake_texture\head_left.png" />
-    <Image Include="..\Snake_texture\head_right.png" />
-    <Image Include="..\Snake_texture\head_up.png" />
-    <Image Include="..\Snake_texture\tail_down.png" />
-    <Image Include="..\Snake_texture\tail_left.png" />
-    <Image Include="..\Snake_texture\tail_right.png" />
-    <Image Include="..\Snake_texture\tail_up.png" />
-    <Image Include="jablcko.png" />
+    <ClCompile Include="main.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SFML-2.6.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SFML-2.6.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SFML-2.6.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SFML-2.6.1\include</AdditionalIncludeDirectories>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
