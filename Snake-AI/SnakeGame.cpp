@@ -43,10 +43,6 @@ SnakeGame::SnakeGame()
 
 }
 
-SnakeGame::~SnakeGame() {
-    //nic take
-}
-
 void SnakeGame::run() {
 
     gameOver = false;
