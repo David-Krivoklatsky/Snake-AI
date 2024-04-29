@@ -246,7 +246,7 @@ void Snake::reset(const sf::Vector2f& pos)
     move();
 }
 
-void AI_Snake::set_random_direction()
+void Snake::set_random_direction()
 {
     Direction new_dir;
     do {
@@ -271,9 +271,4 @@ void AI_Snake::set_random_direction()
         changeY = 0;
         break;
     }
-}
-
-AI_Snake::AI_Snake(const sf::Vector2f& pos) {
-    positions.push_back(pos);
-    move();
 }
