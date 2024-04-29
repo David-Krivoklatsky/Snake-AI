@@ -37,98 +37,100 @@ bool Snake::eats(const sf::Vector2f& jedlo)
 }
 
 void Snake::setTextures() {
-    if (!tail_left.loadFromFile("Snake_texture/tail_left.png")) {
+    std::string folder = "Snake_texture";
+
+    if (!tail_left.loadFromFile(folder + "/tail_left.png")) {
         //isError = true;
     }
     else {
         tailLeft.setTexture(tail_left);
     }
 
-    if (!tail_right.loadFromFile("Snake_texture/tail_right.png")) {
+    if (!tail_right.loadFromFile(folder + "/tail_right.png")) {
         //isError = true;
     }
     else {
         tailRight.setTexture(tail_right);
     }
 
-    if (!tail_down.loadFromFile("Snake_texture/tail_down.png")) {
+    if (!tail_down.loadFromFile(folder + "/tail_down.png")) {
         //isError = true;
     }
     else {
         tailDown.setTexture(tail_down);
     }
 
-    if (!tail_up.loadFromFile("Snake_texture/tail_up.png")) {
+    if (!tail_up.loadFromFile(folder + "/tail_up.png")) {
         //isError = true;
     }
     else {
         tailUp.setTexture(tail_up);
     }
 
-    if (!horizontal.loadFromFile("Snake_texture/body_horizontal.png")) {
+    if (!horizontal.loadFromFile(folder + "/body_horizontal.png")) {
         //isError = true;
     }
     else {
         horiz.setTexture(horizontal);
     }
 
-    if (!vertical.loadFromFile("Snake_texture/body_vertical.png")) {
+    if (!vertical.loadFromFile(folder + "/body_vertical.png")) {
         //isError = true;
     }
     else {
         vertic.setTexture(vertical);
     }
 
-    if (!topright.loadFromFile("Snake_texture/body_topright.png")) {
+    if (!topright.loadFromFile(folder + "/body_topright.png")) {
         //isError = true;
     }
     else {
         topRight.setTexture(topright);
     }
 
-    if (!topleft.loadFromFile("Snake_texture/body_topleft.png")) {
+    if (!topleft.loadFromFile(folder + "/body_topleft.png")) {
         //isError = true;
     }
     else {
         topLeft.setTexture(topleft);
     }
 
-    if (!bottomleft.loadFromFile("Snake_texture/body_bottomleft.png")) {
+    if (!bottomleft.loadFromFile(folder + "/body_bottomleft.png")) {
         //isError = true;
     }
     else {
         bottomLeft.setTexture(bottomleft);
     }
 
-    if (!bottomright.loadFromFile("Snake_texture/body_bottomright.png")) {
+    if (!bottomright.loadFromFile(folder + "/body_bottomright.png")) {
         //isError = true;
     }
     else {
         bottomRight.setTexture(bottomright);
     }
 
-    if (!head_left.loadFromFile("Snake_texture/head_left.png")) {
+    if (!head_left.loadFromFile(folder + "/head_left.png")) {
         //isError = true;
     }
     else {
         headLeft.setTexture(head_left);
     }
 
-    if (!head_right.loadFromFile("Snake_texture/head_right.png")) {
+    if (!head_right.loadFromFile(folder + "/head_right.png")) {
         //isError = true;
     }
     else {
         headRight.setTexture(head_right);
     }
 
-    if (!head_down.loadFromFile("Snake_texture/head_down.png")) {
+    if (!head_down.loadFromFile(folder + "/head_down.png")) {
         //isError = true;
     }
     else {
         headDown.setTexture(head_down);
     }
 
-    if (!head_up.loadFromFile("Snake_texture/head_up.png")) {
+    if (!head_up.loadFromFile(folder + "/head_up.png")) {
         //isError = true;
     }
     else {
