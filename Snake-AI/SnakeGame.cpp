@@ -16,7 +16,7 @@ SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
     , event()
     , snake(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2))
-    , food(snake.get_positions())
+    , food(find_empty_cell())
     , menu()
 {
 
@@ -37,9 +37,9 @@ SnakeGame::SnakeGame()
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
     //draw_objects.push_back(std::make_unique<Milan>());
 
-    ai_snakes.push_back(std::make_unique<Snake>());
-    ai_snakes.push_back(std::make_unique<Snake>());
-    ai_snakes.push_back(std::make_unique<Snake>());
+    //ai_snakes.push_back(std::make_unique<Snake>());
+    //ai_snakes.push_back(std::make_unique<Snake>());
+    //ai_snakes.push_back(std::make_unique<Snake>());
 
 }
 
