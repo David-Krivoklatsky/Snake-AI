@@ -3,11 +3,6 @@
 
 #include <iostream>
 
-Snake::Snake() {
-    positions.push_back(find_empty_cell());
-    move();
-}
-
 Snake::Snake(const sf::Vector2f& pos) {
     positions.push_back(pos);
     move();

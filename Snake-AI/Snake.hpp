@@ -12,7 +12,6 @@ enum Direction {
 
 class Snake : public DrawObject {
 public:
-	Snake() = default;
 	Snake(const sf::Vector2f&);
     virtual void draw(sf::RenderWindow& window) override;
 
