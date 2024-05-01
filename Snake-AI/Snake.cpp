@@ -244,11 +244,13 @@ void Snake::reset(const sf::Vector2f& pos)
 void Snake::set_random_direction()
 {
     Direction new_dir;
-    do {
-        new_dir = static_cast<Direction>(std::rand() % 4 + 1);
-    } while (new_dir == get_direction());
+    Direction old_dir = get_direction();
 
-    switch (new_dir) {
+    do {                                //random generating random num 1 - 4 while it is same as old direction 
+        new_dir = static_cast<Direction>(std::rand() % 4 + 1);
+    } while (new_dir == old_dir);
+
+    switch (new_dir) {                  //assigned value for changeX/Y  
     case Up:
         changeX = 0;
         changeY = -BLOCK_SIZE;
