@@ -8,6 +8,7 @@
 #include "Snake.hpp"
 #include "Food.hpp"
 #include "Menu.hpp"
+#include "StartMenu.hpp"
 
 #include "Milan.hpp"
 
@@ -44,13 +45,16 @@ SnakeGame::SnakeGame()
 }
 
 void SnakeGame::run() {
-
+    bool startMenu = true;
     gameOver = false;
     while (window.isOpen()) {
         //if (isError) std::cout << "-------------------------------\nError\n\n";
         //for (auto& a : Errors) {
         //    std::cout << a << std::endl;
         //}
+        while (startMenu) {
+            StartMenu();
+        }
 
         while (pause) {
             handleInput();
