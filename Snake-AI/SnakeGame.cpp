@@ -173,6 +173,7 @@ void SnakeGame::update() {
         snake.set_old_direction();
 
         for (auto& ai_snake : ai_snakes) {
+            ai_snake->set_random_direction();
             if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
             if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
             ai_snake->set_old_direction();
@@ -192,12 +193,12 @@ void SnakeGame::update() {
 void SnakeGame::render() {
     window.clear();
 
+    for (auto& object : draw_objects)
+        object->draw(window);
+
     for (auto& ai_snake : ai_snakes) {
         ai_snake->draw(window);
     }
-
-    for (auto& object : draw_objects)
-        object->draw(window);
 
     snake.draw(window);
     food.draw(window);
