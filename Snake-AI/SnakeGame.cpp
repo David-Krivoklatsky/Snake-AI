@@ -25,14 +25,17 @@ SnakeGame::SnakeGame()
 
     snake.setTextures(); //food and snakes
 
-    if (!fps_font.loadFromFile("font.ttf")) {
+    if (!general_font.loadFromFile("font.ttf")) {
         //isError = true;
         //Errors.push_back("Error loading font.ttf");
     }
 
-    fpsText.setFont(fps_font);
+    fpsText.setFont(general_font);
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(0, 0); //left up corner
+
+    scoreText.setFont(general_font);
+    scoreText.setFillColor(sf::Color::White);
 
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
     //draw_objects.push_back(std::make_unique<Milan>());
@@ -173,6 +176,9 @@ void SnakeGame::update() {
     fps = 1.f / std::chrono::duration_cast<std::chrono::duration<float>>(now - lastTime).count();
     
     fpsText.setString(std::to_string(fps));
+
+    scoreText.setString(std::to_string(snake.get_positions().size()));
+    scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
 }
 
 void SnakeGame::render() {
@@ -185,6 +191,7 @@ void SnakeGame::render() {
     food.draw(window);
 
     window.draw(fpsText);
+    window.draw(scoreText);
 
     window.display();
 }

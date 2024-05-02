@@ -37,13 +37,16 @@ private:
 
     std::vector<std::unique_ptr<Snake>> ai_snakes;//hadi
 
+    sf::Font general_font;
+
+    sf::Text scoreText;
     sf::Text fpsText;
-    sf::Font fps_font;
-    
-	bool pause = false;
-    bool gameOver = false;
+
     int fpsCounter = 0;
     float fps = 60;
+
+	bool pause = false;
+    bool gameOver = false;
 
     std::chrono::high_resolution_clock::time_point lastTime, now;
 
