@@ -23,7 +23,7 @@ SnakeGame::SnakeGame()
     window.setFramerateLimit(FPS_LIMIT);
     srand(time(0));
 
-    snake.setTextures(); //food and snakes
+    snake.setTextures(sf::Color::Blue); //food and snakes
 
     if (!general_font.loadFromFile("font.ttf")) {
         //isError = true;
@@ -44,6 +44,10 @@ SnakeGame::SnakeGame()
     ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
+
+    for (auto& ai_snake : ai_snakes) {
+        ai_snake->setTextures(sf::Color::Yellow);
+    }
 }
 
 void SnakeGame::run() {

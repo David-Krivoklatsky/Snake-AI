@@ -37,8 +37,12 @@ bool Snake::eats(const sf::Vector2f& jedlo)
     }
 }
 
-void Snake::setTextures() {
-    std::string folder = "Snake_texture";
+void Snake::setTextures(sf::Color farba) {
+
+    std::string folder;
+
+    if (farba == sf::Color::Yellow) folder = "Snake_texture2";
+    else folder = "Snake_texture";
 
     if (!tail_left.loadFromFile(folder + "/tail_left.png")) {
         //isError = true;
