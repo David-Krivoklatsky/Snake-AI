@@ -177,7 +177,7 @@ void SnakeGame::update() {
     
     fpsText.setString(std::to_string(fps));
 
-    scoreText.setString(std::to_string(snake.get_positions().size()));
+    scoreText.setString(std::to_string(snake.get_score()));
     scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
 }
 

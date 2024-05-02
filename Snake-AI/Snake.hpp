@@ -21,12 +21,14 @@ public:
 	bool move();
 	bool eats(const sf::Vector2f&);
 
-	void set_direction(int, int);
-	void set_old_direction();
+	void reset(const sf::Vector2f&);
 
 	Direction get_direction();
 
-	void reset(const sf::Vector2f&);
+	int get_score();
+
+	void set_direction(int, int);
+	void set_old_direction();
 
 	void set_random_direction();
 

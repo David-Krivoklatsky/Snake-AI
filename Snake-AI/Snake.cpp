@@ -231,6 +231,11 @@ Direction Snake::get_direction()
     if (lastChangedX > 0) return Right;
 }
 
+int Snake::get_score()
+{
+    return positions.size() - 2; //score is substracted by 2
+}
+
 void Snake::reset(const sf::Vector2f& pos)
 {
     positions.clear();
