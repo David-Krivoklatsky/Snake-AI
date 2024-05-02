@@ -40,10 +40,10 @@ SnakeGame::SnakeGame()
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
     //draw_objects.push_back(std::make_unique<Milan>());
 
-    //ai_snakes.push_back(std::make_unique<Snake>());
-    //ai_snakes.push_back(std::make_unique<Snake>());
-    //ai_snakes.push_back(std::make_unique<Snake>());
-
+    ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
+    ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
+    ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
+    ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
 }
 
 void SnakeGame::run() {
@@ -163,12 +163,16 @@ void SnakeGame::update() {
         
         gameOver = !snake.move();
 
-        if (snake.eats(food.get_position())) {
-            food.generateFood(find_empty_cell());
-        }
+        if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
 
         //last move
         snake.set_old_direction();
+
+        for (auto& ai_snake : ai_snakes) {
+            if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
+            if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
+            ai_snake->set_old_direction();
+        }
     }
 
     lastTime = now;
@@ -183,6 +187,10 @@ void SnakeGame::update() {
 
 void SnakeGame::render() {
     window.clear();
+
+    for (auto& ai_snake : ai_snakes) {
+        ai_snake->draw(window);
+    }
 
     for (auto& object : draw_objects)
         object->draw(window);
@@ -217,8 +225,8 @@ sf::Vector2f SnakeGame::find_empty_cell()
             }
         }
 
-        for (const auto& snake : ai_snakes) {
-            for (const sf::Vector2f s : snake->get_positions()) {
+        for (const auto& ai_snake : ai_snakes) {
+            for (const sf::Vector2f s : ai_snake->get_positions()) {
                 if (freePos == s) {
                     invalidPos = true;
                     break;
