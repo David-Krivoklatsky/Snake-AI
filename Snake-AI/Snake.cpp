@@ -5,11 +5,33 @@
 
 Snake::Snake(const sf::Vector2f& pos) {
     positions.push_back(pos);
+    set_random_direction();
     move();
 }
 
 bool Snake::move() {
     //inserts new pos to positions depending on the direction it is moving
+    int changeX = 0, changeY = 0;
+
+    switch (current_dir) {
+    case Up:
+        changeX = 0;
+        changeY = -BLOCK_SIZE;
+        break;
+    case Down:
+        changeX = 0;
+        changeY = BLOCK_SIZE;
+        break;
+    case Left:
+        changeX = -BLOCK_SIZE;
+        changeY = 0;
+        break;
+    case Right:
+        changeX = BLOCK_SIZE;
+        changeY = 0;
+        break;
+    }
+
     positions.insert(positions.begin(), sf::Vector2f(positions[0].x + changeX, positions[0].y + changeY));
 
     bool legal = true;
@@ -144,19 +166,19 @@ void Snake::setTextures(sf::Color farba) {
 }
 
 void Snake::draw(sf::RenderWindow& window) {
-    if (lastChangedX == -BLOCK_SIZE) { //head
+    if (last_dir == Left) { //head
         headLeft.setPosition(positions[0]);
         window.draw(headLeft);
     }
-    else if (lastChangedX == BLOCK_SIZE) {
+    else if (last_dir == Right) {
         headRight.setPosition(positions[0]);
         window.draw(headRight);
     }
-    else if (lastChangedY == -BLOCK_SIZE) {
+    else if (last_dir == Up) {
         headUp.setPosition(positions[0]);
         window.draw(headUp);
     }
-    else if (lastChangedY == BLOCK_SIZE) {
+    else if (last_dir == Down) {
         headDown.setPosition(positions[0]);
         window.draw(headDown);
     }
@@ -215,24 +237,19 @@ std::vector<sf::Vector2f> Snake::get_positions()
     return positions;
 }
 
-void Snake::set_direction(int x, int y)
+void Snake::set_direction(Direction d)
 {
-    changeX = x;
-    changeY = y;
+    current_dir = d;
 }
 
 void Snake::set_old_direction()
 {
-    lastChangedX = changeX;
-    lastChangedY = changeY;
+    last_dir = current_dir;
 }
 
 Direction Snake::get_direction()
 {
-    if (lastChangedY < 0) return Up;
-    if (lastChangedY > 0) return Down;
-    if (lastChangedX < 0) return Left;
-    if (lastChangedX > 0) return Right;
+    return current_dir;
 }
 
 int Snake::get_score()
@@ -244,7 +261,7 @@ void Snake::reset(const sf::Vector2f& pos)
 {
     positions.clear();
     
-    changeX = 0, changeY = -BLOCK_SIZE, lastChangedX = 0, lastChangedY = 0;
+    set_random_direction();
 
     positions.push_back(pos);
     move();
@@ -255,26 +272,10 @@ void Snake::set_random_direction()
     Direction new_dir;
     Direction old_dir = get_direction();
 
-    do {                                //random generating random num 1 - 4 while it is same as old direction 
+    //random generating random num 1 - 4 while it is same as old direction
+    do {
         new_dir = static_cast<Direction>(std::rand() % 4 + 1);
-    } while (new_dir == old_dir);
+    } while (new_dir == -old_dir);
 
-    switch (new_dir) {                  //assigned value for changeX/Y  
-    case Up:
-        changeX = 0;
-        changeY = -BLOCK_SIZE;
-        break;
-    case Down:
-        changeX = 0;
-        changeY = BLOCK_SIZE;
-        break;
-    case Left:
-        changeX = -BLOCK_SIZE;
-        changeY = 0;
-        break;
-    case Right:
-        changeX = BLOCK_SIZE;
-        changeY = 0;
-        break;
-    }
+    current_dir = new_dir;
 }

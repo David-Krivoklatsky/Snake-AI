@@ -109,19 +109,19 @@ void SnakeGame::handleInput() {
                 }
                 else if (event.key.code == sf::Keyboard::Left && last_dir != Right)
                 {
-                    snake.set_direction(-BLOCK_SIZE, 0);
+                    snake.set_direction(Left);
                 }
                 else if (event.key.code == sf::Keyboard::Right && last_dir != Left)
                 {
-                    snake.set_direction(BLOCK_SIZE, 0);
+                    snake.set_direction(Right);
                 }
                 else if (event.key.code == sf::Keyboard::Up && last_dir != Down)
                 {
-                    snake.set_direction(0, -BLOCK_SIZE);
+                    snake.set_direction(Up);
                 }
                 else if (event.key.code == sf::Keyboard::Down && last_dir != Up)
                 {
-                    snake.set_direction(0, BLOCK_SIZE);
+                    snake.set_direction(Down);
                 }
 
 				if (event.key.code == sf::Keyboard::P) {

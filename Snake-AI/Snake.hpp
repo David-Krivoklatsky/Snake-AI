@@ -5,9 +5,9 @@
 
 enum Direction {
 	Up = 1,
-	Down = 2,
-	Left = 3,
-	Right = 4
+	Down = -1,
+	Left = 2,
+	Right = -2
 };
 
 class Snake : public DrawObject {
@@ -27,7 +27,7 @@ public:
 
 	int get_score();
 
-	void set_direction(int, int);
+	void set_direction(Direction);
 	void set_old_direction();
 
 	void set_random_direction();
@@ -35,8 +35,8 @@ public:
 private:
 	std::vector<sf::Vector2f> positions;
 
-	//had pojde smerom hore natvrdo sorry jako
-	int changeX = 0, changeY = -BLOCK_SIZE, lastChangedX = 0, lastChangedY = 0; 
+	Direction current_dir;
+	Direction last_dir;
 
 	sf::Texture tail_left;
 	sf::Texture tail_right;
