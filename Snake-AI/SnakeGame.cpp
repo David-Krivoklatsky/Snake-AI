@@ -26,7 +26,6 @@ SnakeGame::SnakeGame()
     srand(time(0));
 
     startMenu.assignFilenames(textureFiles, startMenu.numberOfSkins);
-    snake.setTextures(textureFiles[skinChose]); //food and snakes
 
     if (!fps_font.loadFromFile("font.ttf")) {
         //isError = true;
@@ -54,6 +53,7 @@ void SnakeGame::run() {
         //for (auto& a : Errors) {
         //    std::cout << a << std::endl;
         //}
+    snake.setTextures(textureFiles[skinChose]); //food and snakes
         while (start_menu) {
             startInput();
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
@@ -61,12 +61,22 @@ void SnakeGame::run() {
             }
             if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left && pressed)
             {
-                if (startMenu.click(window)) {
+                if (startMenu.clickSkin(window)) {
                         startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
                         pressed = false;
-                        std::cout << skinChose << " ";
-                        
+                        std::cout << skinChose << " ";    
                 }
+
+                else if (startMenu.clickStart(window)) {
+                    start_menu = false;
+                    pressed = false;
+                    break;
+                }
+
+                else if (startMenu.clickMod(window)) {
+                    pressed = false;
+                }
+
             }
             window.clear();
             startMenu.draw(window);

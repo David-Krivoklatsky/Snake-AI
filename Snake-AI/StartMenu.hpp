@@ -13,7 +13,9 @@ public:
 	int numberOfSkins = 2;
 	virtual void draw(sf::RenderWindow&) override;
 
-	bool click(const sf::RenderWindow&);
+	bool clickSkin(const sf::RenderWindow&);
+	bool clickMod(const sf::RenderWindow&);
+	bool clickStart(const sf::RenderWindow&);
 
 	void assignFilenames(std::vector<std::string>&, int);
 
@@ -23,7 +25,8 @@ public:
 private:
 	sf::Font papyrus; //toto by sa mohlo zdedit asi 
 
-	sf::Text choiceOfGameMod;
+	sf::Text gameName;
+	sf::Text changeSkin;
 
 	sf::Texture buttonTexture;
 	sf::Texture backgroundTexture;
@@ -37,4 +40,6 @@ private:
 	*/
 	sf::RectangleShape background;
 	sf::RectangleShape choiceOfGameMod_button;
+	sf::RectangleShape changeSkin_button;
+	sf::RectangleShape Start_button;
 };
