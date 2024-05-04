@@ -53,7 +53,6 @@ void SnakeGame::run() {
         //for (auto& a : Errors) {
         //    std::cout << a << std::endl;
         //}
-    snake.setTextures(textureFiles[skinChose]); //food and snakes
         while (start_menu) {
             startInput();
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
@@ -82,6 +81,7 @@ void SnakeGame::run() {
             startMenu.draw(window);
             window.display();
         }
+        snake.setTextures(textureFiles[skinChose]); //food and snakes
 
         while (pause) {
             handleInput();

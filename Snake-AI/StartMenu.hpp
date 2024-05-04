@@ -30,6 +30,7 @@ private:
 
 	sf::Texture buttonTexture;
 	sf::Texture backgroundTexture;
+	sf::Texture SkinSelector_texture;
 
 	std::string FileName = "StartMenu";
 	/*
@@ -38,6 +39,7 @@ private:
 	sf::Text skin;
 	sf::speedValue;
 	*/
+
 	sf::RectangleShape background;
 	sf::RectangleShape choiceOfGameMod_button;
 	sf::RectangleShape changeSkin_button;

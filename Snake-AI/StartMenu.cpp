@@ -5,7 +5,7 @@ StartMenu::StartMenu() {
 	}
 	if (!buttonTexture.loadFromFile(FileName + "/Button.png")) {
 	}
-	if (!backgroundTexture.loadFromFile(FileName + "/background.png")) {
+	if (!backgroundTexture.loadFromFile(FileName + "/background1.png")) {
 	}
 
 
@@ -59,6 +59,8 @@ void StartMenu::anotherSkin(int& skinChose, int &numberOfSkins) {
 	skinChose++;
 	if(skinChose >= numberOfSkins){
 		skinChose = 0;
+	}
+	if (!backgroundTexture.loadFromFile(FileName + "/background" + std::to_string(skinChose + 1) + ".png")) {
 	}
 }
 
