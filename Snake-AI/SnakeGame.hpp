@@ -9,6 +9,7 @@
 #include "Snake.hpp"
 #include "Food.hpp"
 #include "Menu.hpp"
+#include "StartMenu.hpp"
 
 class SnakeGame {
 public:
@@ -17,6 +18,7 @@ public:
     void retryMenu();
 
 private:
+    void startInput();
     void handleInput();
     void retryInput();
     void update();
@@ -26,6 +28,7 @@ private:
 
 public:
     bool restartGame = false;
+    int skinChose = 0;
 
 private:
     sf::RenderWindow window;
@@ -34,12 +37,14 @@ private:
     Snake snake;
     Food food;
     Menu menu;
+    StartMenu startMenu;
 
     std::vector<std::unique_ptr<Snake>> ai_snakes;//hadi
 
     sf::Text fpsText;
     sf::Font fps_font;
     
+    bool start_menu = true;
 	bool pause = false;
     bool gameOver = false;
     int fpsCounter = 0;

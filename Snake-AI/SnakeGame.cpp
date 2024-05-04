@@ -19,6 +19,7 @@ SnakeGame::SnakeGame()
     , snake(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2))
     , food(find_empty_cell())
     , menu()
+    , startMenu()
 {
 
     window.setFramerateLimit(FPS_LIMIT);
@@ -45,15 +46,18 @@ SnakeGame::SnakeGame()
 }
 
 void SnakeGame::run() {
-    bool startMenu = true;
     gameOver = false;
     while (window.isOpen()) {
         //if (isError) std::cout << "-------------------------------\nError\n\n";
         //for (auto& a : Errors) {
         //    std::cout << a << std::endl;
         //}
-        while (startMenu) {
-            StartMenu();
+        while (start_menu) {
+            startInput();
+
+            window.clear();
+            startMenu.draw(window);
+            window.display();
         }
 
         while (pause) {
@@ -81,6 +85,26 @@ void SnakeGame::retryMenu() {
         window.clear();
         menu.draw(window);
         window.display();
+    }
+}
+
+void SnakeGame::startInput()
+{
+    while (window.pollEvent(event)) {
+        switch (event.type){
+
+        case sf::Event::Closed: {
+            window.close();
+
+            break;
+        }
+        case sf::Event::KeyPressed: {
+            if (event.key.code == sf::Keyboard::Space) {
+                start_menu = false;
+            }
+        }
+
+        }
     }
 }
 
@@ -188,7 +212,7 @@ void SnakeGame::render() {
     snake.draw(window);
     food.draw(window);
 
-    window.draw(fpsText);
+    //window.draw(fpsText);
 
     window.display();
 }
