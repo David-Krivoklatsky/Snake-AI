@@ -44,10 +44,12 @@ SnakeGame::SnakeGame()
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
     //draw_objects.push_back(std::make_unique<Milan>());
 
+    /*
     ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
+    */
 
     for (auto& ai_snake : ai_snakes) {
         ai_snake->setTextures(sf::Color::Yellow);
@@ -56,7 +58,7 @@ SnakeGame::SnakeGame()
 
 void SnakeGame::run() {
     gameOver = false;
-    bool pressed = true;
+
     while (window.isOpen()) {
         //if (isError) std::cout << "-------------------------------\nError\n\n";
         //for (auto& a : Errors) {
@@ -64,33 +66,12 @@ void SnakeGame::run() {
         //}
         while (start_menu) {
             startInput();
-            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-                pressed = true;
-            }
-            if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left && pressed)
-            {
-                if (startMenu.clickSkin(window)) {
-                        startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
-                        pressed = false;
-                        std::cout << skinChose << " ";    
-                }
 
-                else if (startMenu.clickStart(window)) {
-                    start_menu = false;
-                    pressed = false;
-                    break;
-                }
-
-                else if (startMenu.clickMod(window)) {
-                    pressed = false;
-                }
-
-            }
             window.clear();
             startMenu.draw(window);
             window.display();
         }
-        snake.setTextures(textureFiles[skinChose]); //food and snakes
+        //snake.setTextures(textureFiles[skinChose]); //food and snakes
 
         while (pause) {
             handleInput();
@@ -122,19 +103,44 @@ void SnakeGame::retryMenu() {
 
 void SnakeGame::startInput()
 {
+    bool pressed = true;
+
     while (window.pollEvent(event)) {
         switch (event.type){
 
-        case sf::Event::Closed: {
-            window.close();
+            case sf::Event::Closed: {
+                window.close();
 
-            break;
-        }
-        case sf::Event::KeyPressed: {
-            if (event.key.code == sf::Keyboard::Space) {
-                start_menu = false;
+                break;
             }
+            case sf::Event::KeyPressed: {
+                if (event.key.code == sf::Keyboard::Space) {
+                    start_menu = false;
+                }
+            }
+
         }
+
+        if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+            pressed = true;
+        }
+        if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left && pressed)
+        {
+            if (startMenu.clickSkin(window)) {
+                startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
+                pressed = false;
+                std::cout << skinChose << " ";
+            }
+
+            else if (startMenu.clickStart(window)) {
+                start_menu = false;
+                pressed = false;
+                break;
+            }
+
+            else if (startMenu.clickMod(window)) {
+                pressed = false;
+            }
 
         }
     }

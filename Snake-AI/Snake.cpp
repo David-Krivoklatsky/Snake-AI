@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-Snake::Snake(const sf::Vector2f& pos) {
+Snake::Snake(const sf::Vector2f& pos) : last_dir(Unknown) {
     positions.push_back(pos);
     set_random_direction();
     move();
@@ -37,10 +37,12 @@ bool Snake::move() {
 
     bool legal = true;
 
+    //ci narazil do steny
     if (positions[0].x < 0 || positions[0].x >= WINDOW_SIZE || positions[0].y < 0 || positions[0].y >= WINDOW_SIZE) {
         legal = false;
     }
 
+    //ci je idiot a krizuje sa sam so sebou
     for (int i = 1; i < positions.size() - 1; i++) {
         if (positions[0] == positions[i]) {
             legal = false;
@@ -65,8 +67,13 @@ void Snake::setTextures(sf::Color farba) {
     std::string folder;
 
     if (farba == sf::Color::Yellow) folder = "Snake_texture2";
-    else folder = "Snake_texture";
+    else folder = "Snake_texture1";
 
+    setTextures(folder);
+}
+
+void Snake::setTextures(std::string folder)
+{
     if (!tail_left.loadFromFile(folder + "/tail_left.png")) {
         //isError = true;
     }
@@ -276,7 +283,7 @@ void Snake::set_random_direction()
     //random generating random num 1 - 4 while it is same as old direction
     do {
         new_dir = static_cast<Direction>(std::rand() % 4 + 1);
-    } while (new_dir == -old_dir);
+    } while (static_cast<int>(new_dir) == -static_cast<int>(old_dir));
 
     current_dir = new_dir;
 }

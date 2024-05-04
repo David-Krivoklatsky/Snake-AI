@@ -7,7 +7,9 @@ enum Direction {
 	Up = 1,
 	Down = -1,
 	Left = 2,
-	Right = -2
+	Right = -2,
+
+	Unknown = 0
 };
 
 class Snake : public DrawObject {
@@ -18,6 +20,7 @@ public:
 	std::vector<sf::Vector2f> get_positions();
 
 	void setTextures(sf::Color);
+	void setTextures(std::string);
 
 	bool move();
 	bool eats(const sf::Vector2f&);
