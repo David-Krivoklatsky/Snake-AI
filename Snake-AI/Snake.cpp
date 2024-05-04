@@ -1,5 +1,6 @@
 #include "Snake.hpp"
 #include "Globals.hpp"
+#include "StartMenu.hpp"
 
 #include <iostream>
 
