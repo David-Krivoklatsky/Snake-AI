@@ -38,17 +38,19 @@ void StartMenu::draw(sf::RenderWindow& window)
 	window.draw(choiceOfGameMod);
 }
 
-void StartMenu::assignFilenames(std::vector<std::string>& textureFiles, int &numberOfSkins) {
+void StartMenu::assignFilenames(std::vector<std::string>& textureFiles, int numberOfSkins) {
 	for (int i = 0; i < numberOfSkins; i++) {
 		textureFiles.push_back("Snake_texture" + std::to_string(i + 1));
 	}
+	return;
+}
+
+void StartMenu::anotherSkin(int& skinChose, int &numberOfSkins) {
+	skinChose++;
+	skinChose = (skinChose % numberOfSkins) + 1;
 }
 
 bool StartMenu::click(const sf::RenderWindow& window)
 {
 	return choiceOfGameMod_button.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
-}
-
-void anotherSkin(int& skinChose) {
-	skinChose++;
 }

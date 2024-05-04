@@ -25,7 +25,8 @@ SnakeGame::SnakeGame()
     window.setFramerateLimit(FPS_LIMIT);
     srand(time(0));
 
-    snake.setTextures(); //food and snakes
+    startMenu.assignFilenames(textureFiles, startMenu.numberOfSkins);
+    snake.setTextures(textureFiles[skinChose]); //food and snakes
 
     if (!fps_font.loadFromFile("font.ttf")) {
         //isError = true;

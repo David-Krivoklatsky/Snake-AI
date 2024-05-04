@@ -39,6 +39,7 @@ private:
     Menu menu;
     StartMenu startMenu;
 
+    std::vector<std::string> textureFiles;
     std::vector<std::unique_ptr<Snake>> ai_snakes;//hadi
 
     sf::Text fpsText;
