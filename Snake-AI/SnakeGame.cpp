@@ -48,6 +48,7 @@ SnakeGame::SnakeGame()
 
 void SnakeGame::run() {
     gameOver = false;
+    bool pressed = true;
     while (window.isOpen()) {
         //if (isError) std::cout << "-------------------------------\nError\n\n";
         //for (auto& a : Errors) {
@@ -55,7 +56,18 @@ void SnakeGame::run() {
         //}
         while (start_menu) {
             startInput();
-
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                pressed = true;
+            }
+            if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left && pressed)
+            {
+                if (startMenu.click(window)) {
+                        startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
+                        pressed = false;
+                        std::cout << skinChose << " ";
+                        
+                }
+            }
             window.clear();
             startMenu.draw(window);
             window.display();

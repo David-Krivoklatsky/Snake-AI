@@ -7,6 +7,8 @@ StartMenu::StartMenu() {
 	}
 	if (!backgroundTexture.loadFromFile(FileName + "/background.png")) {
 	}
+
+
 	//choiceOfGameMod_button.setFillColor(sf::Color::White);
 	choiceOfGameMod_button.setSize(sf::Vector2f(180,180));
 	choiceOfGameMod_button.setOrigin(10, 10);
@@ -47,7 +49,9 @@ void StartMenu::assignFilenames(std::vector<std::string>& textureFiles, int numb
 
 void StartMenu::anotherSkin(int& skinChose, int &numberOfSkins) {
 	skinChose++;
-	skinChose = (skinChose % numberOfSkins) + 1;
+	if(skinChose > numberOfSkins){
+		skinChose = 1;
+	}
 }
 
 bool StartMenu::click(const sf::RenderWindow& window)

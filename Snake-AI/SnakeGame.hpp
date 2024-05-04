@@ -28,7 +28,7 @@ private:
 
 public:
     bool restartGame = false;
-    int skinChose = 0;
+    int skinChose = 1;
 
 private:
     sf::RenderWindow window;
