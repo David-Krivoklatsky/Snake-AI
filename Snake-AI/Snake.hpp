@@ -17,7 +17,7 @@ public:
 
 	std::vector<sf::Vector2f> get_positions();
 
-	void setTextures();
+	void setTextures(std::string);
 	bool move();
 	bool eats(const sf::Vector2f&);
 

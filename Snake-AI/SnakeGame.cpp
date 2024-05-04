@@ -8,6 +8,7 @@
 #include "Snake.hpp"
 #include "Food.hpp"
 #include "Menu.hpp"
+#include "StartMenu.hpp"
 
 #include "Milan.hpp"
 
@@ -18,12 +19,13 @@ SnakeGame::SnakeGame()
     , snake(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2))
     , food(find_empty_cell())
     , menu()
+    , startMenu()
 {
 
     window.setFramerateLimit(FPS_LIMIT);
     srand(time(0));
 
-    snake.setTextures(); //food and snakes
+    startMenu.assignFilenames(textureFiles, startMenu.numberOfSkins);
 
     if (!general_font.loadFromFile("font.ttf")) {
         //isError = true;
@@ -47,13 +49,42 @@ SnakeGame::SnakeGame()
 }
 
 void SnakeGame::run() {
-
     gameOver = false;
+    bool pressed = true;
     while (window.isOpen()) {
         //if (isError) std::cout << "-------------------------------\nError\n\n";
         //for (auto& a : Errors) {
         //    std::cout << a << std::endl;
         //}
+        while (start_menu) {
+            startInput();
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                pressed = true;
+            }
+            if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left && pressed)
+            {
+                if (startMenu.clickSkin(window)) {
+                        startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
+                        pressed = false;
+                        std::cout << skinChose << " ";    
+                }
+
+                else if (startMenu.clickStart(window)) {
+                    start_menu = false;
+                    pressed = false;
+                    break;
+                }
+
+                else if (startMenu.clickMod(window)) {
+                    pressed = false;
+                }
+
+            }
+            window.clear();
+            startMenu.draw(window);
+            window.display();
+        }
+        snake.setTextures(textureFiles[skinChose]); //food and snakes
 
         while (pause) {
             handleInput();
@@ -80,6 +111,26 @@ void SnakeGame::retryMenu() {
         window.clear();
         menu.draw(window);
         window.display();
+    }
+}
+
+void SnakeGame::startInput()
+{
+    while (window.pollEvent(event)) {
+        switch (event.type){
+
+        case sf::Event::Closed: {
+            window.close();
+
+            break;
+        }
+        case sf::Event::KeyPressed: {
+            if (event.key.code == sf::Keyboard::Space) {
+                start_menu = false;
+            }
+        }
+
+        }
     }
 }
 

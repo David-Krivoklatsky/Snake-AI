@@ -1,5 +1,6 @@
 #include "Snake.hpp"
 #include "Globals.hpp"
+#include "StartMenu.hpp"
 
 #include <iostream>
 
@@ -37,8 +38,7 @@ bool Snake::eats(const sf::Vector2f& jedlo)
     }
 }
 
-void Snake::setTextures() {
-    std::string folder = "Snake_texture";
+void Snake::setTextures(std::string folder) {
 
     if (!tail_left.loadFromFile(folder + "/tail_left.png")) {
         //isError = true;
