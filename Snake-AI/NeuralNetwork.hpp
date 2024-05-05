@@ -3,23 +3,26 @@
 #include "Globals.hpp"
 
 #include <vector>
-#include <random>
 
 struct Neuron {
     double value = 0;
     double bias = 0;
     std::vector<double> input_weights;
+
+    double error = 0;
 };
 
 class NeuralNetwork {
 public:
-    NeuralNetwork(const std::vector<int>& layers);
+    NeuralNetwork(const std::vector<int>&);
+
+    std::vector<double> forwardPass(const std::vector<double>&);
+    void backprop(const std::vector<double>&, const std::vector<double>&);
 
 private:
     std::vector<std::vector<Neuron>> net;
 
-    std::vector<double> forwardPass(const std::vector<double>& input);
-    void backprop(const std::vector<double>& input, const std::vector<double>& expected, std::vector<std::vector<double>>& nablaB, std::vector<std::vector<std::vector<double>>>& nablaW) const;
+    double learningRate = 0.1;
 
     double sigmoid(double z) const;
     double sigmoidPrime(double z) const;

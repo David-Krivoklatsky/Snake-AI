@@ -1,5 +1,7 @@
 #include "NeuralNetwork.hpp"
 
+#include <random>
+
 NeuralNetwork::NeuralNetwork(const std::vector<int>& vrstvy)
     : layers(vrstvy)
     , numLayers(layers.size())
@@ -61,63 +63,45 @@ std::vector<double> NeuralNetwork::forwardPass(const std::vector<double>& inputs
     }
     return output;
 }
-void NeuralNetwork::backprop(const std::vector<double>& input, const std::vector<double>& expected, std::vector<std::vector<double>>& nablaB, std::vector<std::vector<std::vector<double>>>& nablaW) const {
-	std::vector<std::vector<double>> activations;
-	std::vector<std::vector<double>> zs;
 
-	activations.resize(numLayers);
-	zs.resize(numLayers);
+void NeuralNetwork::backprop(const std::vector<double>& input, const std::vector<double>& expected) {
+    // Perform forward pass to calculate outputs
+    std::vector<double> outputs = forwardPass(input);
 
-	for (size_t i = 0; i < numLayers; i++)
-	{
-		activations[i].resize(layers[i]);
-		zs[i].resize(layers[i]);
-	}
+    // Calculate output layer errors
+    std::vector<double> outputErrors;
+    for (size_t i = 0; i < expected.size(); ++i) {
+        double error = expected[i] - outputs[i];
+        outputErrors.push_back(error * sigmoidPrime(outputs[i]));
+    }
 
-	for (size_t i = 0; i < input.size(); i++)
-	{
-		activations[0][i] = input[i];
-	}
+    // Backpropagate errors
+    for (int layer = numLayers - 1; layer > 0; --layer) {
+        for (size_t i = 0; i < net[layer].size(); ++i) {
+            double error = 0.0;
+            // Calculate error for hidden layers
+            if (layer < numLayers - 1) {
+                for (size_t j = 0; j < net[layer + 1].size(); ++j) {
+                    error += net[layer + 1][j].input_weights[i] * net[layer + 1][j].error;
+                }
+                error *= sigmoidPrime(net[layer][i].value);
+            }
+            else { // Output layer
+                error = outputErrors[i];
+            }
+            net[layer][i].error = error;
+        }
+    }
 
-	for (size_t i = 1; i < numLayers; i++)
-	{
-		for (size_t j = 0; j < layers[i]; j++)
-		{
-			double temp_value = 0;
-			for (size_t k = 0; k < layers[i - 1]; k++)
-			{
-				temp_value += activations[i - 1][k] * net[i][j].input_weights[k];
-			}
-			temp_value += net[i][j].bias;
-
-			zs[i][j] = temp_value;
-			activations[i][j] = sigmoid(temp_value);
-		}
-	}
-
-	std::vector<std::vector<double>> delta;
-	delta.resize(numLayers);
-
-	for (size_t i = 0; i < numLayers; i++)
-	{
-		delta[i].resize(layers[i]);
-	}
-
-	for (size_t i = 0; i < layers.back(); i++)
-	{
-		delta.back()[i] = (activations.back()[i] - expected[i]) * sigmoidPrime(zs.back()[i]);
-	}
-
-	for (size_t i = numLayers - 2; i > 0; i--)
-	{
-		for (size_t j = 0; j < layers[i]; j++)
-		{
-			double temp_value = 0;
-			for (size_t k = 0; k < layers[i + 1]; k++)
-			{
-				temp_value += delta[i + 1][k] * net[i + 1][k].input_weights[j];
-			}
-			delta[i][j] = temp_value * sigmoidPrime(zs[i][j]);
-		}
-	}
+    // Update weights and biases
+    for (int layer = numLayers - 1; layer > 0; --layer) {
+        for (size_t i = 0; i < net[layer].size(); ++i) {
+            for (size_t j = 0; j < net[layer][i].input_weights.size(); ++j) {
+                double delta = learningRate * net[layer][i].error * net[layer - 1][j].value;
+                net[layer][i].input_weights[j] += delta;
+            }
+            double deltaBias = learningRate * net[layer][i].error;
+            net[layer][i].bias += deltaBias;
+        }
+    }
 }
