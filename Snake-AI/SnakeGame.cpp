@@ -25,7 +25,7 @@ SnakeGame::SnakeGame()
     window.setFramerateLimit(FPS_LIMIT);
     srand(time(0));
 
-    snake.setTextures(sf::Color::Blue); //food and snakes
+    //snake.setTextures(sf::Color::Blue); //food and snakes
       
     startMenu.assignFilenames(textureFiles, startMenu.numberOfSkins);
 
@@ -71,7 +71,6 @@ void SnakeGame::run() {
             startMenu.draw(window);
             window.display();
         }
-        //snake.setTextures(textureFiles[skinChose]); //food and snakes
 
         while (pause) {
             handleInput();
@@ -130,6 +129,7 @@ void SnakeGame::startInput()
                 startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
                 pressed = false;
                 std::cout << skinChose << " ";
+                snake.setTextures(textureFiles[skinChose]); //set textures here because it was lagging
             }
 
             else if (startMenu.clickStart(window)) {

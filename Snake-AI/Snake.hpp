@@ -15,7 +15,7 @@ enum Direction {
 class Snake : public DrawObject {
 public:
 	Snake(const sf::Vector2f&);
-    virtual void draw(sf::RenderWindow& window) override;
+    virtual void draw(sf::RenderWindow&) override;
 
 	std::vector<sf::Vector2f> get_positions();
 
@@ -27,13 +27,11 @@ public:
 
 	void reset(const sf::Vector2f&);
 
-	Direction get_direction();
-
 	int get_score();
 
+	Direction get_direction();
 	void set_direction(Direction);
 	void set_old_direction();
-
 	void set_random_direction();
 
 private:
