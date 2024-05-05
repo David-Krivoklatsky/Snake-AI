@@ -127,7 +127,7 @@ void SnakeGame::startInput()
             if (startMenu.clickSkin(window)) {
                 startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
                 pressed = false;
-                std::cout << skinChose << " ";
+                //std::cout << skinChose << " ";
                 snake.setTextures(textureFiles[skinChose]); //set textures here because it was lagging
             }
 
@@ -185,8 +185,6 @@ void SnakeGame::handleInput() {
 				if (event.key.code == sf::Keyboard::P) {
 					pause = !pause;
 				}
-
-                std::cout << event.key.code << " " << last_dir << "\n";
             }
 
         default:
