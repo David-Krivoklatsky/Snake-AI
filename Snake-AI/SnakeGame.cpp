@@ -185,6 +185,8 @@ void SnakeGame::handleInput() {
 				if (event.key.code == sf::Keyboard::P) {
 					pause = !pause;
 				}
+
+                std::cout << event.key.code << " " << last_dir << "\n";
             }
 
         default:

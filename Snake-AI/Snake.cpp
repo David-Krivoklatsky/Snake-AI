@@ -257,7 +257,7 @@ void Snake::set_old_direction()
 
 Direction Snake::get_direction()
 {
-    return current_dir;
+    return last_dir;
 }
 
 int Snake::get_score()
