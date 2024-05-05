@@ -282,8 +282,8 @@ void Snake::set_random_direction()
 
     //random generating random num 1 - 4 while it is same as old direction
     do {
-        new_dir = static_cast<Direction>(std::rand() % 4 + 1);
-    } while (static_cast<int>(new_dir) == -static_cast<int>(old_dir));
+        new_dir = static_cast<Direction>(std::rand() % 4);
+    } while (new_dir == (old_dir + 2) % 4); //komplikovane napisany opacny smer
 
     current_dir = new_dir;
 }
