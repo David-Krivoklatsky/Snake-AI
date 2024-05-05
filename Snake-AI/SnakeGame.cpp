@@ -25,7 +25,7 @@ SnakeGame::SnakeGame()
     window.setFramerateLimit(FPS_LIMIT);
     srand(time(0));
 
-    //snake.setTextures(sf::Color::Blue); //food and snakes
+    snake.setTextures(sf::Color::Blue); //set texture default blue, if you click to change skin it is handled lower
       
     startMenu.assignFilenames(textureFiles, startMenu.numberOfSkins);
 
@@ -44,12 +44,12 @@ SnakeGame::SnakeGame()
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
     //draw_objects.push_back(std::make_unique<Milan>());
 
-    /*
+    
     ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
-    */
+    
 
     for (auto& ai_snake : ai_snakes) {
         ai_snake->setTextures(sf::Color::Yellow);
@@ -117,7 +117,6 @@ void SnakeGame::startInput()
                     start_menu = false;
                 }
             }
-
         }
 
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
