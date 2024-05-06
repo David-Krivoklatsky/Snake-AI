@@ -269,9 +269,8 @@ void Snake::reset(const sf::Vector2f& pos)
 {
     positions.clear();
     
-    set_random_direction();
-
     positions.push_back(pos);
+    set_random_direction();
     move();
 }
 

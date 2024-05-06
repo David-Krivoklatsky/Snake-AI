@@ -44,12 +44,10 @@ SnakeGame::SnakeGame()
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
     //draw_objects.push_back(std::make_unique<Milan>());
 
-    
-    ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
-    ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
-    ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
-    ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
-    
+    for (int i = 0; i < 20; i++) {
+        ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
+
+    }
 
     for (auto& ai_snake : ai_snakes) {
         ai_snake->setTextures(sf::Color::Yellow);
