@@ -44,9 +44,10 @@ SnakeGame::SnakeGame()
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
     //draw_objects.push_back(std::make_unique<Milan>());
 
-    for (int i = 0; i < 20; i++) {
-        ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
 
+    //vytvorenie hadakov umelych
+    for (int i = 0; i < 1; i++) {
+        ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     }
 
     for (auto& ai_snake : ai_snakes) {
@@ -230,8 +231,10 @@ void SnakeGame::update() {
 
         for (auto& ai_snake : ai_snakes) {
             ai_snake->set_random_direction();
+            
             if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
             else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
+
             ai_snake->set_old_direction();
         }
     }
