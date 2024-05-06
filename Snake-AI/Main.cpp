@@ -1,6 +1,6 @@
 #include "SnakeGame.hpp"
-#include "NeuralNetwork.hpp"
-#include <iostream>
+//#include "NeuralNetwork.hpp"
+//#include <iostream>
 
 int main() {
     SnakeGame game;
@@ -8,7 +8,7 @@ int main() {
     game.run();
 
 
-    /* TEST NEURONOVEJ SIETE, FUNGUJE XDD
+    /* //TEST NEURONOVEJ SIETE, FUNGUJE XDD
     NeuralNetwork mojaSiet({ 2, 3, 2 });
 
     double v1, v2;
