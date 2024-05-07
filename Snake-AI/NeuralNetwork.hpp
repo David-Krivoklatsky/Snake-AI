@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 
 #include <vector>
+#include <string>
 
 struct Neuron {
     double value = 0;
@@ -19,6 +20,7 @@ public:
     std::vector<double> forwardPass(const std::vector<double>&);
     void backprop(const std::vector<double>&, const std::vector<double>&);
 
+    void save2file(const std::string&);
 private:
     std::vector<std::vector<Neuron>> net;
 

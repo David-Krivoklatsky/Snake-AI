@@ -11,6 +11,14 @@
 #include "Menu.hpp"
 #include "StartMenu.hpp"
 
+enum Type {
+    thisSnake,
+    otherSnake,
+    Food_type,
+    Empty_type,
+    Wall_type
+};
+
 class SnakeGame {
 public:
     SnakeGame();
@@ -26,6 +34,9 @@ private:
 
     sf::Vector2f find_empty_cell();
 
+    std::vector<std::vector<Type>> get_all_positions(const std::vector<sf::Vector2f>&);
+    std::vector<double> type_matrix_to_vector(const std::vector<std::vector<Type>>&);
+
 public:
     bool restartGame = false;
     int skinChose = 0;
@@ -40,7 +51,7 @@ private:
     StartMenu startMenu;
 
     std::vector<std::string> textureFiles;
-    std::vector<std::unique_ptr<Snake>> ai_snakes; //hadi
+    std::vector<std::unique_ptr<AI_Snake>> ai_snakes; //hadi
 
     sf::Font general_font;
 

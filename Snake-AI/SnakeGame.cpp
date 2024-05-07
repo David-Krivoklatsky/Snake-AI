@@ -9,6 +9,7 @@
 #include "Food.hpp"
 #include "Menu.hpp"
 #include "StartMenu.hpp"
+#include "NeuralNetwork.hpp"
 
 #include "Milan.hpp"
 
@@ -45,9 +46,11 @@ SnakeGame::SnakeGame()
     //draw_objects.push_back(std::make_unique<Milan>());
 
 
+    std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
+
     //vytvorenie hadakov umelych
     for (int i = 0; i <200; i++) {
-        ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
+        ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
     }
 
     for (auto& ai_snake : ai_snakes) {
@@ -230,7 +233,8 @@ void SnakeGame::update() {
         snake.set_old_direction();
 
         for (auto& ai_snake : ai_snakes) {
-            ai_snake->set_random_direction();
+            //ai_snake->set_random_direction();
+            ai_snake->set_direction_from_ai(ai_snake->ai.forwardPass(type_matrix_to_vector(get_all_positions(ai_snake->get_positions()))));
             
             if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
             else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
@@ -317,4 +321,51 @@ sf::Vector2f SnakeGame::find_empty_cell()
     } while (invalidPos);
 
     return freePos;
+}
+
+std::vector<std::vector<Type>> SnakeGame::get_all_positions(const std::vector<sf::Vector2f>& these_positions)
+{
+    std::vector<std::vector<Type>> all_positions(PIXEL_SIZE, std::vector<Type>(PIXEL_SIZE, Empty_type));
+
+    for (const sf::Vector2f& s : snake.get_positions()) {
+		all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;
+	}
+
+    for (const auto& ai_snake : ai_snakes) {
+        for (const sf::Vector2f& s : ai_snake->get_positions()) {
+			all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;
+		}
+	}
+
+    for (const sf::Vector2f& s : these_positions) {
+        all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = thisSnake;
+    }
+
+	all_positions[food.get_position().x / BLOCK_SIZE][food.get_position().y / BLOCK_SIZE] = Food_type;
+
+	return all_positions;
+}
+
+std::vector<double> SnakeGame::type_matrix_to_vector(const std::vector<std::vector<Type>>& matrix)
+{
+    std::vector<double> inputs;
+
+    for (int i = 0; i < PIXEL_SIZE; i++) {
+        for (int j = 0; j < PIXEL_SIZE; j++) {
+            if (matrix[i][j] == thisSnake) {
+				inputs.push_back(0);
+			}
+            else if (matrix[i][j] == otherSnake) {
+				inputs.push_back(0.2);
+			}
+            else if (matrix[i][j] == Food_type) {
+				inputs.push_back(1);
+			}
+            else {
+				inputs.push_back(0.5);
+			}
+		}
+	}
+
+    return inputs;
 }

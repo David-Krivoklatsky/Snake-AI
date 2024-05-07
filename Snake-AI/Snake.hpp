@@ -2,15 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "DrawObjects.hpp"
-
-enum Direction {
-	Up = 0,
-	Left = 1,
-	Down = 2,
-	Right = 3,
-
-	Unknown = 4
-};
+#include "NeuralNetwork.hpp"
 
 class Snake : public DrawObject {
 public:
@@ -69,4 +61,13 @@ private:
 	sf::Sprite headRight;
 	sf::Sprite headDown;
 	sf::Sprite headUp;
+};
+
+class AI_Snake : public Snake {
+public:
+	AI_Snake(const sf::Vector2f&, const std::vector<int>& layers);
+
+	void set_direction_from_ai(const std::vector<double>&);
+
+	NeuralNetwork ai;
 };
