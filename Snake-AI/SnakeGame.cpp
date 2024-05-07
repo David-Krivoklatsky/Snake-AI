@@ -46,7 +46,7 @@ SnakeGame::SnakeGame()
 
 
     //vytvorenie hadakov umelych
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i <200; i++) {
         ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     }
 
@@ -237,6 +237,22 @@ void SnakeGame::update() {
 
             ai_snake->set_old_direction();
         }
+
+        //for (auto it = ai_snakes.begin(); it != ai_snakes.end();) {
+        //    (*it)->set_random_direction();
+
+        //    if (!(*it)->move()) {
+        //        it = ai_snakes.erase(it);
+        //    }
+        //    else if ((*it)->eats(food.get_position())) {
+        //        food.generateFood(find_empty_cell());
+        //        ++it;
+        //    }
+        //    else {
+        //        (*it)->set_old_direction();
+        //        ++it;
+        //    }
+        //}
     }
 
     lastTime = now;
