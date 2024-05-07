@@ -35,9 +35,9 @@ SnakeGame::SnakeGame()
         //Errors.push_back("Error loading font.ttf");
     }
 
-    fpsText.setFont(general_font);
-    fpsText.setFillColor(sf::Color::White);
-    fpsText.setPosition(0, 0); //left up corner
+    //fpsText.setFont(general_font);
+    //fpsText.setFillColor(sf::Color::White);
+    //fpsText.setPosition(0, 0); //left up corner
 
     scoreText.setFont(general_font);
     scoreText.setFillColor(sf::Color::White);
@@ -49,7 +49,7 @@ SnakeGame::SnakeGame()
     std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
 
     //vytvorenie hadakov umelych
-    for (int i = 0; i <200; i++) {
+    for (int i = 0; i < 2; i++) {
         ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
     }
 
@@ -226,6 +226,7 @@ void SnakeGame::update() {
         fpsCounter = 0;
         
         gameOver = !snake.move();
+        if (gameOver) return;
 
         if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
 
@@ -259,11 +260,11 @@ void SnakeGame::update() {
         //}
     }
 
-    lastTime = now;
-    now = std::chrono::high_resolution_clock::now();
-    fps = 1.f / std::chrono::duration_cast<std::chrono::duration<float>>(now - lastTime).count();
+    //lastTime = now;
+    //now = std::chrono::high_resolution_clock::now();
+    //fps = 1.f / std::chrono::duration_cast<std::chrono::duration<float>>(now - lastTime).count();
     
-    fpsText.setString(std::to_string(fps));
+    //fpsText.setString(std::to_string(fps));
 
     scoreText.setString(std::to_string(snake.get_score()));
     scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
@@ -282,7 +283,7 @@ void SnakeGame::render() {
     snake.draw(window);
     food.draw(window);
 
-    window.draw(fpsText);
+    //window.draw(fpsText);
     window.draw(scoreText);
 
     window.display();

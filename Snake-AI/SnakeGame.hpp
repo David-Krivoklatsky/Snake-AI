@@ -56,18 +56,18 @@ private:
     sf::Font general_font;
 
     sf::Text scoreText;
-    sf::Text fpsText;
+    //sf::Text fpsText;
 
-    sf::Font fps_font;
+    //sf::Font fps_font;
     
     bool start_menu = true;
-	  bool pause = false;
+	bool pause = false;
     bool gameOver = false;
 
     int fpsCounter = 0;
     float fps = 60;
 
-    std::chrono::high_resolution_clock::time_point lastTime, now;
+    //std::chrono::high_resolution_clock::time_point lastTime, now;
 
     std::vector<std::unique_ptr<DrawObject>> draw_objects;
 };
