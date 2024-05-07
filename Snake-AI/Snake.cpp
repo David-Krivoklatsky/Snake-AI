@@ -294,7 +294,7 @@ AI_Snake::AI_Snake(const sf::Vector2f& pos, const std::vector<int>& layers)
     : Snake(pos)
     , ai(layers)
 {
-
+    setTextures(sf::Color::Yellow);
 }
 
 void AI_Snake::set_direction_from_ai(const std::vector<double>& output)

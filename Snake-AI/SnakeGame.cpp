@@ -52,10 +52,6 @@ SnakeGame::SnakeGame()
     for (int i = 0; i < 2; i++) {
         ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
     }
-
-    for (auto& ai_snake : ai_snakes) {
-        ai_snake->setTextures(sf::Color::Yellow);
-    }
 }
 
 void SnakeGame::run() {
