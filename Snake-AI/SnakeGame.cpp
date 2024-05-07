@@ -230,14 +230,24 @@ void SnakeGame::update() {
         snake.set_old_direction();
 
         for (auto& ai_snake : ai_snakes) {
-            //ai_snake->set_random_direction();
+            //ai_snake->set_random_direction
+            //std::pair<Direction, Direction> directions;
+            //directions.first = ai_snake->get_direction();
+
             ai_snake->set_direction_from_ai(ai_snake->ai.forwardPass(type_matrix_to_vector(get_all_positions(ai_snake->get_positions()))));
-            
+
             if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
             else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
 
             ai_snake->set_old_direction();
+
+            //directions.second = ai_snake->get_direction();
+            //std::cout << directions.first << " " << directions.second << "\t";
+
+            //if (directions.first == (directions.second + 2) % 4) 
+                //std::cout << "\nHuston we got a problem\n";
         }
+        //std::cout << std::endl;
 
         //for (auto it = ai_snakes.begin(); it != ai_snakes.end();) {
         //    (*it)->set_random_direction();
@@ -323,6 +333,8 @@ sf::Vector2f SnakeGame::find_empty_cell()
 std::vector<std::vector<Type>> SnakeGame::get_all_positions(const std::vector<sf::Vector2f>& these_positions)
 {
     std::vector<std::vector<Type>> all_positions(PIXEL_SIZE, std::vector<Type>(PIXEL_SIZE, Empty_type));
+
+    //chyba - ak je had mimo okna, program padne
 
     for (const sf::Vector2f& s : snake.get_positions()) {
 		all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;

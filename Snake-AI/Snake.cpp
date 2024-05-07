@@ -302,6 +302,6 @@ void AI_Snake::set_direction_from_ai(const std::vector<double>& output)
     Direction new_dir = static_cast<Direction>(std::distance(output.begin(), std::max_element(output.begin(), output.end())));
 
     Direction last_dir = get_direction();
-
-	set_direction(static_cast<Direction>((static_cast<int>(new_dir) + static_cast<int>(last_dir) + 1) % 4)); //absolutny smer z relativneho
+    
+	set_direction(static_cast<Direction>((static_cast<int>(new_dir) + static_cast<int>(last_dir) + 3) % 4)); //absolutny smer z relativneho
 }
