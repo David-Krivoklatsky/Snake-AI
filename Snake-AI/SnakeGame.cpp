@@ -120,10 +120,33 @@ void SnakeGame::startInput()
 
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
             pressed = true;
+			if (startMenu.clickSkin(window)) {
+                startMenu.button = 1;
+			}
+			else if (startMenu.clickStart(window)) {
+                startMenu.button = 2;
+			}
+			else if (startMenu.clickMod(window)) {
+                startMenu.button = 3;
+			}
+
+            startMenu.setPressed(startMenu.button);
+
         }
+            if (!startMenu.clickSkin(window) && startMenu.button == 1) {
+                startMenu.setUnpressed(startMenu.button);
+            }
+			if (!startMenu.clickStart(window) && startMenu.button == 2) {
+				startMenu.setUnpressed(startMenu.button);
+			}
+            if (!startMenu.clickMod(window) && startMenu.button == 3) {
+				startMenu.setUnpressed(startMenu.button);
+            }
         if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left && pressed)
         {
             if (startMenu.clickSkin(window)) {
+                startMenu.button = 1;
+                startMenu.setUnpressed(startMenu.button);
                 startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
                 pressed = false;
                 //std::cout << skinChose << " ";
@@ -131,6 +154,8 @@ void SnakeGame::startInput()
             }
 
             else if (startMenu.clickStart(window)) {
+                startMenu.button = 2;
+				startMenu.setUnpressed(startMenu.button);
                 start_menu = false;
                 pressed = false;
                 break;
@@ -138,6 +163,9 @@ void SnakeGame::startInput()
 
             else if (startMenu.clickMod(window)) {
                 pressed = false;
+                startMenu.button = 3;
+                startMenu.setUnpressed(startMenu.button);
+				startMenu.changeMod();
             }
 
         }
@@ -229,14 +257,14 @@ void SnakeGame::update() {
         //last move
         snake.set_old_direction();
 
-        for (auto& ai_snake : ai_snakes) {
+        /*for (auto& ai_snake : ai_snakes) { //veeeela hadooov
             ai_snake->set_random_direction();
             
             if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
             else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
 
             ai_snake->set_old_direction();
-        }
+        }*/
 
         //for (auto it = ai_snakes.begin(); it != ai_snakes.end();) {
         //    (*it)->set_random_direction();
@@ -305,14 +333,14 @@ sf::Vector2f SnakeGame::find_empty_cell()
             }
         }
 
-        for (const auto& ai_snake : ai_snakes) {
+        /*for (const auto& ai_snake : ai_snakes) {
             for (const sf::Vector2f s : ai_snake->get_positions()) {
                 if (freePos == s) {
                     invalidPos = true;
                     break;
                 }
             }
-        }
+        }*/
 
     } while (invalidPos);
 
