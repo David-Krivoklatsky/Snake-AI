@@ -348,21 +348,21 @@ std::vector<std::vector<Type>> SnakeGame::get_all_positions(const std::vector<sf
 
 std::vector<double> SnakeGame::type_matrix_to_vector(const std::vector<std::vector<Type>>& matrix)
 {
-    std::vector<double> inputs;
+    std::vector<double> inputs(PIXEL_SIZE * PIXEL_SIZE);
 
     for (int i = 0; i < PIXEL_SIZE; i++) {
         for (int j = 0; j < PIXEL_SIZE; j++) {
             if (matrix[i][j] == thisSnake) {
-				inputs.push_back(0);
+				inputs[i * PIXEL_SIZE + j] = 0.;
 			}
             else if (matrix[i][j] == otherSnake) {
-				inputs.push_back(0.2);
+                inputs[i * PIXEL_SIZE + j] = 0.2;
 			}
             else if (matrix[i][j] == Food_type) {
-				inputs.push_back(1);
+                inputs[i * PIXEL_SIZE + j] = 1.;
 			}
             else {
-				inputs.push_back(0.5);
+                inputs[i * PIXEL_SIZE + j] = 0.5;
 			}
 		}
 	}
