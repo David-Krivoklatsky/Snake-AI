@@ -89,14 +89,18 @@ void SnakeGame::retryMenu() {
 
     snake.reset(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2));
 
+	scoreText.setPosition(WINDOW_SIZE / 2 - (scoreText.getGlobalBounds().width), WINDOW_SIZE / 2 - 20);
+	scoreText.setCharacterSize(50);
+
     while (window.isOpen() && !restartGame) {
 
         retryInput();
-
         window.clear();
         menu.draw(window);
+        window.draw(scoreText);
         window.display();
     }
+    scoreText.setCharacterSize(30);
 }
 
 void SnakeGame::startInput()
