@@ -9,6 +9,15 @@ StartMenu::StartMenu() {
 	}
 	if (!pressedButtonTexture.loadFromFile(FileName + "/Button3.png")) {
 	}
+	if (!music.openFromFile(FileName + "/Snake.mp3")) {
+	}
+	if (!Sound_textureOff.loadFromFile(FileName + "/soundOff.png")) {
+	}
+	if (!Sound_textureOn.loadFromFile(FileName + "/soundOn0.png")) {
+	}
+
+	music.setVolume(50);         // reduce the volume
+	music.setLoop(true);         // make it loop
 
 	choiceOfGameMod_button.setSize(sf::Vector2f(180,60));
 	choiceOfGameMod_button.setPosition((WINDOW_SIZE / 3.f) * 3 - 225, WINDOW_SIZE / 2.f + 115);
@@ -63,10 +72,18 @@ StartMenu::StartMenu() {
 	background.setSize(sf::Vector2f(800, 800));
 	background.setPosition(WINDOW_SIZE / 2, WINDOW_SIZE / 2);
 
+	sound_button.setSize(sf::Vector2f(80, 80));
+	sound_button.setPosition(WINDOW_SIZE - 100, 20);
+	sound_button.setTexture(&Sound_textureOff);
+
+	if (sound) {
+	music.play();
+	}
+
 }
 
 void StartMenu::draw(sf::RenderWindow& window)
-{
+{	
 	window.draw(background);
 	window.draw(choiceOfGameMod_button);
 	window.draw(gameName);
@@ -75,6 +92,7 @@ void StartMenu::draw(sf::RenderWindow& window)
 	window.draw(choiceOfGameMod);
 	window.draw(changeSkin);
 	window.draw(Start);
+	window.draw(sound_button);
 }
 
 void StartMenu::assignFilenames(std::vector<std::string>& textureFiles, int numberOfSkins) {
@@ -102,9 +120,15 @@ bool StartMenu::clickStart(const sf::RenderWindow& window)
 {
 	return Start_button.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
 }
+
 bool StartMenu::clickMod(const sf::RenderWindow& window)
 {
 	return choiceOfGameMod_button.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
+}
+
+bool StartMenu::clickSound(const sf::RenderWindow& window)
+{
+	return sound_button.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
 }
 
 void StartMenu::setPressed(int &button) {
@@ -137,4 +161,18 @@ void StartMenu::changeMod(){
 		gameMod = 0;
 	}
 	choiceOfGameMod.setString(gameMods[gameMod]);
+}
+
+void StartMenu::turnSound() {
+	if (sound) {
+		sound = false;
+		music.pause();
+		sound_button.setTexture(&Sound_textureOff);
+	}
+	else {
+		sound = true;
+		music.play();
+		sound_button.setTexture(&Sound_textureOn);
+	}
+
 }

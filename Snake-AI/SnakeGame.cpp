@@ -122,15 +122,20 @@ void SnakeGame::startInput()
             pressed = true;
 			if (startMenu.clickSkin(window)) {
                 startMenu.button = 1;
+                startMenu.setPressed(startMenu.button);
 			}
 			else if (startMenu.clickStart(window)) {
                 startMenu.button = 2;
+                startMenu.setPressed(startMenu.button);
 			}
 			else if (startMenu.clickMod(window)) {
                 startMenu.button = 3;
+                startMenu.setPressed(startMenu.button);
 			}
-
-            startMenu.setPressed(startMenu.button);
+			else if (startMenu.clickSound(window)) {
+				startMenu.turnSound();
+			}
+            
 
         }
             if (!startMenu.clickSkin(window) && startMenu.button == 1) {
@@ -212,6 +217,10 @@ void SnakeGame::handleInput() {
 				if (event.key.code == sf::Keyboard::P) {
 					pause = !pause;
 				}
+
+                if (event.key.code == sf::Keyboard::M) {
+                    startMenu.turnSound();
+                }
             }
 
         default:
