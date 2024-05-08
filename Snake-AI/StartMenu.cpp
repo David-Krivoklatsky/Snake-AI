@@ -157,7 +157,7 @@ void StartMenu::setUnpressed(int& button) {
 
 void StartMenu::changeMod(){
 	gameMod++;
-	if (gameMod >= 3) {
+	if (gameMod >= 4) {
 		gameMod = 0;
 	}
 	choiceOfGameMod.setString(gameMods[gameMod]);

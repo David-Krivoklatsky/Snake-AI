@@ -56,7 +56,7 @@ private:
 	sf::Text skin;
 	sf::speedValue;
 	*/
-	std::string gameMods[3] = { "Classic", "Peaceful", "     AI    " };
+	std::string gameMods[4] = { "Classic", "Peaceful", "     AI    ", "AI - noob"};
 
 	sf::RectangleShape background;
 	sf::RectangleShape choiceOfGameMod_button;
