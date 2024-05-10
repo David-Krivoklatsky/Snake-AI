@@ -267,7 +267,7 @@ void SnakeGame::update() {
         //last move
         snake.set_old_direction();
 
-        for (auto& ai_snake : ai_snakes) { //veeeela hadooov
+        for (auto& ai_snake : ai_snakes) {
             ai_snake->set_random_direction();
             
             if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
