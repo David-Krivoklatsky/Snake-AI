@@ -10,9 +10,6 @@
 #include "Menu.hpp"
 #include "StartMenu.hpp"
 
-#include "Milan.hpp"
-
-
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
     , event()
@@ -46,7 +43,7 @@ SnakeGame::SnakeGame()
 
 
     //vytvorenie hadakov umelych
-    for (int i = 0; i <200; i++) {
+    for (int i = 0; i <2; i++) {
         ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     }
 
@@ -89,14 +86,18 @@ void SnakeGame::retryMenu() {
 
     snake.reset(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2));
 
+	scoreText.setPosition(WINDOW_SIZE / 2 - (scoreText.getGlobalBounds().width), WINDOW_SIZE / 2 - 20);
+	scoreText.setCharacterSize(50);
+
     while (window.isOpen() && !restartGame) {
 
         retryInput();
-
         window.clear();
         menu.draw(window);
+        window.draw(scoreText);
         window.display();
     }
+    scoreText.setCharacterSize(30);
 }
 
 void SnakeGame::startInput()
@@ -120,10 +121,38 @@ void SnakeGame::startInput()
 
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
             pressed = true;
+			if (startMenu.clickSkin(window)) {
+                startMenu.button = 1;
+                startMenu.setPressed(startMenu.button);
+			}
+			else if (startMenu.clickStart(window)) {
+                startMenu.button = 2;
+                startMenu.setPressed(startMenu.button);
+			}
+			else if (startMenu.clickMode(window)) {
+                startMenu.button = 3;
+                startMenu.setPressed(startMenu.button);
+			}
+			else if (startMenu.clickSound(window)) {
+				startMenu.turnSound();
+			}
+            
+
         }
+            if (!startMenu.clickSkin(window) && startMenu.button == 1) {
+                startMenu.setUnpressed(startMenu.button);
+            }
+			if (!startMenu.clickStart(window) && startMenu.button == 2) {
+				startMenu.setUnpressed(startMenu.button);
+			}
+            if (!startMenu.clickMode(window) && startMenu.button == 3) {
+				startMenu.setUnpressed(startMenu.button);
+            }
         if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left && pressed)
         {
             if (startMenu.clickSkin(window)) {
+                startMenu.button = 1;
+                startMenu.setUnpressed(startMenu.button);
                 startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
                 pressed = false;
                 //std::cout << skinChose << " ";
@@ -131,13 +160,18 @@ void SnakeGame::startInput()
             }
 
             else if (startMenu.clickStart(window)) {
+                startMenu.button = 2;
+				startMenu.setUnpressed(startMenu.button);
                 start_menu = false;
                 pressed = false;
                 break;
             }
 
-            else if (startMenu.clickMod(window)) {
+            else if (startMenu.clickMode(window)) {
                 pressed = false;
+                startMenu.button = 3;
+                startMenu.setUnpressed(startMenu.button);
+				startMenu.changeMod();
             }
 
         }
@@ -184,6 +218,10 @@ void SnakeGame::handleInput() {
 				if (event.key.code == sf::Keyboard::P) {
 					pause = !pause;
 				}
+
+                if (event.key.code == sf::Keyboard::M) {
+                    startMenu.turnSound();
+                }
             }
 
         default:
@@ -305,14 +343,14 @@ sf::Vector2f SnakeGame::find_empty_cell()
             }
         }
 
-        for (const auto& ai_snake : ai_snakes) {
+        /*for (const auto& ai_snake : ai_snakes) {
             for (const sf::Vector2f s : ai_snake->get_positions()) {
                 if (freePos == s) {
                     invalidPos = true;
                     break;
                 }
             }
-        }
+        }*/
 
     } while (invalidPos);
 

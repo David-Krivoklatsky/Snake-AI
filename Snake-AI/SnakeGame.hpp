@@ -50,7 +50,7 @@ private:
     sf::Font fps_font;
     
     bool start_menu = true;
-	  bool pause = false;
+	bool pause = false;
     bool gameOver = false;
 
     int fpsCounter = 0;
