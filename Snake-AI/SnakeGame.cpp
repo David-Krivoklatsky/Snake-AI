@@ -295,7 +295,6 @@ void SnakeGame::render() {
     snake.draw(window);
     food.draw(window);
 
-    window.draw(fpsText);
     window.draw(scoreText);
 
     window.display();
