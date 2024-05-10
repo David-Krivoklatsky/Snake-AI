@@ -211,7 +211,7 @@ void SnakeGame::handleInput() {
             }
 
         default:
-            //std::cout << "unknown event type\n";
+            break;
         }
     }
 }
