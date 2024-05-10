@@ -18,15 +18,15 @@ public:
 	virtual void draw(sf::RenderWindow&) override;
 
 	bool clickSkin(const sf::RenderWindow&);
-	bool clickMod(const sf::RenderWindow&);
+	bool clickMode(const sf::RenderWindow&);
 	bool clickStart(const sf::RenderWindow&);
 	bool clickSound(const sf::RenderWindow&);
 
 	void assignFilenames(std::vector<std::string>&, int);
 
-	void anotherSkin(int& skinChose, int& numberOfSkins);
-	void setPressed(int& button);
-	void setUnpressed(int& button);
+	void anotherSkin(int&, int&);
+	void setPressed(int&);
+	void setUnpressed(int&);
 	void changeMod();
 	void turnSound();
 
@@ -56,7 +56,7 @@ private:
 	sf::Text skin;
 	sf::speedValue;
 	*/
-	std::string gameMods[4] = { "Classic", "Peaceful", "     AI    ", "AI - noob"};
+	std::string gameModes[4] = { "Classic", "Peaceful", "     AI    ", "AI - noob"};
 
 	sf::RectangleShape background;
 	sf::RectangleShape choiceOfGameMod_button;

@@ -44,7 +44,7 @@ StartMenu::StartMenu() {
 
 	choiceOfGameMod.setFont(papyrus);
 	choiceOfGameMod.setFillColor(sf::Color::White);
-	choiceOfGameMod.setString(gameMods[gameMod]);
+	choiceOfGameMod.setString(gameModes[gameMod]);
 	choiceOfGameMod.setCharacterSize(20);
 	choiceOfGameMod.setOrigin(choiceOfGameMod.getLocalBounds().width / 2, choiceOfGameMod.getLocalBounds().height / 2);
 	choiceOfGameMod.setPosition((WINDOW_SIZE / 3.f) * 3 - 140, WINDOW_SIZE / 2.f + 145);
@@ -77,7 +77,7 @@ StartMenu::StartMenu() {
 	sound_button.setTexture(&Sound_textureOff);
 
 	if (sound) {
-	music.play();
+		music.play();
 	}
 
 }
@@ -99,7 +99,6 @@ void StartMenu::assignFilenames(std::vector<std::string>& textureFiles, int numb
 	for (int i = 0; i < numberOfSkins; i++) {
 		textureFiles.push_back("Snake_texture" + std::to_string(i + 1));
 	}
-	return;
 }
 
 void StartMenu::anotherSkin(int& skinChose, int &numberOfSkins) {
@@ -121,7 +120,7 @@ bool StartMenu::clickStart(const sf::RenderWindow& window)
 	return Start_button.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
 }
 
-bool StartMenu::clickMod(const sf::RenderWindow& window)
+bool StartMenu::clickMode(const sf::RenderWindow& window)
 {
 	return choiceOfGameMod_button.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
 }
@@ -160,7 +159,7 @@ void StartMenu::changeMod(){
 	if (gameMod >= 4) {
 		gameMod = 0;
 	}
-	choiceOfGameMod.setString(gameMods[gameMod]);
+	choiceOfGameMod.setString(gameModes[gameMod]);
 }
 
 void StartMenu::turnSound() {

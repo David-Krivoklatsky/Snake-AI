@@ -10,9 +10,6 @@
 #include "Menu.hpp"
 #include "StartMenu.hpp"
 
-#include "Milan.hpp"
-
-
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
     , event()
@@ -46,7 +43,7 @@ SnakeGame::SnakeGame()
 
 
     //vytvorenie hadakov umelych
-    for (int i = 0; i <200; i++) {
+    for (int i = 0; i <2; i++) {
         ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
     }
 
@@ -132,7 +129,7 @@ void SnakeGame::startInput()
                 startMenu.button = 2;
                 startMenu.setPressed(startMenu.button);
 			}
-			else if (startMenu.clickMod(window)) {
+			else if (startMenu.clickMode(window)) {
                 startMenu.button = 3;
                 startMenu.setPressed(startMenu.button);
 			}
@@ -148,7 +145,7 @@ void SnakeGame::startInput()
 			if (!startMenu.clickStart(window) && startMenu.button == 2) {
 				startMenu.setUnpressed(startMenu.button);
 			}
-            if (!startMenu.clickMod(window) && startMenu.button == 3) {
+            if (!startMenu.clickMode(window) && startMenu.button == 3) {
 				startMenu.setUnpressed(startMenu.button);
             }
         if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left && pressed)
@@ -170,7 +167,7 @@ void SnakeGame::startInput()
                 break;
             }
 
-            else if (startMenu.clickMod(window)) {
+            else if (startMenu.clickMode(window)) {
                 pressed = false;
                 startMenu.button = 3;
                 startMenu.setUnpressed(startMenu.button);
@@ -270,14 +267,14 @@ void SnakeGame::update() {
         //last move
         snake.set_old_direction();
 
-        /*for (auto& ai_snake : ai_snakes) { //veeeela hadooov
+        for (auto& ai_snake : ai_snakes) { //veeeela hadooov
             ai_snake->set_random_direction();
             
             if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
             else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
 
             ai_snake->set_old_direction();
-        }*/
+        }
 
         //for (auto it = ai_snakes.begin(); it != ai_snakes.end();) {
         //    (*it)->set_random_direction();
