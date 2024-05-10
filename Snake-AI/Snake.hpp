@@ -14,7 +14,8 @@ public:
 	void setTextures(sf::Color);
 	void setTextures(std::string);
 
-	bool move();
+	void move();
+	bool legal_move();
 	bool eats(const sf::Vector2f&);
 
 	void reset(const sf::Vector2f&);

@@ -13,7 +13,7 @@ Snake::Snake(const sf::Vector2f& pos)
     move();
 }
 
-bool Snake::move() {
+void Snake::move() {
     //inserts new pos to positions depending on the direction it is moving
     int changeX = 0, changeY = 0;
 
@@ -37,7 +37,10 @@ bool Snake::move() {
     }
 
     positions.insert(positions.begin(), sf::Vector2f(positions[0].x + changeX, positions[0].y + changeY));
+}
 
+bool Snake::legal_move()
+{
     bool legal = true;
 
     //ci narazil do steny

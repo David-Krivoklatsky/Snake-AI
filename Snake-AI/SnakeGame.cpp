@@ -304,7 +304,8 @@ bool SnakeGame::isGameFrame()
 
 void SnakeGame::classicMode()
 {
-    gameOver = !snake.move();
+    snake.move();
+    gameOver = !snake.legal_move();
     if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
     snake.set_old_direction();
 
@@ -314,14 +315,16 @@ void SnakeGame::classicMode()
 
 void SnakeGame::randomMode()
 {
-    gameOver = !snake.move();
+    snake.move();
+    gameOver = !snake.legal_move();
     if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
     snake.set_old_direction();
 
     for (auto& ai_snake : ai_snakes) {
         ai_snake->set_random_direction();
 
-        if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
+        ai_snake->move();
+        if (!ai_snake->legal_move()) ai_snake->reset(find_empty_cell());
         else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
 
         ai_snake->set_old_direction();
@@ -337,52 +340,45 @@ void SnakeGame::peacefulMode()
 
 void SnakeGame::aiMode()
 {
-  gameOver = !snake.move();
-        if (gameOver) return;
+    snake.move();
+    gameOver = !snake.legal_move();
 
-        if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
+    if (gameOver) return;
+
+    if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
         
-        for (auto& ai_snake : ai_snakes) {
-            for (const sf::Vector2f& s : ai_snake->get_positions()) {
-                if (snake.get_positions()[0] == s) {
-                    gameOver = true;
-					return;
-				}
-            }
+    for (auto& ai_snake : ai_snakes) {
+        for (const sf::Vector2f& s : ai_snake->get_positions()) {
+            if (snake.get_positions()[0] == s) {
+                gameOver = true;
+				return;
+			}
         }
+    }
 
-        snake.set_old_direction();
+    snake.set_old_direction();
 
-        for (auto& ai_snake : ai_snakes) {
+    for (size_t i = 0; i < ai_snakes.size(); i++) {
 
-            ai_snake->set_direction_from_ai(ai_snake->ai.forwardPass(type_matrix_to_vector(get_all_positions(ai_snake->get_positions()))));
+        ai_snakes[i]->set_direction_from_ai(ai_snakes[i]->ai.forwardPass(type_matrix_to_vector(get_all_positions(ai_snakes[i]->get_positions()))));
 
-            if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
-            else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
+        ai_snakes[i]->move();
+        if (!ai_snakes[i]->legal_move()) ai_snakes[i]->reset(find_empty_cell());
+        else if (ai_snakes[i]->eats(food.get_position())) food.generateFood(find_empty_cell());
 
-            ai_snake->set_old_direction();
-        }
-
-        for (size_t i = 0; i < ai_snakes.size(); i++) {
-
-            ai_snakes[i]->set_direction_from_ai(ai_snakes[i]->ai.forwardPass(type_matrix_to_vector(get_all_positions(ai_snakes[i]->get_positions()))));
-
-            if (!ai_snakes[i]->move()) ai_snakes[i]->reset(find_empty_cell());
-            else if (ai_snakes[i]->eats(food.get_position())) food.generateFood(find_empty_cell());
-
-            for (size_t j = 0; j < ai_snakes.size(); j++) {
-                if (i != j) {
-                    for (const sf::Vector2f& s : ai_snakes[j]->get_positions()) {
-                        if (ai_snakes[i]->get_positions()[0] == s) {
-							ai_snakes[i]->reset(find_empty_cell());
-                            break;
-						}
+        for (size_t j = 0; j < ai_snakes.size(); j++) {
+            if (i != j) {
+                for (const sf::Vector2f& s : ai_snakes[j]->get_positions()) {
+                    if (ai_snakes[i]->get_positions()[0] == s) {
+						ai_snakes[i]->reset(find_empty_cell());
+                        break;
 					}
 				}
 			}
+		}
 
-            ai_snakes[i]->set_old_direction();
-        }
+        ai_snakes[i]->set_old_direction();
+    }
 }
 
 void SnakeGame::trainAiMode()
@@ -435,8 +431,8 @@ std::vector<std::vector<Type>> SnakeGame::get_all_positions(const std::vector<sf
     //chyba - ak je had mimo okna, program padne
 
     for (const sf::Vector2f& s : snake.get_positions()) {
-		all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;
-	}
+	    all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;
+    }
 
     for (const auto& ai_snake : ai_snakes) {
         for (const sf::Vector2f& s : ai_snake->get_positions()) {
