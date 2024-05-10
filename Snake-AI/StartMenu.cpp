@@ -101,7 +101,7 @@ void StartMenu::assignFilenames(std::vector<std::string>& textureFiles, int numb
 	}
 }
 
-void StartMenu::anotherSkin(int& skinChose, int &numberOfSkins) {
+void StartMenu::anotherSkin(int& skinChose, const int numberOfSkins) {
 	skinChose++;
 	if(skinChose >= numberOfSkins){
 		skinChose = 0;
@@ -156,7 +156,7 @@ void StartMenu::setUnpressed(int& button) {
 
 void StartMenu::changeMod(){
 	mode++;
-	mode %= 4;
+	mode %= number_of_modes;
 
 	choiceOfGameMod.setString(gameModes[mode]);
 }

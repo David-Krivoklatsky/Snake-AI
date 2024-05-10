@@ -34,8 +34,10 @@ private:
     bool isGameFrame();
 
     void classicMode();
+    void randomMode();
     void peacefulMode();
     void aiMode();
+    void trainAiMode();
     void aiNoobMode();
 
     sf::Vector2f find_empty_cell();

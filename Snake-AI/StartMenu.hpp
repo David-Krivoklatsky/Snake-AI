@@ -9,12 +9,8 @@
 
 class StartMenu : public DrawObject {
 public:
-	int button;
 	StartMenu();
 
-	int numberOfSkins = 2;
-	bool sound = false;
-	int mode = 0;
 	virtual void draw(sf::RenderWindow&) override;
 
 	bool clickSkin(const sf::RenderWindow&);
@@ -24,12 +20,16 @@ public:
 
 	void assignFilenames(std::vector<std::string>&, int);
 
-	void anotherSkin(int&, int&);
+	void anotherSkin(int&, const int);
 	void setPressed(int&);
 	void setUnpressed(int&);
 	void changeMod();
 	void turnSound();
 
+	int button = 0;
+	const int numberOfSkins = 2;
+	bool sound = false;
+	int mode = 0;
 
 private:
 	sf::Font papyrus; //toto by sa mohlo zdedit asi 
@@ -56,7 +56,7 @@ private:
 	sf::Text skin;
 	sf::speedValue;
 	*/
-	std::string gameModes[4] = { "Classic", "Peaceful", "     AI    ", "AI - noob"};
+	std::string gameModes[number_of_modes] = { "Classic", "Random Mode", "Peaceful", "    AI    ", " Train AI " , "AI - noob"};
 
 	sf::RectangleShape background;
 	sf::RectangleShape choiceOfGameMod_button;
