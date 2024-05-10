@@ -55,18 +55,15 @@ SnakeGame::SnakeGame()
 void SnakeGame::run() {
     gameOver = false;
 
-    while (window.isOpen()) {
-        //if (isError) std::cout << "-------------------------------\nError\n\n";
-        //for (auto& a : Errors) {
-        //    std::cout << a << std::endl;
-        //}
-        while (start_menu) {
-            startInput();
+    while (window.isOpen() && start_menu) {
+        startInput();
 
-            window.clear();
-            startMenu.draw(window);
-            window.display();
-        }
+        window.clear();
+        startMenu.draw(window);
+        window.display();
+    }
+
+    while (window.isOpen()) {
 
         while (pause) {
             handleInput();
