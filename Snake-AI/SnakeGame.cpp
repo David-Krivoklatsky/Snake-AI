@@ -60,7 +60,29 @@ void SnakeGame::run() {
         }
 
         handleInput();
-        update();
+
+        if (isGameFrame()) {
+
+            switch (startMenu.mode)
+            {
+            case 0: classicMode();
+                break;
+
+            case 1: peacefulMode();
+                break;
+
+            case 2: aiMode();
+                break;
+
+            case 3: aiNoobMode();
+                break;
+
+            default:
+                break;
+            }
+        }
+
+        //update();
         render();
 
         if (gameOver) retryMenu();
@@ -240,46 +262,6 @@ void SnakeGame::retryInput() {
 }
 
 void SnakeGame::update() {
-    fpsCounter++; //increase frame counter
-
-    if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
-        fpsCounter = 0;
-        
-        gameOver = !snake.move();
-
-        if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
-
-        //last move
-        snake.set_old_direction();
-
-        for (auto& ai_snake : ai_snakes) {
-            ai_snake->set_random_direction();
-            
-            if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
-            else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
-
-            ai_snake->set_old_direction();
-        }
-
-        //for (auto it = ai_snakes.begin(); it != ai_snakes.end();) {
-        //    (*it)->set_random_direction();
-
-        //    if (!(*it)->move()) {
-        //        it = ai_snakes.erase(it);
-        //    }
-        //    else if ((*it)->eats(food.get_position())) {
-        //        food.generateFood(find_empty_cell());
-        //        ++it;
-        //    }
-        //    else {
-        //        (*it)->set_old_direction();
-        //        ++it;
-        //    }
-        //}
-    }
-
-    scoreText.setString(std::to_string(snake.get_score()));
-    scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
 }
 
 void SnakeGame::render() {
@@ -298,6 +280,49 @@ void SnakeGame::render() {
     window.draw(scoreText);
 
     window.display();
+}
+
+bool SnakeGame::isGameFrame()
+{
+    fpsCounter++; //increase frame counter
+
+    if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
+        fpsCounter = 0;
+        return true;
+    }
+
+    return false;
+}
+
+void SnakeGame::classicMode()
+{
+    gameOver = !snake.move();
+    if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
+    snake.set_old_direction();
+
+    for (auto& ai_snake : ai_snakes) {
+        ai_snake->set_random_direction();
+
+        if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
+        else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
+
+        ai_snake->set_old_direction();
+    }
+
+    scoreText.setString(std::to_string(snake.get_score()));
+    scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
+}
+
+void SnakeGame::peacefulMode()
+{
+}
+
+void SnakeGame::aiMode()
+{
+}
+
+void SnakeGame::aiNoobMode()
+{
 }
 
 sf::Vector2f SnakeGame::find_empty_cell()

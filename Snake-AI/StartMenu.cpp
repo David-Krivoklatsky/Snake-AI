@@ -44,7 +44,7 @@ StartMenu::StartMenu() {
 
 	choiceOfGameMod.setFont(papyrus);
 	choiceOfGameMod.setFillColor(sf::Color::White);
-	choiceOfGameMod.setString(gameModes[gameMod]);
+	choiceOfGameMod.setString(gameModes[mode]);
 	choiceOfGameMod.setCharacterSize(20);
 	choiceOfGameMod.setOrigin(choiceOfGameMod.getLocalBounds().width / 2, choiceOfGameMod.getLocalBounds().height / 2);
 	choiceOfGameMod.setPosition((WINDOW_SIZE / 3.f) * 3 - 140, WINDOW_SIZE / 2.f + 145);
@@ -155,11 +155,10 @@ void StartMenu::setUnpressed(int& button) {
 }
 
 void StartMenu::changeMod(){
-	gameMod++;
-	if (gameMod >= 4) {
-		gameMod = 0;
-	}
-	choiceOfGameMod.setString(gameModes[gameMod]);
+	mode++;
+	mode %= 4;
+
+	choiceOfGameMod.setString(gameModes[mode]);
 }
 
 void StartMenu::turnSound() {

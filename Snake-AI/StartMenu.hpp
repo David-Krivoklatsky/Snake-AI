@@ -14,7 +14,7 @@ public:
 
 	int numberOfSkins = 2;
 	bool sound = false;
-	int gameMod = 0;
+	int mode = 0;
 	virtual void draw(sf::RenderWindow&) override;
 
 	bool clickSkin(const sf::RenderWindow&);

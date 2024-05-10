@@ -3,15 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include "DrawObjects.hpp"
 
-enum Direction {
-	Up = 0,
-	Left = 1,
-	Down = 2,
-	Right = 3,
-
-	Unknown = 4
-};
-
 class Snake : public DrawObject {
 public:
 	Snake(const sf::Vector2f&);

@@ -23,6 +23,13 @@ private:
     void update();
     void render();
 
+    bool isGameFrame();
+
+    void classicMode();
+    void peacefulMode();
+    void aiMode();
+    void aiNoobMode();
+
     sf::Vector2f find_empty_cell();
 
 public:
