@@ -9,6 +9,7 @@
 #include "Food.hpp"
 #include "Menu.hpp"
 #include "StartMenu.hpp"
+#include "NeuralNetwork.hpp"
 
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
@@ -25,6 +26,7 @@ SnakeGame::SnakeGame()
       
     startMenu.assignFilenames(textureFiles, startMenu.numberOfSkins);
 
+
     general_font.loadFromFile("font.ttf");
 
     scoreText.setFont(general_font);
@@ -32,13 +34,11 @@ SnakeGame::SnakeGame()
 
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
 
-    //vytvorenie hadakov umelych
-    for (int i = 0; i <2; i++) {
-        ai_snakes.push_back(std::make_unique<Snake>(find_empty_cell()));
-    }
+    std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
 
-    for (auto& ai_snake : ai_snakes) {
-        ai_snake->setTextures(sf::Color::Yellow);
+    //vytvorenie hadakov umelych
+    for (int i = 0; i < 2; i++) {
+        ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
     }
 }
 
@@ -262,6 +262,8 @@ void SnakeGame::retryInput() {
 }
 
 void SnakeGame::update() {
+    scoreText.setString(std::to_string(snake.get_score()));
+    scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
 }
 
 void SnakeGame::render() {
@@ -319,6 +321,23 @@ void SnakeGame::peacefulMode()
 
 void SnakeGame::aiMode()
 {
+  gameOver = !snake.move();
+        if (gameOver) return;
+
+        if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
+
+        //last move
+        snake.set_old_direction();
+
+        for (auto& ai_snake : ai_snakes) {
+
+            ai_snake->set_direction_from_ai(ai_snake->ai.forwardPass(type_matrix_to_vector(get_all_positions(ai_snake->get_positions()))));
+
+            if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
+            else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
+
+            ai_snake->set_old_direction();
+        }
 }
 
 void SnakeGame::aiNoobMode()
@@ -358,4 +377,53 @@ sf::Vector2f SnakeGame::find_empty_cell()
     } while (invalidPos);
 
     return freePos;
+}
+
+std::vector<std::vector<Type>> SnakeGame::get_all_positions(const std::vector<sf::Vector2f>& these_positions)
+{
+    std::vector<std::vector<Type>> all_positions(PIXEL_SIZE, std::vector<Type>(PIXEL_SIZE, Empty_type));
+
+    //chyba - ak je had mimo okna, program padne
+
+    for (const sf::Vector2f& s : snake.get_positions()) {
+		all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;
+	}
+
+    for (const auto& ai_snake : ai_snakes) {
+        for (const sf::Vector2f& s : ai_snake->get_positions()) {
+			all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;
+		}
+	}
+
+    for (const sf::Vector2f& s : these_positions) {
+        all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = thisSnake;
+    }
+
+	all_positions[food.get_position().x / BLOCK_SIZE][food.get_position().y / BLOCK_SIZE] = Food_type;
+
+	return all_positions;
+}
+
+std::vector<double> SnakeGame::type_matrix_to_vector(const std::vector<std::vector<Type>>& matrix)
+{
+    std::vector<double> inputs(PIXEL_SIZE * PIXEL_SIZE);
+
+    for (int i = 0; i < PIXEL_SIZE; i++) {
+        for (int j = 0; j < PIXEL_SIZE; j++) {
+            if (matrix[i][j] == thisSnake) {
+				inputs[i * PIXEL_SIZE + j] = 0.;
+			}
+            else if (matrix[i][j] == otherSnake) {
+                inputs[i * PIXEL_SIZE + j] = 0.2;
+			}
+            else if (matrix[i][j] == Food_type) {
+                inputs[i * PIXEL_SIZE + j] = 1.;
+			}
+            else {
+                inputs[i * PIXEL_SIZE + j] = 0.5;
+			}
+		}
+	}
+
+    return inputs;
 }

@@ -2,9 +2,12 @@
 #include "Globals.hpp"
 #include "StartMenu.hpp"
 
+#include <fstream>
 #include <iostream>
 
-Snake::Snake(const sf::Vector2f& pos) : last_dir(Unknown) {
+Snake::Snake(const sf::Vector2f& pos)
+    : last_dir(Unknown)
+{
     positions.push_back(pos);
     set_random_direction();
     move();
@@ -285,4 +288,20 @@ void Snake::set_random_direction()
     } while (new_dir == (old_dir + 2) % 4); //komplikovane napisany opacny smer
 
     current_dir = new_dir;
+}
+
+AI_Snake::AI_Snake(const sf::Vector2f& pos, const std::vector<int>& layers)
+    : Snake(pos)
+    , ai(layers)
+{
+    setTextures(sf::Color::Yellow);
+}
+
+void AI_Snake::set_direction_from_ai(const std::vector<double>& output)
+{
+    Direction new_dir = static_cast<Direction>(std::distance(output.begin(), std::max_element(output.begin(), output.end())));
+
+    Direction last_dir = get_direction();
+    
+	set_direction(static_cast<Direction>((static_cast<int>(new_dir) + static_cast<int>(last_dir) + 3) % 4)); //absolutny smer z relativneho
 }

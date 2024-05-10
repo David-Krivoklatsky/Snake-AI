@@ -1,6 +1,7 @@
 #include "NeuralNetwork.hpp"
 
 #include <random>
+#include <fstream>
 
 NeuralNetwork::NeuralNetwork(const std::vector<int>& vrstvy)
     : layers(vrstvy)
@@ -103,5 +104,27 @@ void NeuralNetwork::backprop(const std::vector<double>& input, const std::vector
             double deltaBias = learningRate * net[layer][i].error;
             net[layer][i].bias += deltaBias;
         }
+    }
+}
+
+void NeuralNetwork::save2file(const std::string& filename)
+{
+    std::ofstream file(filename);
+
+    if (file.is_open()) {
+        file << numLayers << " ";
+        for (int i = 0; i < numLayers; i++) {
+			file << layers[i] << " ";
+		}
+
+        for (int i = 0; i < net.size(); i++) {
+            for (int j = 0; j < net[i].size(); j++) {
+                file << net[i][j].bias << " ";
+                for (int k = 0; k < net[i][j].input_weights.size(); k++) {
+                    file << net[i][j].input_weights[k] << " ";
+                }
+            }
+        }
+        file.close();
     }
 }

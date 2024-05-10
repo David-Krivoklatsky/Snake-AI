@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "DrawObjects.hpp"
+#include "NeuralNetwork.hpp"
 
 class Snake : public DrawObject {
 public:
@@ -60,4 +61,13 @@ private:
 	sf::Sprite headRight;
 	sf::Sprite headDown;
 	sf::Sprite headUp;
+};
+
+class AI_Snake : public Snake {
+public:
+	AI_Snake(const sf::Vector2f&, const std::vector<int>& layers);
+
+	void set_direction_from_ai(const std::vector<double>&);
+
+	NeuralNetwork ai;
 };
