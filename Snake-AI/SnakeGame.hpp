@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <chrono>
 #include <vector>
 
 #include "DrawObjects.hpp"
@@ -32,6 +31,13 @@ private:
     void update();
     void render();
 
+    bool isGameFrame();
+
+    void classicMode();
+    void peacefulMode();
+    void aiMode();
+    void aiNoobMode();
+
     sf::Vector2f find_empty_cell();
 
     std::vector<std::vector<Type>> get_all_positions(const std::vector<sf::Vector2f>&);
@@ -56,18 +62,12 @@ private:
     sf::Font general_font;
 
     sf::Text scoreText;
-    //sf::Text fpsText;
-
-    //sf::Font fps_font;
     
     bool start_menu = true;
 	bool pause = false;
     bool gameOver = false;
 
     int fpsCounter = 0;
-    float fps = 60;
-
-    //std::chrono::high_resolution_clock::time_point lastTime, now;
 
     std::vector<std::unique_ptr<DrawObject>> draw_objects;
 };

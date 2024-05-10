@@ -11,9 +11,6 @@
 #include "StartMenu.hpp"
 #include "NeuralNetwork.hpp"
 
-#include "Milan.hpp"
-
-
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
     , event()
@@ -22,7 +19,6 @@ SnakeGame::SnakeGame()
     , menu()
     , startMenu()
 {
-
     window.setFramerateLimit(FPS_LIMIT);
     srand(time(0));
 
@@ -30,21 +26,13 @@ SnakeGame::SnakeGame()
       
     startMenu.assignFilenames(textureFiles, startMenu.numberOfSkins);
 
-    if (!general_font.loadFromFile("font.ttf")) {
-        //isError = true;
-        //Errors.push_back("Error loading font.ttf");
-    }
 
-    //fpsText.setFont(general_font);
-    //fpsText.setFillColor(sf::Color::White);
-    //fpsText.setPosition(0, 0); //left up corner
+    general_font.loadFromFile("font.ttf");
 
     scoreText.setFont(general_font);
     scoreText.setFillColor(sf::Color::White);
 
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
-    //draw_objects.push_back(std::make_unique<Milan>());
-
 
     std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
 
@@ -57,25 +45,44 @@ SnakeGame::SnakeGame()
 void SnakeGame::run() {
     gameOver = false;
 
-    while (window.isOpen()) {
-        //if (isError) std::cout << "-------------------------------\nError\n\n";
-        //for (auto& a : Errors) {
-        //    std::cout << a << std::endl;
-        //}
-        while (start_menu) {
-            startInput();
+    while (window.isOpen() && start_menu) {
+        startInput();
 
-            window.clear();
-            startMenu.draw(window);
-            window.display();
-        }
+        window.clear();
+        startMenu.draw(window);
+        window.display();
+    }
+
+    while (window.isOpen()) {
 
         while (pause) {
             handleInput();
         }
 
         handleInput();
-        update();
+
+        if (isGameFrame()) {
+
+            switch (startMenu.mode)
+            {
+            case 0: classicMode();
+                break;
+
+            case 1: peacefulMode();
+                break;
+
+            case 2: aiMode();
+                break;
+
+            case 3: aiNoobMode();
+                break;
+
+            default:
+                break;
+            }
+        }
+
+        //update();
         render();
 
         if (gameOver) retryMenu();
@@ -88,14 +95,18 @@ void SnakeGame::retryMenu() {
 
     snake.reset(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2));
 
+	scoreText.setPosition(WINDOW_SIZE / 2 - (scoreText.getGlobalBounds().width), WINDOW_SIZE / 2 - 20);
+	scoreText.setCharacterSize(50);
+
     while (window.isOpen() && !restartGame) {
 
         retryInput();
-
         window.clear();
         menu.draw(window);
+        window.draw(scoreText);
         window.display();
     }
+    scoreText.setCharacterSize(30);
 }
 
 void SnakeGame::startInput()
@@ -119,24 +130,56 @@ void SnakeGame::startInput()
 
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
             pressed = true;
+			if (startMenu.clickSkin(window)) {
+                startMenu.button = 1;
+                startMenu.setPressed(startMenu.button);
+			}
+			else if (startMenu.clickStart(window)) {
+                startMenu.button = 2;
+                startMenu.setPressed(startMenu.button);
+			}
+			else if (startMenu.clickMode(window)) {
+                startMenu.button = 3;
+                startMenu.setPressed(startMenu.button);
+			}
+			else if (startMenu.clickSound(window)) {
+				startMenu.turnSound();
+			}
+            
+
         }
+            if (!startMenu.clickSkin(window) && startMenu.button == 1) {
+                startMenu.setUnpressed(startMenu.button);
+            }
+			if (!startMenu.clickStart(window) && startMenu.button == 2) {
+				startMenu.setUnpressed(startMenu.button);
+			}
+            if (!startMenu.clickMode(window) && startMenu.button == 3) {
+				startMenu.setUnpressed(startMenu.button);
+            }
         if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left && pressed)
         {
             if (startMenu.clickSkin(window)) {
+                startMenu.button = 1;
+                startMenu.setUnpressed(startMenu.button);
                 startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
                 pressed = false;
-                //std::cout << skinChose << " ";
                 snake.setTextures(textureFiles[skinChose]); //set textures here because it was lagging
             }
 
             else if (startMenu.clickStart(window)) {
+                startMenu.button = 2;
+				startMenu.setUnpressed(startMenu.button);
                 start_menu = false;
                 pressed = false;
                 break;
             }
 
-            else if (startMenu.clickMod(window)) {
+            else if (startMenu.clickMode(window)) {
                 pressed = false;
+                startMenu.button = 3;
+                startMenu.setUnpressed(startMenu.button);
+				startMenu.changeMod();
             }
 
         }
@@ -183,10 +226,13 @@ void SnakeGame::handleInput() {
 				if (event.key.code == sf::Keyboard::P) {
 					pause = !pause;
 				}
+
+                if (event.key.code == sf::Keyboard::M) {
+                    startMenu.turnSound();
+                }
             }
 
         default:
-            //std::cout << "unknown event type\n";
             break;
         }
     }
@@ -216,62 +262,6 @@ void SnakeGame::retryInput() {
 }
 
 void SnakeGame::update() {
-    fpsCounter++; //increase frame counter
-
-    if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
-        fpsCounter = 0;
-        
-        gameOver = !snake.move();
-        if (gameOver) return;
-
-        if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
-
-        //last move
-        snake.set_old_direction();
-
-        for (auto& ai_snake : ai_snakes) {
-            //ai_snake->set_random_direction
-            //std::pair<Direction, Direction> directions;
-            //directions.first = ai_snake->get_direction();
-
-            ai_snake->set_direction_from_ai(ai_snake->ai.forwardPass(type_matrix_to_vector(get_all_positions(ai_snake->get_positions()))));
-
-            if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
-            else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
-
-            ai_snake->set_old_direction();
-
-            //directions.second = ai_snake->get_direction();
-            //std::cout << directions.first << " " << directions.second << "\t";
-
-            //if (directions.first == (directions.second + 2) % 4) 
-                //std::cout << "\nHuston we got a problem\n";
-        }
-        //std::cout << std::endl;
-
-        //for (auto it = ai_snakes.begin(); it != ai_snakes.end();) {
-        //    (*it)->set_random_direction();
-
-        //    if (!(*it)->move()) {
-        //        it = ai_snakes.erase(it);
-        //    }
-        //    else if ((*it)->eats(food.get_position())) {
-        //        food.generateFood(find_empty_cell());
-        //        ++it;
-        //    }
-        //    else {
-        //        (*it)->set_old_direction();
-        //        ++it;
-        //    }
-        //}
-    }
-
-    //lastTime = now;
-    //now = std::chrono::high_resolution_clock::now();
-    //fps = 1.f / std::chrono::duration_cast<std::chrono::duration<float>>(now - lastTime).count();
-    
-    //fpsText.setString(std::to_string(fps));
-
     scoreText.setString(std::to_string(snake.get_score()));
     scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
 }
@@ -289,10 +279,69 @@ void SnakeGame::render() {
     snake.draw(window);
     food.draw(window);
 
-    //window.draw(fpsText);
     window.draw(scoreText);
 
     window.display();
+}
+
+bool SnakeGame::isGameFrame()
+{
+    fpsCounter++; //increase frame counter
+
+    if (fpsCounter >= (FPS_LIMIT / SNAKE_SPEED)) {
+        fpsCounter = 0;
+        return true;
+    }
+
+    return false;
+}
+
+void SnakeGame::classicMode()
+{
+    gameOver = !snake.move();
+    if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
+    snake.set_old_direction();
+
+    for (auto& ai_snake : ai_snakes) {
+        ai_snake->set_random_direction();
+
+        if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
+        else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
+
+        ai_snake->set_old_direction();
+    }
+
+    scoreText.setString(std::to_string(snake.get_score()));
+    scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
+}
+
+void SnakeGame::peacefulMode()
+{
+}
+
+void SnakeGame::aiMode()
+{
+  gameOver = !snake.move();
+        if (gameOver) return;
+
+        if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
+
+        //last move
+        snake.set_old_direction();
+
+        for (auto& ai_snake : ai_snakes) {
+
+            ai_snake->set_direction_from_ai(ai_snake->ai.forwardPass(type_matrix_to_vector(get_all_positions(ai_snake->get_positions()))));
+
+            if (!ai_snake->move()) ai_snake->reset(find_empty_cell());
+            else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
+
+            ai_snake->set_old_direction();
+        }
+}
+
+void SnakeGame::aiNoobMode()
+{
 }
 
 sf::Vector2f SnakeGame::find_empty_cell()

@@ -17,5 +17,14 @@ enum Direction {
 	Unknown = 4
 };
 
+enum Direction {
+	Up = 0,
+	Left = 1,
+	Down = 2,
+	Right = 3,
+
+	Unknown = 4
+};
+
 //extern bool isError = false;
 //extern std::vector<std::string> Errors;
