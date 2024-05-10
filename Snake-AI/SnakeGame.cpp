@@ -18,7 +18,6 @@ SnakeGame::SnakeGame()
     , menu()
     , startMenu()
 {
-
     window.setFramerateLimit(FPS_LIMIT);
     srand(time(0));
 
@@ -26,21 +25,12 @@ SnakeGame::SnakeGame()
       
     startMenu.assignFilenames(textureFiles, startMenu.numberOfSkins);
 
-    if (!general_font.loadFromFile("font.ttf")) {
-        //isError = true;
-        //Errors.push_back("Error loading font.ttf");
-    }
-
-    fpsText.setFont(general_font);
-    fpsText.setFillColor(sf::Color::White);
-    fpsText.setPosition(0, 0); //left up corner
+    general_font.loadFromFile("font.ttf");
 
     scoreText.setFont(general_font);
     scoreText.setFillColor(sf::Color::White);
 
     draw_objects.push_back(std::make_unique<Grid>(BLOCK_SIZE));
-    //draw_objects.push_back(std::make_unique<Milan>());
-
 
     //vytvorenie hadakov umelych
     for (int i = 0; i <2; i++) {
@@ -152,7 +142,6 @@ void SnakeGame::startInput()
                 startMenu.setUnpressed(startMenu.button);
                 startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
                 pressed = false;
-                //std::cout << skinChose << " ";
                 snake.setTextures(textureFiles[skinChose]); //set textures here because it was lagging
             }
 
@@ -223,7 +212,6 @@ void SnakeGame::handleInput() {
 
         default:
             //std::cout << "unknown event type\n";
-            break;
         }
     }
 }
@@ -290,12 +278,6 @@ void SnakeGame::update() {
         //}
     }
 
-    lastTime = now;
-    now = std::chrono::high_resolution_clock::now();
-    fps = 1.f / std::chrono::duration_cast<std::chrono::duration<float>>(now - lastTime).count();
-    
-    fpsText.setString(std::to_string(fps));
-
     scoreText.setString(std::to_string(snake.get_score()));
     scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
 }
@@ -340,14 +322,14 @@ sf::Vector2f SnakeGame::find_empty_cell()
             }
         }
 
-        /*for (const auto& ai_snake : ai_snakes) {
+        for (const auto& ai_snake : ai_snakes) {
             for (const sf::Vector2f s : ai_snake->get_positions()) {
                 if (freePos == s) {
                     invalidPos = true;
                     break;
                 }
             }
-        }*/
+        }
 
     } while (invalidPos);
 
