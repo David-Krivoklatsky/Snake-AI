@@ -46,14 +46,14 @@ bool Snake::legal_move()
     //ci narazil do steny
     if (positions[0].x < 0 || positions[0].x >= WINDOW_SIZE || positions[0].y < 0 || positions[0].y >= WINDOW_SIZE) {
         legal = false;
-		//std::cout << "Narazil do steny" << std::endl;
+		std::cout << "Narazil do steny" << std::endl;
     }
 
     //ci je idiot a krizuje sa sam so sebou
     for (int i = 1; i < positions.size() - 1; i++) {
         if (positions[0] == positions[i]) {
             legal = false;
-			//std::cout << "Narazil do seba" << std::endl;
+			std::cout << "Narazil do seba" << std::endl;
         }
     }
     return legal;
@@ -303,27 +303,23 @@ AI_Snake::AI_Snake(const sf::Vector2f& pos, const std::vector<int>& layers)
 }
 
 Direction AI_Snake::set_direction_of_food(std::unique_ptr<AI_Snake>& position, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
-	if (position->get_positions()[0].x < food.x) {
+    if (position->get_positions()[0].x < food.x) {
 		if (old != Left) return Right;
-        else if(position->get_positions()[0].y < food.y){
-            position->set_direction(Down);
-            position->move();
-			if (position->legal_move()) return Down;
+        else if(position->get_positions()[0].y < food.y){//                          O -- //jablko
+            position->set_direction(Down);//                        __________________//had
+			position->move();//                                                    <--    ten mantak sa pohne dole aj ked je tam stena
+			if (position->legal_move()) return Down;//             STENA | STENA | STENA |        to znamená že treba ešte jednu kópiu                               
             else {
-                position->set_direction(Up);
-                position->move();
-				if (position->legal_move()) return Up;
+                return Up;
 
             }
         }
-		else if (position->get_positions()[0].y > food.y) {
+		else{
 			position->set_direction(Up);
 			position->move();
 			if (position->legal_move()) return Up;
 			else {
-				position->set_direction(Down);
-				position->move();
-				if (position->legal_move()) return Down;
+				return Down;
 			}
 		}
 	}
@@ -334,20 +330,16 @@ Direction AI_Snake::set_direction_of_food(std::unique_ptr<AI_Snake>& position, s
 			position->move();
 			if (position->legal_move()) return Down;
 			else {
-				position->set_direction(Up);
-				position->move();
-				if (position->legal_move()) return Up;
+				return Up;
 
 			}
 		}
-		else if (position->get_positions()[0].y > food.y) {
+		else {
 			position->set_direction(Up);
 			position->move();
 			if (position->legal_move()) return Up;
 			else {
-				position->set_direction(Down);
-				position->move();
-				if (position->legal_move()) return Down;
+				return Down;
 			}
 		}
 	}
@@ -358,20 +350,16 @@ Direction AI_Snake::set_direction_of_food(std::unique_ptr<AI_Snake>& position, s
 			position->move();
 			if (position->legal_move()) return Right;
             else {
-				position->set_direction(Left);
-				position->move();
-				if (position->legal_move()) return Left;
+				return Left;
 
 			}
 		}
-        else if (position->get_positions()[0].x > food.x) {
+        else{
 			position->set_direction(Left);
 			position->move();
 			if (position->legal_move()) return Left;
             else {
-				position->set_direction(Right);
-				position->move();
-				if (position->legal_move()) return Right;
+				return Right;
 			}
 		}
 	}
@@ -382,19 +370,15 @@ Direction AI_Snake::set_direction_of_food(std::unique_ptr<AI_Snake>& position, s
 			position->move();
 			if (position->legal_move()) return Right;
             else {
-				position->set_direction(Left);
-				position->move();
-				if (position->legal_move()) return Left;
+				return Left;
             }
         }
-        else if (position->get_positions()[0].x > food.x) {
+        else{
             position->set_direction(Left);
             position->move();
             if (position->legal_move()) return Left;
             else {
-                position->set_direction(Right);
-                position->move();
-                if (position->legal_move()) return Right;
+                return Right;
             }
         }
 	}
