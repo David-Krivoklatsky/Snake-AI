@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "DrawObjects.hpp"
 #include "NeuralNetwork.hpp"
+#include "Food.hpp"
 
 class Snake : public DrawObject {
 public:
@@ -26,6 +27,7 @@ public:
 	void set_direction(Direction);
 	void set_old_direction();
 	void set_random_direction();
+	Direction set_direction_of_food(sf::Vector2f, sf::Vector2f, Direction);
 
 private:
 	std::vector<sf::Vector2f> positions;

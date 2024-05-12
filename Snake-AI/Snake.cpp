@@ -46,12 +46,14 @@ bool Snake::legal_move()
     //ci narazil do steny
     if (positions[0].x < 0 || positions[0].x >= WINDOW_SIZE || positions[0].y < 0 || positions[0].y >= WINDOW_SIZE) {
         legal = false;
+		//std::cout << "Narazil do steny" << std::endl;
     }
 
     //ci je idiot a krizuje sa sam so sebou
     for (int i = 1; i < positions.size() - 1; i++) {
         if (positions[0] == positions[i]) {
             legal = false;
+			//std::cout << "Narazil do seba" << std::endl;
         }
     }
     return legal;
@@ -298,6 +300,22 @@ AI_Snake::AI_Snake(const sf::Vector2f& pos, const std::vector<int>& layers)
     , ai(layers)
 {
     setTextures(sf::Color::Yellow);
+}
+
+Direction Snake::set_direction_of_food(sf::Vector2f positions, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
+	if (positions.x < food.x) {
+		if (old != Left) return Right;
+        
+	}
+    else if (positions.x > food.x) {
+        if (old != Right) return Left;
+	}
+    else if (positions.y < food.y) {
+        if (old != Up) return Down;
+	}
+    else if (positions.y > food.y) {
+        if (old != Down) return Up;
+	}
 }
 
 void AI_Snake::set_direction_from_ai(const std::vector<double>& output)

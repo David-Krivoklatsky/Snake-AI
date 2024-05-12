@@ -387,6 +387,23 @@ void SnakeGame::trainAiMode()
 
 void SnakeGame::aiNoobMode()
 {
+    snake.move();
+    gameOver = !snake.legal_move();
+    if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
+    snake.set_old_direction();
+
+    for (auto& ai_snake : ai_snakes) {
+        ai_snake->set_direction(ai_snake->set_direction_of_food(ai_snake->get_positions()[0], food.get_position(), ai_snake->get_direction()));
+
+        ai_snake->move();
+        if (!ai_snake->legal_move()) ai_snake->reset(find_empty_cell());
+        else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
+
+        ai_snake->set_old_direction();
+    }
+
+    scoreText.setString(std::to_string(snake.get_score()));
+    scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
 }
 
 sf::Vector2f SnakeGame::find_empty_cell()
