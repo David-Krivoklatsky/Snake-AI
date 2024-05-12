@@ -302,7 +302,7 @@ AI_Snake::AI_Snake(const sf::Vector2f& pos, const std::vector<int>& layers)
     setTextures(sf::Color::Yellow);
 }
 
-Direction AI_Snake::set_direction_of_food(std::unique_ptr<AI_Snake> position, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
+Direction AI_Snake::set_direction_of_food(std::unique_ptr<AI_Snake>& position, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
 	if (position->get_positions()[0].x < food.x) {
 		if (old != Left) return Right;
         else if(position->get_positions()[0].y < food.y){
