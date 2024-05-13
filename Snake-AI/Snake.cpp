@@ -46,14 +46,14 @@ bool Snake::legal_move()
     //ci narazil do steny
     if (positions[0].x < 0 || positions[0].x >= WINDOW_SIZE || positions[0].y < 0 || positions[0].y >= WINDOW_SIZE) {
         legal = false;
-		std::cout << "Narazil do steny" << std::endl;
+		//std::cout << "Narazil do steny" << std::endl;
     }
 
     //ci je idiot a krizuje sa sam so sebou
     for (int i = 1; i < positions.size() - 1; i++) {
         if (positions[0] == positions[i]) {
             legal = false;
-			std::cout << "Narazil do seba" << std::endl;
+			//std::cout << "Narazil do seba" << std::endl;
         }
     }
     return legal;
