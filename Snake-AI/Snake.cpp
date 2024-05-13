@@ -302,84 +302,100 @@ AI_Snake::AI_Snake(const sf::Vector2f& pos, const std::vector<int>& layers)
     setTextures(sf::Color::Yellow);
 }
 
-Direction AI_Snake::set_direction_of_food(std::unique_ptr<AI_Snake>& position, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
-    if (position->get_positions()[0].x < food.x) {
-		if (old != Left) return Right;
-        else if(position->get_positions()[0].y < food.y){//                          O -- //jablko
-            position->set_direction(Down);//                        __________________//had
-			position->move();//                                                    <--    ten mantak sa pohne dole aj ked je tam stena
-			if (position->legal_move()) return Down;//             STENA | STENA | STENA |        to znamená že treba ešte jednu kópiu                               
-            else {
-                return Up;
+Direction AI_Snake::set_direction_of_food(std::unique_ptr<AI_Snake>& position, std::unique_ptr<AI_Snake>& position1, std::unique_ptr<AI_Snake>& position2, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
 
-            }
+    if (position->get_positions()[0].x < food.x) {
+		position2->set_direction(Right);
+		position2->move();
+		if (position2->legal_move()) return Right;
+        else if(position->get_positions()[0].y < food.y){
+            position->set_direction(Down);
+			position->move();
+            position1->set_direction(Up);
+            position1->move();
+            if (position->legal_move()) return Down;
+            else if (position1->legal_move()) return Up;
+            else return Left;
         }
 		else{
 			position->set_direction(Up);
 			position->move();
-			if (position->legal_move()) return Up;
-			else {
-				return Down;
-			}
+			position1->set_direction(Down);
+			position1->move();
+            if (position->legal_move()) return Up;
+            else if (position1->legal_move()) return Down;
+            else return Left;
 		}
 	}
     else if (position->get_positions()[0].x > food.x) {
-		if (old != Right) return Left;
+        position2->set_direction(Left);
+        position2->move();
+		if (position2->legal_move()) return Left;
 		else if (position->get_positions()[0].y < food.y) {
 			position->set_direction(Down);
 			position->move();
+			position1->set_direction(Up);
+			position1->move();
 			if (position->legal_move()) return Down;
-			else {
-				return Up;
+			else if(position1->legal_move()) return Up;
+			else return Right;
 
-			}
 		}
 		else {
 			position->set_direction(Up);
 			position->move();
+			position1->set_direction(Down);
+			position1->move();
 			if (position->legal_move()) return Up;
-			else {
-				return Down;
-			}
+			else if(position1->legal_move()) return Down;
+			else return Right;
+			
 		}
 	}
     else if (position->get_positions()[0].y < food.y) {
-        if (old != Up) return Down;
+        position2->set_direction(Down);
+        position2->move();
+        if (position2->legal_move()) return Down;
 		else if (position->get_positions()[0].x < food.x) {
 			position->set_direction(Right);
 			position->move();
+			position1->set_direction(Left);
+			position1->move();
 			if (position->legal_move()) return Right;
-            else {
-				return Left;
-
-			}
+            else if(position1->legal_move()) return Left;
+			else return Up;
 		}
         else{
 			position->set_direction(Left);
 			position->move();
+			position1->set_direction(Right);
+			position1->move();
 			if (position->legal_move()) return Left;
-            else {
-				return Right;
-			}
+            else if(position1->legal_move())return Right;
+			else return Up;
 		}
 	}
     else if (position->get_positions()[0].y > food.y) {
-        if (old != Down) return Up;
+        position2->set_direction(Up);
+        position2->move();
+        if (position2->legal_move()) return Up;
         else if (position->get_positions()[0].x < food.x) {
 			position->set_direction(Right);
 			position->move();
+			position1->set_direction(Left);
+			position1->move();
 			if (position->legal_move()) return Right;
-            else {
-				return Left;
-            }
+            else if (position1->legal_move()) return Left;
+			else return Down;
         }
         else{
             position->set_direction(Left);
             position->move();
+			position1->set_direction(Right);
+			position1->move();
             if (position->legal_move()) return Left;
-            else {
-                return Right;
-            }
+            else if(position1->legal_move()) return Right;
+			else return Down;
         }
 	}
 	return old;

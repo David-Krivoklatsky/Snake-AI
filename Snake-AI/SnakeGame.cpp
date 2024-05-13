@@ -396,8 +396,9 @@ void SnakeGame::aiNoobMode()
     for (auto& ai_snake : ai_snakes) {
 
         std::unique_ptr<AI_Snake> had = std::make_unique<AI_Snake>(*ai_snake);
-
-        ai_snake->set_direction(ai_snake->set_direction_of_food(had, food.get_position(), ai_snake->get_direction()));
+        std::unique_ptr<AI_Snake> had1 = std::make_unique<AI_Snake>(*ai_snake);
+        std::unique_ptr<AI_Snake> had2 = std::make_unique<AI_Snake>(*ai_snake);
+        ai_snake->set_direction(ai_snake->set_direction_of_food(had,had1, had2,food.get_position(), ai_snake->get_direction()));
 
         ai_snake->move();
         if (!ai_snake->legal_move()) ai_snake->reset(find_empty_cell());
