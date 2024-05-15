@@ -74,8 +74,8 @@ void Snake::setTextures(sf::Color farba) {
 
     std::string folder;
 
-    if (farba == sf::Color::Yellow) folder = "Snake_texture2";
-    else folder = "Snake_texture1";
+    if (farba == sf::Color::Blue) folder = "Snake_texture1";
+    else folder = "Snake_texture2";
 
     setTextures(folder);
 }
@@ -302,7 +302,13 @@ AI_Snake::AI_Snake(const sf::Vector2f& pos, const std::vector<int>& layers)
     setTextures(sf::Color::Yellow);
 }
 
-Direction AI_Snake::set_direction_of_food(std::unique_ptr<AI_Snake>& position, std::unique_ptr<AI_Snake>& position1, std::unique_ptr<AI_Snake>& position2, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
+Noob_Snake::Noob_Snake(const sf::Vector2f& pos)
+    : Snake(pos)
+{
+	setTextures(sf::Color::Green);
+}
+
+Direction Noob_Snake::set_direction_of_food(std::unique_ptr<Noob_Snake>& position, std::unique_ptr<Noob_Snake>& position1, std::unique_ptr<Noob_Snake>& position2, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
 
     if (position->get_positions()[0].x < food.x) {
 		position2->set_direction(Right);
