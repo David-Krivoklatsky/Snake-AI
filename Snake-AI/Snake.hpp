@@ -27,7 +27,6 @@ public:
 	void set_direction(Direction);
 	void set_old_direction();
 	void set_random_direction();
-	Direction set_direction_of_food(sf::Vector2f, sf::Vector2f, Direction);
 
 private:
 	std::vector<sf::Vector2f> positions;
@@ -73,4 +72,12 @@ public:
 	void set_direction_from_ai(const std::vector<double>&);
 
 	NeuralNetwork ai;
+};
+
+class Noob_Snake : public Snake {
+public:
+	Noob_Snake(const sf::Vector2f&);
+
+	Direction set_direction_of_food(std::unique_ptr<Noob_Snake>&, std::unique_ptr<Noob_Snake>&, std::unique_ptr<Noob_Snake>&, sf::Vector2f, Direction);
+
 };

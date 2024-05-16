@@ -74,8 +74,8 @@ void Snake::setTextures(sf::Color farba) {
 
     std::string folder;
 
-    if (farba == sf::Color::Yellow) folder = "Snake_texture2";
-    else folder = "Snake_texture1";
+    if (farba == sf::Color::Blue) folder = "Snake_texture1";
+    else folder = "Snake_texture2";
 
     setTextures(folder);
 }
@@ -302,20 +302,109 @@ AI_Snake::AI_Snake(const sf::Vector2f& pos, const std::vector<int>& layers)
     setTextures(sf::Color::Yellow);
 }
 
-Direction Snake::set_direction_of_food(sf::Vector2f positions, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
-	if (positions.x < food.x) {
-		if (old != Left) return Right;
-        
+Noob_Snake::Noob_Snake(const sf::Vector2f& pos)
+    : Snake(pos)
+{
+	setTextures(sf::Color::Green);
+}
+
+Direction Noob_Snake::set_direction_of_food(std::unique_ptr<Noob_Snake>& position, std::unique_ptr<Noob_Snake>& position1, std::unique_ptr<Noob_Snake>& position2, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
+
+    if (position->get_positions()[0].x < food.x) {
+		position2->set_direction(Right);
+		position2->move();
+		if (position2->legal_move()) return Right;
+        else if(position->get_positions()[0].y < food.y){
+            position->set_direction(Down);
+			position->move();
+            position1->set_direction(Up);
+            position1->move();
+            if (position->legal_move()) return Down;
+            else if (position1->legal_move()) return Up;
+            else return Left;
+        }
+		else{
+			position->set_direction(Up);
+			position->move();
+			position1->set_direction(Down);
+			position1->move();
+            if (position->legal_move()) return Up;
+            else if (position1->legal_move()) return Down;
+            else return Left;
+		}
 	}
-    else if (positions.x > food.x) {
-        if (old != Right) return Left;
+    else if (position->get_positions()[0].x > food.x) {
+        position2->set_direction(Left);
+        position2->move();
+		if (position2->legal_move()) return Left;
+		else if (position->get_positions()[0].y < food.y) {
+			position->set_direction(Down);
+			position->move();
+			position1->set_direction(Up);
+			position1->move();
+			if (position->legal_move()) return Down;
+			else if(position1->legal_move()) return Up;
+			else return Right;
+
+		}
+		else {
+			position->set_direction(Up);
+			position->move();
+			position1->set_direction(Down);
+			position1->move();
+			if (position->legal_move()) return Up;
+			else if(position1->legal_move()) return Down;
+			else return Right;
+			
+		}
 	}
-    else if (positions.y < food.y) {
-        if (old != Up) return Down;
+    else if (position->get_positions()[0].y < food.y) {
+        position2->set_direction(Down);
+        position2->move();
+        if (position2->legal_move()) return Down;
+		else if (position->get_positions()[0].x < food.x) {
+			position->set_direction(Right);
+			position->move();
+			position1->set_direction(Left);
+			position1->move();
+			if (position->legal_move()) return Right;
+            else if(position1->legal_move()) return Left;
+			else return Up;
+		}
+        else{
+			position->set_direction(Left);
+			position->move();
+			position1->set_direction(Right);
+			position1->move();
+			if (position->legal_move()) return Left;
+            else if(position1->legal_move())return Right;
+			else return Up;
+		}
 	}
-    else if (positions.y > food.y) {
-        if (old != Down) return Up;
+    else if (position->get_positions()[0].y > food.y) {
+        position2->set_direction(Up);
+        position2->move();
+        if (position2->legal_move()) return Up;
+        else if (position->get_positions()[0].x < food.x) {
+			position->set_direction(Right);
+			position->move();
+			position1->set_direction(Left);
+			position1->move();
+			if (position->legal_move()) return Right;
+            else if (position1->legal_move()) return Left;
+			else return Down;
+        }
+        else{
+            position->set_direction(Left);
+            position->move();
+			position1->set_direction(Right);
+			position1->move();
+            if (position->legal_move()) return Left;
+            else if(position1->legal_move()) return Right;
+			else return Down;
+        }
 	}
+	return old;
 }
 
 void AI_Snake::set_direction_from_ai(const std::vector<double>& output)

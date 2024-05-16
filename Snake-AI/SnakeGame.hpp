@@ -31,6 +31,8 @@ private:
     void update();
     void render();
 
+    void setMode(int);
+
     bool isGameFrame();
 
     void classicMode();
@@ -59,7 +61,9 @@ private:
     StartMenu startMenu;
 
     std::vector<std::string> textureFiles;
-    std::vector<std::unique_ptr<AI_Snake>> ai_snakes; //hadi
+
+    std::vector<std::unique_ptr<AI_Snake>> ai_snakes; //mudri hadi
+    std::vector<std::unique_ptr<Noob_Snake>> noob_snakes; //hlupi hadi
 
     sf::Font general_font;
 
