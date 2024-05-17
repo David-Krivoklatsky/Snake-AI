@@ -27,8 +27,8 @@ public:
 
 	Direction get_direction();
 	void set_direction(Direction);
-	void set_old_direction();
 	void set_random_direction();
+	void set_old_direction();
 
 private:
 	std::vector<sf::Vector2f> positions;

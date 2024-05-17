@@ -94,7 +94,7 @@ void Snake::setSkin(const SnakeSkin& sskin) {
 }
 
 void Snake::draw(sf::RenderWindow& window) {
-    if (last_dir == Left) { //skin->head
+    if (last_dir == Left) { //head
         skin->headLeft.setPosition(positions[0]);
         window.draw(skin->headLeft);
     }
@@ -130,7 +130,7 @@ void Snake::draw(sf::RenderWindow& window) {
         }
     }
 
-    if (positions.size() > 2) { // if snakes length is bigger then 2 it has middle snake part (chest or smth like that) (everything except tail and skin->head)
+    if (positions.size() > 2) { // if snakes length is bigger then 2 it has middle snake part (chest or smth like that) (everything except tail and head)
         for (int i = 1; i < positions.size() - 1; i++) {
             if (positions[i + 1].x == positions[i - 1].x && positions[i + 1].y != positions[i - 1].y) {
                 skin->vertic.setPosition(positions[i]);
