@@ -18,8 +18,6 @@ public:
 	bool clickStart(const sf::RenderWindow&);
 	bool clickSound(const sf::RenderWindow&);
 
-	void assignFilenames(std::vector<std::string>&, int);
-
 	void anotherSkin(int&, const int);
 	void setPressed(int&);
 	void setUnpressed(int&);

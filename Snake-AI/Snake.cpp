@@ -193,13 +193,13 @@ AI_Snake::AI_Snake(const sf::Vector2f& pos, const std::vector<int>& layers)
     : Snake(pos)
     , ai(layers)
 {
-    setTextures(sf::Color::Yellow);
+
 }
 
 Noob_Snake::Noob_Snake(const sf::Vector2f& pos)
     : Snake(pos)
 {
-	setTextures(sf::Color::Green);
+
 }
 
 Direction Noob_Snake::set_direction_of_food(std::unique_ptr<Noob_Snake>& position, std::unique_ptr<Noob_Snake>& position1, std::unique_ptr<Noob_Snake>& position2, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
