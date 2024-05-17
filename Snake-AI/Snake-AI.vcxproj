@@ -152,6 +152,7 @@
     <ClCompile Include="NeuralNetwork.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="SnakeGame.cpp" />
+    <ClCompile Include="SnakeSkin.cpp" />
     <ClCompile Include="StartMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +164,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Snake.hpp" />
     <ClInclude Include="SnakeGame.hpp" />
+    <ClInclude Include="SnakeSkin.hpp" />
     <ClInclude Include="StartMenu.hpp" />
   </ItemGroup>
   <ItemGroup>

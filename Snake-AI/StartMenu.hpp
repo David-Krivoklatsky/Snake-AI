@@ -27,7 +27,6 @@ public:
 	void turnSound();
 
 	int button = 0;
-	const int numberOfSkins = 2;
 	bool sound = false;
 	int mode = 0;
 
