@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Direction.hpp"
 #include <SFML/Graphics.hpp>
 #include "DrawObjects.hpp"
 #include "SnakeSkin.hpp"
@@ -11,11 +12,11 @@ public:
 	Snake(const sf::Vector2f&);
     virtual void draw(sf::RenderWindow&) override;
 
-	Snake& operator=(const Snake& other);
-
 	std::vector<sf::Vector2f> get_positions();
 
 	void setSkin(const SnakeSkin&);
+
+	void copyFrom(const Snake& other);
 
 	void move();
 	bool legal_move();
@@ -26,6 +27,8 @@ public:
 	int get_score();
 
 	Direction get_direction();
+	Direction get_relative_direction();
+
 	void set_direction(Direction);
 	void set_random_direction();
 	void set_old_direction();
@@ -43,9 +46,9 @@ class AI_Snake : public Snake {
 public:
 	AI_Snake(const sf::Vector2f&, const std::vector<int>& layers);
 
-	void set_direction_from_ai(const std::vector<double>&);
-
 	NeuralNetwork ai;
+	
+	void set_direction_from_ai(const std::vector<double>&);
 };
 
 class Noob_Snake : public Snake {

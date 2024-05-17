@@ -156,6 +156,7 @@
     <ClCompile Include="StartMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Direction.hpp" />
     <ClInclude Include="DrawObjects.hpp" />
     <ClInclude Include="Food.hpp" />
     <ClInclude Include="Globals.hpp" />

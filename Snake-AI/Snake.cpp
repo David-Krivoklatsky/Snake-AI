@@ -13,24 +13,6 @@ Snake::Snake(const sf::Vector2f& pos)
     move();
 }
 
-// snake2 = snake1
-Snake& Snake::operator=(const Snake& other) {
-    if (this != &other) {
-        positions = other.positions;
-
-        if (other.skin) {
-            skin = std::make_unique<SnakeSkin>(*other.skin);
-        }
-        else {
-            skin.reset();
-        }
-
-        current_dir = other.current_dir;
-        last_dir = other.last_dir;
-    }
-    return *this;
-}
-
 void Snake::move() {
     //inserts new pos to positions depending on the direction it is moving
     int changeX = 0, changeY = 0;
@@ -91,6 +73,21 @@ bool Snake::eats(const sf::Vector2f& jedlo)
 void Snake::setSkin(const SnakeSkin& sskin) {
 
     skin = std::make_unique<SnakeSkin>(sskin);
+}
+
+void Snake::copyFrom(const Snake& other)
+{
+    positions = other.positions;
+
+	if (other.skin) {
+		skin = std::make_unique<SnakeSkin>(*other.skin);
+	}
+	else {
+		skin.reset();
+	}
+
+	current_dir = other.current_dir;
+	last_dir = other.last_dir;
 }
 
 void Snake::draw(sf::RenderWindow& window) {
@@ -178,6 +175,11 @@ void Snake::set_old_direction()
 Direction Snake::get_direction()
 {
     return last_dir;
+}
+
+Direction Snake::get_relative_direction()
+{
+    return static_cast<Direction>((static_cast<int>(current_dir) - static_cast<int>(last_dir) + 5) % 4);
 }
 
 int Snake::get_score()
@@ -325,5 +327,5 @@ void AI_Snake::set_direction_from_ai(const std::vector<double>& output)
 
     Direction last_dir = get_direction();
     
-	set_direction(static_cast<Direction>((static_cast<int>(new_dir) + static_cast<int>(last_dir) + 3) % 4)); //absolutny smer z relativneho
+    set_direction(static_cast<Direction>((static_cast<int>(new_dir) + static_cast<int>(last_dir) + 3) % 4));
 }
