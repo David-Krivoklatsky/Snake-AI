@@ -11,6 +11,8 @@ public:
 	Snake(const sf::Vector2f&);
     virtual void draw(sf::RenderWindow&) override;
 
+	Snake& operator=(const Snake& other);
+
 	std::vector<sf::Vector2f> get_positions();
 
 	void setSkin(const SnakeSkin&);

@@ -13,6 +13,24 @@ Snake::Snake(const sf::Vector2f& pos)
     move();
 }
 
+// snake2 = snake1
+Snake& Snake::operator=(const Snake& other) {
+    if (this != &other) {
+        positions = other.positions;
+
+        if (other.skin) {
+            skin = std::make_unique<SnakeSkin>(*other.skin);
+        }
+        else {
+            skin.reset();
+        }
+
+        current_dir = other.current_dir;
+        last_dir = other.last_dir;
+    }
+    return *this;
+}
+
 void Snake::move() {
     //inserts new pos to positions depending on the direction it is moving
     int changeX = 0, changeY = 0;

@@ -25,7 +25,7 @@ SnakeGame::SnakeGame()
     srand(time(0));
 
     for (int i = 1; i <= numberOfSkins; i++) {
-		skins.push_back(std::make_unique<SnakeSkin>("Snake_texture" + i));
+		skins.push_back(std::make_unique<SnakeSkin>("Snake_texture" + std::to_string(i)));
 	}
 
     snake.setSkin(*skins[0]);
@@ -449,10 +449,10 @@ void SnakeGame::aiNoobMode()
 
     for (auto& noob_snake : noob_snakes) {
 
-        std::unique_ptr<Noob_Snake> had = std::make_unique<Noob_Snake>(*noob_snake);
-        std::unique_ptr<Noob_Snake> had1 = std::make_unique<Noob_Snake>(*noob_snake);
-        std::unique_ptr<Noob_Snake> had2 = std::make_unique<Noob_Snake>(*noob_snake);
-        noob_snake->set_direction(noob_snake->set_direction_of_food(had,had1, had2,food.get_position(), noob_snake->get_direction()));
+        std::unique_ptr<Noob_Snake> had1, had2, had3;
+        *had1 = *had2 = *had3 = *noob_snake;
+
+        noob_snake->set_direction(noob_snake->set_direction_of_food(had1, had2, had3,food.get_position(), noob_snake->get_direction()));
 
         noob_snake->move();
         if (!noob_snake->legal_move()) noob_snake->reset(find_empty_cell());
