@@ -338,9 +338,13 @@ void SnakeGame::setMode(int)
     
     // train ai
     case 4: {
-        ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), "test.snake"));
+        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
+
+        ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
+
         ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), "test.snake"));
         ai_snakes[0]->setSkin(*skins[1]);
+        ai_snakes[1]->setSkin(*skins[2]);
         break;
     }
     
@@ -517,8 +521,16 @@ void SnakeGame::trainAiMode()
 
     if (had.eats(food.get_position())) food.generateFood(find_empty_cell());
 
-	scoreText.setString(std::to_string(snake.get_score()));
-	scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
+    AI_Snake& freeSnake = *ai_snakes[1];
+
+    freeSnake.ai = had.ai;
+
+    freeSnake.set_direction_from_ai(freeSnake.ai.forwardPass(type_matrix_to_vector(get_all_positions(freeSnake.get_positions()))));
+    freeSnake.move();
+
+    freeSnake.set_old_direction();
+
+    if (freeSnake.eats(food.get_position())) food.generateFood(find_empty_cell());
 }
 
 void SnakeGame::aiNoobMode()
@@ -606,13 +618,17 @@ std::vector<std::vector<Type>> SnakeGame::get_all_positions(const std::vector<sf
 
     for (const auto& ai_snake : ai_snakes) {
         for (const sf::Vector2f& s : ai_snake->get_positions()) {
-            all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;
+            if (s.x < WINDOW_SIZE && s.x >= 0 && s.y < WINDOW_SIZE && s.y >= 0) {
+                all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;
+            }
         }
 	}
 
     for (const auto& noob_snake : noob_snakes) {
         for (const sf::Vector2f s : noob_snake->get_positions()) {
-            all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;
+            if (s.x < WINDOW_SIZE && s.x >= 0 && s.y < WINDOW_SIZE && s.y >= 0) {
+                all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;
+            }
         }
     }
 
