@@ -53,7 +53,7 @@ private:
 	sf::Text skin;
 	sf::speedValue;
 	*/
-	std::string gameModes[number_of_modes] = { "Classic", "Random Mode", "Peaceful", "    AI    ", " Train AI " , "AI - noob"};
+	std::string gameModes[number_of_modes] = { "Classic", "Random Mode", "Train AI", "    AI    ", "Train with freesnake" , "AI - noob", "Battle Royal"};
 
 	sf::RectangleShape background;
 	sf::RectangleShape choiceOfGameMod_button;

@@ -41,6 +41,7 @@ private:
     void aiMode();
     void trainAiMode();
     void aiNoobMode();
+    void battleRoyal();
 
     sf::Vector2f find_empty_cell();
 

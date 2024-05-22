@@ -9,7 +9,7 @@ constexpr int FPS_LIMIT = 60;
 constexpr float SNAKE_SPEED = 5.f;
 
 constexpr int numberOfSkins = 3;
-constexpr int number_of_modes = 6;
+constexpr int number_of_modes = 7;
 
 //extern bool isError = false;
 //extern std::vector<std::string> Errors;
