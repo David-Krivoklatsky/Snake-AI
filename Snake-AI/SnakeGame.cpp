@@ -93,6 +93,8 @@ void SnakeGame::run() {
         if (gameOver) retryMenu();
         gameOver = false;
     }
+
+    if (startMenu.mode == 4) ai_snakes[0]->ai.save2file("test.snake");
 }
 
 void SnakeGame::retryMenu() {
@@ -330,10 +332,16 @@ void SnakeGame::setMode(int)
     
     // train ai
     case 4: {
+        /*
         std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
 
         ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
         ai_snakes[0]->setSkin(*skins[1 % numberOfSkins]);
+        */
+
+
+        ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), "test.snake"));
+        ai_snakes[0]->setSkin(*skins[1]);
         break;
     }
     

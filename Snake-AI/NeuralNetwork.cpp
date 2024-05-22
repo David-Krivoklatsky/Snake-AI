@@ -2,6 +2,7 @@
 
 #include <random>
 #include <fstream>
+#include <iostream>
 
 NeuralNetwork::NeuralNetwork(const std::vector<int>& vrstvy)
     : layers(vrstvy)
@@ -25,6 +26,40 @@ NeuralNetwork::NeuralNetwork(const std::vector<int>& vrstvy)
                 net[i][j].input_weights[k] = dist(gen);
             }
         }
+    }
+}
+
+NeuralNetwork::NeuralNetwork(const std::string& filename)
+{
+    std::ifstream file(filename);
+    if (file.is_open()) {
+
+        file >> numLayers;
+
+        layers.resize(numLayers);
+        for (int i = 0; i < numLayers; i++)
+            file >> layers[i];
+
+        net.resize(numLayers);
+
+        for (size_t i = 0; i < numLayers; ++i) {
+            net[i].resize(layers[i]);
+
+            for (size_t j = 0; j < layers[i]; j++) {
+                file >> net[i][j].bias;
+
+                net[i][j].input_weights.resize(layers[i - 1]);
+                for (size_t k = 0; k < layers[i - 1]; k++) {
+                    file >> net[i][j].input_weights[k];
+                }
+            }
+        }
+
+        file.close();
+    }
+
+    else {
+        std::cout << "Fail loading ai from file: " << filename << "\n";
     }
 }
 
@@ -112,7 +147,7 @@ void NeuralNetwork::save2file(const std::string& filename)
     std::ofstream file(filename);
 
     if (file.is_open()) {
-        file << numLayers << " ";
+        file << numLayers << "\n";
         for (int i = 0; i < numLayers; i++) {
 			file << layers[i] << " ";
 		}
@@ -123,7 +158,9 @@ void NeuralNetwork::save2file(const std::string& filename)
                 for (int k = 0; k < net[i][j].input_weights.size(); k++) {
                     file << net[i][j].input_weights[k] << " ";
                 }
+                file << std::endl;
             }
+            file << std::endl;
         }
         file.close();
     }

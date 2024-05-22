@@ -16,6 +16,7 @@ struct Neuron {
 class NeuralNetwork {
 public:
     NeuralNetwork(const std::vector<int>&);
+    NeuralNetwork(const std::string&);
 
     std::vector<double> forwardPass(const std::vector<double>&);
     void backprop(const std::vector<double>&, const std::vector<double>&);

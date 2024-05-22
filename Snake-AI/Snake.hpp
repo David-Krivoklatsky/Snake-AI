@@ -44,7 +44,8 @@ private:
 
 class AI_Snake : public Snake {
 public:
-	AI_Snake(const sf::Vector2f&, const std::vector<int>& layers);
+	AI_Snake(const sf::Vector2f&, const std::vector<int>&);
+	AI_Snake(const sf::Vector2f&, const std::string&);
 
 	NeuralNetwork ai;
 	
