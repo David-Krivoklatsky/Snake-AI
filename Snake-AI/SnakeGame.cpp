@@ -312,8 +312,14 @@ void SnakeGame::setMode(int)
         break;
     }
 
-	case 2: peacefulMode();
-		break;
+    // peaceful mode - train ai, create new snake
+    case 2: {
+        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
+
+        ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
+        ai_snakes[0]->setSkin(*skins[1 % numberOfSkins]);
+        break;
+    }
 
     // ai
     case 3: {
@@ -332,14 +338,7 @@ void SnakeGame::setMode(int)
     
     // train ai
     case 4: {
-        /*
-        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
-
-        ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
-        ai_snakes[0]->setSkin(*skins[1 % numberOfSkins]);
-        */
-
-
+        ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), "test.snake"));
         ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), "test.snake"));
         ai_snakes[0]->setSkin(*skins[1]);
         break;
@@ -409,6 +408,38 @@ void SnakeGame::randomMode()
 
 void SnakeGame::peacefulMode()
 {
+    AI_Snake& had = *ai_snakes[0];
+
+    had.copyFrom(snake);
+    had.setSkin(*skins[1 % numberOfSkins]);
+
+    std::vector<double> target = { 0., 0., 0. };
+    target[snake.get_relative_direction()] = 1.;
+
+    std::vector<double> grid = type_matrix_to_vector(get_all_positions(had.get_positions()));
+    std::vector<double> output = had.ai.forwardPass(grid);
+    had.set_direction_from_ai(output);
+    had.ai.backprop(grid, target);
+    had.move();
+
+    snake.move();
+    gameOver = !snake.legal_move();
+    if (gameOver) return;
+    if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
+
+    snake.set_old_direction();
+    had.set_old_direction();
+
+    std::cout << snake.get_direction() << "\t" << had.get_direction() << "\n";
+    for (int i = 0; i < 3; i++) {
+        std::cout << output[i] << "\t";
+    }
+    std::cout << "\n";
+
+    if (had.eats(food.get_position())) food.generateFood(find_empty_cell());
+
+    scoreText.setString(std::to_string(snake.get_score()));
+    scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
 }
 
 void SnakeGame::aiMode()

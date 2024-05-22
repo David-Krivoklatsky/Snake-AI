@@ -25,7 +25,7 @@ public:
 private:
     std::vector<std::vector<Neuron>> net;
 
-    double learningRate = 1.;
+    double learningRate = .05;
 
     double sigmoid(double z) const;
     double sigmoidPrime(double z) const;

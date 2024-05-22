@@ -41,8 +41,9 @@ NeuralNetwork::NeuralNetwork(const std::string& filename)
             file >> layers[i];
 
         net.resize(numLayers);
+        net[0].resize(layers[0]);
 
-        for (size_t i = 0; i < numLayers; ++i) {
+        for (size_t i = 1; i < numLayers; ++i) {
             net[i].resize(layers[i]);
 
             for (size_t j = 0; j < layers[i]; j++) {
@@ -152,7 +153,7 @@ void NeuralNetwork::save2file(const std::string& filename)
 			file << layers[i] << " ";
 		}
 
-        for (int i = 0; i < net.size(); i++) {
+        for (int i = 1; i < net.size(); i++) {
             for (int j = 0; j < net[i].size(); j++) {
                 file << net[i][j].bias << " ";
                 for (int k = 0; k < net[i][j].input_weights.size(); k++) {
