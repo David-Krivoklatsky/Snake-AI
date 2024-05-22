@@ -70,179 +70,88 @@ bool Snake::eats(const sf::Vector2f& jedlo)
     }
 }
 
-void Snake::setTextures(sf::Color farba) {
+void Snake::setSkin(const SnakeSkin& sskin) {
 
-    std::string folder;
-
-    if (farba == sf::Color::Blue) folder = "Snake_texture1";
-    else folder = "Snake_texture2";
-
-    setTextures(folder);
+    skin = std::make_unique<SnakeSkin>(sskin);
 }
 
-void Snake::setTextures(std::string folder)
+void Snake::copyFrom(const Snake& other)
 {
-    if (!tail_left.loadFromFile(folder + "/tail_left.png")) {
-        //isError = true;
-    }
-    else {
-        tailLeft.setTexture(tail_left);
-    }
+    positions = other.positions;
 
-    if (!tail_right.loadFromFile(folder + "/tail_right.png")) {
-        //isError = true;
-    }
-    else {
-        tailRight.setTexture(tail_right);
-    }
+	if (other.skin) {
+		skin = std::make_unique<SnakeSkin>(*other.skin);
+	}
+	else {
+		skin.reset();
+	}
 
-    if (!tail_down.loadFromFile(folder + "/tail_down.png")) {
-        //isError = true;
-    }
-    else {
-        tailDown.setTexture(tail_down);
-    }
-
-    if (!tail_up.loadFromFile(folder + "/tail_up.png")) {
-        //isError = true;
-    }
-    else {
-        tailUp.setTexture(tail_up);
-    }
-
-    if (!horizontal.loadFromFile(folder + "/body_horizontal.png")) {
-        //isError = true;
-    }
-    else {
-        horiz.setTexture(horizontal);
-    }
-
-    if (!vertical.loadFromFile(folder + "/body_vertical.png")) {
-        //isError = true;
-    }
-    else {
-        vertic.setTexture(vertical);
-    }
-
-    if (!topright.loadFromFile(folder + "/body_topright.png")) {
-        //isError = true;
-    }
-    else {
-        topRight.setTexture(topright);
-    }
-
-    if (!topleft.loadFromFile(folder + "/body_topleft.png")) {
-        //isError = true;
-    }
-    else {
-        topLeft.setTexture(topleft);
-    }
-
-    if (!bottomleft.loadFromFile(folder + "/body_bottomleft.png")) {
-        //isError = true;
-    }
-    else {
-        bottomLeft.setTexture(bottomleft);
-    }
-
-    if (!bottomright.loadFromFile(folder + "/body_bottomright.png")) {
-        //isError = true;
-    }
-    else {
-        bottomRight.setTexture(bottomright);
-    }
-
-    if (!head_left.loadFromFile(folder + "/head_left.png")) {
-        //isError = true;
-    }
-    else {
-        headLeft.setTexture(head_left);
-    }
-
-    if (!head_right.loadFromFile(folder + "/head_right.png")) {
-        //isError = true;
-    }
-    else {
-        headRight.setTexture(head_right);
-    }
-
-    if (!head_down.loadFromFile(folder + "/head_down.png")) {
-        //isError = true;
-    }
-    else {
-        headDown.setTexture(head_down);
-    }
-
-    if (!head_up.loadFromFile(folder + "/head_up.png")) {
-        //isError = true;
-    }
-    else {
-        headUp.setTexture(head_up);
-    }
+	current_dir = other.current_dir;
+	last_dir = other.last_dir;
 }
 
 void Snake::draw(sf::RenderWindow& window) {
     if (last_dir == Left) { //head
-        headLeft.setPosition(positions[0]);
-        window.draw(headLeft);
+        skin->headLeft.setPosition(positions[0]);
+        window.draw(skin->headLeft);
     }
     else if (last_dir == Right) {
-        headRight.setPosition(positions[0]);
-        window.draw(headRight);
+        skin->headRight.setPosition(positions[0]);
+        window.draw(skin->headRight);
     }
     else if (last_dir == Up) {
-        headUp.setPosition(positions[0]);
-        window.draw(headUp);
+        skin->headUp.setPosition(positions[0]);
+        window.draw(skin->headUp);
     }
     else if (last_dir == Down) {
-        headDown.setPosition(positions[0]);
-        window.draw(headDown);
+        skin->headDown.setPosition(positions[0]);
+        window.draw(skin->headDown);
     }
 
     if (positions.size() > 1) { //tail
         if (positions[positions.size() - 2].x == positions[positions.size() - 1].x && positions[positions.size() - 2].y > positions[positions.size() - 1].y) {
-            tailUp.setPosition(positions[positions.size() - 1]);
-            window.draw(tailUp);
+            skin->tailUp.setPosition(positions[positions.size() - 1]);
+            window.draw(skin->tailUp);
         }
         else if (positions[positions.size() - 2].x == positions[positions.size() - 1].x && positions[positions.size() - 2].y < positions[positions.size() - 1].y) {
-            tailDown.setPosition(positions[positions.size() - 1]);
-            window.draw(tailDown);
+            skin->tailDown.setPosition(positions[positions.size() - 1]);
+            window.draw(skin->tailDown);
         }
         else if (positions[positions.size() - 2].x < positions[positions.size() - 1].x && positions[positions.size() - 2].y == positions[positions.size() - 1].y) {
-            tailRight.setPosition(positions[positions.size() - 1]);
-            window.draw(tailRight);
+            skin->tailRight.setPosition(positions[positions.size() - 1]);
+            window.draw(skin->tailRight);
         }
         else if (positions[positions.size() - 2].x > positions[positions.size() - 1].x && positions[positions.size() - 2].y == positions[positions.size() - 1].y) {
-            tailLeft.setPosition(positions[positions.size() - 1]);
-            window.draw(tailLeft);
+            skin->tailLeft.setPosition(positions[positions.size() - 1]);
+            window.draw(skin->tailLeft);
         }
     }
 
     if (positions.size() > 2) { // if snakes length is bigger then 2 it has middle snake part (chest or smth like that) (everything except tail and head)
         for (int i = 1; i < positions.size() - 1; i++) {
             if (positions[i + 1].x == positions[i - 1].x && positions[i + 1].y != positions[i - 1].y) {
-                vertic.setPosition(positions[i]);
-                window.draw(vertic);
+                skin->vertic.setPosition(positions[i]);
+                window.draw(skin->vertic);
             }
             else if (positions[i + 1].x != positions[i - 1].x && positions[i + 1].y == positions[i - 1].y) {
-                horiz.setPosition(positions[i]);
-                window.draw(horiz);
+                skin->horiz.setPosition(positions[i]);
+                window.draw(skin->horiz);
             }
             else if ((positions[i - 1].x > positions[i].x && positions[i + 1].y > positions[i].y) || (positions[i + 1].x > positions[i].x && positions[i - 1].y > positions[i].y)) {
-                bottomRight.setPosition(positions[i]);
-                window.draw(bottomRight);
+                skin->bottomRight.setPosition(positions[i]);
+                window.draw(skin->bottomRight);
             }
             else if ((positions[i - 1].x < positions[i].x && positions[i + 1].y < positions[i].y) || (positions[i + 1].x < positions[i].x && positions[i - 1].y < positions[i].y)) {
-                topLeft.setPosition(positions[i]);
-                window.draw(topLeft);
+                skin->topLeft.setPosition(positions[i]);
+                window.draw(skin->topLeft);
             }
             else if ((positions[i - 1].x < positions[i].x && positions[i + 1].y > positions[i].y) || (positions[i + 1].x < positions[i].x && positions[i - 1].y > positions[i].y)) {
-                bottomLeft.setPosition(positions[i]);
-                window.draw(bottomLeft);
+                skin->bottomLeft.setPosition(positions[i]);
+                window.draw(skin->bottomLeft);
             }
             else if ((positions[i - 1].x > positions[i].x && positions[i + 1].y < positions[i].y) || (positions[i + 1].x > positions[i].x && positions[i - 1].y < positions[i].y)) {
-                topRight.setPosition(positions[i]);
-                window.draw(topRight);
+                skin->topRight.setPosition(positions[i]);
+                window.draw(skin->topRight);
             }
         }
     }
@@ -266,6 +175,11 @@ void Snake::set_old_direction()
 Direction Snake::get_direction()
 {
     return last_dir;
+}
+
+Direction Snake::get_relative_direction()
+{
+    return static_cast<Direction>((static_cast<int>(current_dir) - static_cast<int>(last_dir) + 5) % 4);
 }
 
 int Snake::get_score()
@@ -299,13 +213,13 @@ AI_Snake::AI_Snake(const sf::Vector2f& pos, const std::vector<int>& layers)
     : Snake(pos)
     , ai(layers)
 {
-    setTextures(sf::Color::Yellow);
+
 }
 
 Noob_Snake::Noob_Snake(const sf::Vector2f& pos)
     : Snake(pos)
 {
-	setTextures(sf::Color::Green);
+
 }
 
 Direction Noob_Snake::set_direction_of_food(std::unique_ptr<Noob_Snake>& position, std::unique_ptr<Noob_Snake>& position1, std::unique_ptr<Noob_Snake>& position2, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
@@ -413,5 +327,5 @@ void AI_Snake::set_direction_from_ai(const std::vector<double>& output)
 
     Direction last_dir = get_direction();
     
-	set_direction(static_cast<Direction>((static_cast<int>(new_dir) + static_cast<int>(last_dir) + 3) % 4)); //absolutny smer z relativneho
+    set_direction(static_cast<Direction>((static_cast<int>(new_dir) + static_cast<int>(last_dir) + 3) % 4));
 }

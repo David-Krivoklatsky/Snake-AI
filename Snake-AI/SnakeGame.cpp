@@ -1,8 +1,10 @@
 ﻿#include <iostream>
+#include <vector>
 #include <ctime>
 #include <SFML/Graphics.hpp>
 
 #include "Globals.hpp"
+#include "Direction.hpp"
 #include "SnakeGame.hpp"
 #include "DrawObjects.hpp"
 #include "Snake.hpp"
@@ -10,6 +12,7 @@
 #include "Menu.hpp"
 #include "StartMenu.hpp"
 #include "NeuralNetwork.hpp"
+#include "SnakeSkin.hpp"
 
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
@@ -22,9 +25,11 @@ SnakeGame::SnakeGame()
     window.setFramerateLimit(FPS_LIMIT);
     srand(time(0));
 
-    snake.setTextures(sf::Color::Blue); //set texture default blue, if you click to change skin it is handled lower
-      
-    startMenu.assignFilenames(textureFiles, startMenu.numberOfSkins);
+    for (int i = 1; i <= numberOfSkins; i++) {
+		skins.push_back(std::make_unique<SnakeSkin>("Snake_texture" + std::to_string(i)));
+	}
+
+    snake.setSkin(*skins[0]);
 
     general_font.loadFromFile("font.ttf");
 
@@ -162,9 +167,9 @@ void SnakeGame::startInput()
             if (startMenu.clickSkin(window)) {
                 startMenu.button = 1;
                 startMenu.setUnpressed(startMenu.button);
-                startMenu.anotherSkin(skinChose, startMenu.numberOfSkins);
+                startMenu.anotherSkin(skinChose, numberOfSkins);
                 pressed = false;
-                snake.setTextures(textureFiles[skinChose]); //set textures here because it was lagging
+                snake.setSkin(*skins[skinChose]); //set textures here because it was lagging
             }
 
             else if (startMenu.clickStart(window)) {
@@ -272,13 +277,11 @@ void SnakeGame::render() {
     for (auto& object : draw_objects)
         object->draw(window);
 
-    for (auto& ai_snake : ai_snakes) {
+    for (auto& ai_snake : ai_snakes)
         ai_snake->draw(window);
-    }
 
-    for (auto& noob_snake : noob_snakes) {
+    for (auto& noob_snake : noob_snakes)
 		noob_snake->draw(window);
-	}
 
     snake.draw(window);
     food.draw(window);
@@ -293,31 +296,59 @@ void SnakeGame::setMode(int)
     switch (startMenu.mode)
     {
     // case 0: classicMode();
+
+    // random mode
     case 1: {
         for (int i = 0; i < 2; i++) {
             noob_snakes.push_back(std::make_unique<Noob_Snake>(find_empty_cell()));
         }
+
+        for (auto& noob_snake : noob_snakes) {
+			noob_snake->setSkin(*skins[2 % numberOfSkins]);
+		}
+
         break;
     }
 
 	case 2: peacefulMode();
 		break;
 
+    // ai
     case 3: {
-        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
+        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, 5 * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE, 20, 10, 5 , 10, 3 };
 
         for (int i = 0; i < 2; i++) {
 			ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
 		}
 
+        for (auto& ai_snake : ai_snakes) {
+			ai_snake->setSkin(*skins[1 % numberOfSkins]);
+		}
+
 		break;
     }
+    
+    // train ai
+    case 4: {
+        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
 
-	case 4: trainAiMode();
-		break;
+        ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
+        ai_snakes[0]->setSkin(*skins[1 % numberOfSkins]);
+        break;
+    }
+    
+    // ai noob
+    case 5: {
+        for (int i = 0; i < 2; i++) {
+            noob_snakes.push_back(std::make_unique<Noob_Snake>(find_empty_cell()));
+        }
 
-	case 5: aiNoobMode();
-		break;
+        for (auto& noob_snake : noob_snakes) {
+            noob_snake->setSkin(*skins[2 % numberOfSkins]);
+        }
+
+        break;
+    }
 
 	default:
 		break;
@@ -417,29 +448,60 @@ void SnakeGame::aiMode()
 
 void SnakeGame::trainAiMode()
 {
-	snake.move();
-	gameOver = !snake.legal_move();
+    AI_Snake& had = *ai_snakes[0];
 
-	if (gameOver) return;
+    had.copyFrom(snake);
+    had.setSkin(*skins[1 % numberOfSkins]);
 
-	if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
+    std::vector<double> target = {0., 0., 0. };
+    target[snake.get_relative_direction()] = 1.;
 
+    std::vector<double> grid = type_matrix_to_vector(get_all_positions(had.get_positions()));
+    std::vector<double> output = had.ai.forwardPass(grid);
+    had.set_direction_from_ai(output);
+    had.ai.backprop(grid, target);
+    had.move();
+
+    snake.move();
+    gameOver = !snake.legal_move();
+    if (gameOver) return;
+    if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
+    
+    snake.set_old_direction();
+    had.set_old_direction();
+
+    std::cout << snake.get_direction() << "\t" << had.get_direction() << "\n";
+    for (int i = 0; i < 3; i++) {
+		std::cout << output[i] << "\t";
+	}
+    std::cout << "\n";
+
+    if (had.eats(food.get_position())) food.generateFood(find_empty_cell());
+
+	scoreText.setString(std::to_string(snake.get_score()));
+	scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
 }
 
 void SnakeGame::aiNoobMode()
 {
     snake.move();
     gameOver = !snake.legal_move();
+    if (gameOver) return;
     if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
     snake.set_old_direction();
 
 
     for (auto& noob_snake : noob_snakes) {
 
-        std::unique_ptr<Noob_Snake> had = std::make_unique<Noob_Snake>(*noob_snake);
-        std::unique_ptr<Noob_Snake> had1 = std::make_unique<Noob_Snake>(*noob_snake);
-        std::unique_ptr<Noob_Snake> had2 = std::make_unique<Noob_Snake>(*noob_snake);
-        noob_snake->set_direction(noob_snake->set_direction_of_food(had,had1, had2,food.get_position(), noob_snake->get_direction()));
+        std::unique_ptr<Noob_Snake> had1 = std::make_unique<Noob_Snake>(find_empty_cell());
+        std::unique_ptr<Noob_Snake> had2 = std::make_unique<Noob_Snake>(find_empty_cell());
+        std::unique_ptr<Noob_Snake> had3 = std::make_unique<Noob_Snake>(find_empty_cell());
+
+        had1->copyFrom(*noob_snake);
+        had2->copyFrom(*noob_snake);
+        had3->copyFrom(*noob_snake);
+
+        noob_snake->set_direction(noob_snake->set_direction_of_food(had1, had2, had3, food.get_position(), noob_snake->get_direction()));
 
         noob_snake->move();
         if (!noob_snake->legal_move()) noob_snake->reset(find_empty_cell());
@@ -447,9 +509,6 @@ void SnakeGame::aiNoobMode()
 
         noob_snake->set_old_direction();
     }
-
-    scoreText.setString(std::to_string(snake.get_score()));
-    scoreText.setPosition(WINDOW_SIZE - (scoreText.getGlobalBounds().width + 10), 0);
 }
 
 sf::Vector2f SnakeGame::find_empty_cell()

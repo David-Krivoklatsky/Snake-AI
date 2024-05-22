@@ -60,13 +60,12 @@ private:
     Menu menu;
     StartMenu startMenu;
 
-    std::vector<std::string> textureFiles;
+    std::vector<std::unique_ptr<SnakeSkin>> skins;
 
     std::vector<std::unique_ptr<AI_Snake>> ai_snakes; //mudri hadi
     std::vector<std::unique_ptr<Noob_Snake>> noob_snakes; //hlupi hadi
 
     sf::Font general_font;
-
     sf::Text scoreText;
     
     bool start_menu = true;
