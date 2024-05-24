@@ -14,7 +14,7 @@ public:
 
 	std::vector<sf::Vector2f> get_positions();
 
-	void setSkin(const SnakeSkin&);
+	void setSkin(const std::shared_ptr<SnakeSkin>);
 
 	void copyFrom(const Snake& other);
 
@@ -36,7 +36,7 @@ public:
 private:
 	std::vector<sf::Vector2f> positions;
 
-	std::unique_ptr<SnakeSkin> skin;
+	std::shared_ptr<SnakeSkin> skin;
 
 	Direction current_dir;
 	Direction last_dir;
@@ -56,6 +56,6 @@ class Noob_Snake : public Snake {
 public:
 	Noob_Snake(const sf::Vector2f&);
 
-	Direction set_direction_of_food(std::unique_ptr<Noob_Snake>&, std::unique_ptr<Noob_Snake>&, std::unique_ptr<Noob_Snake>&, sf::Vector2f, Direction);
+	Direction set_direction_to_food(std::unique_ptr<Noob_Snake>&, std::unique_ptr<Noob_Snake>&, std::unique_ptr<Noob_Snake>&, sf::Vector2f, Direction);
 
 };

@@ -63,7 +63,7 @@ private:
     StartMenu startMenu;
     DB db;
 
-    std::vector<std::unique_ptr<SnakeSkin>> skins;
+    std::vector<std::shared_ptr<SnakeSkin>> skins;
 
     std::vector<std::unique_ptr<AI_Snake>> ai_snakes; //mudri hadi
     std::vector<std::unique_ptr<Noob_Snake>> noob_snakes; //hlupi hadi

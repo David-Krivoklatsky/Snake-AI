@@ -70,9 +70,9 @@ bool Snake::eats(const sf::Vector2f& jedlo)
     }
 }
 
-void Snake::setSkin(const SnakeSkin& sskin) {
+void Snake::setSkin(const std::shared_ptr<SnakeSkin> set) {
 
-    skin = std::make_unique<SnakeSkin>(sskin);
+    skin = set;
 }
 
 void Snake::copyFrom(const Snake& other)
@@ -226,7 +226,7 @@ Noob_Snake::Noob_Snake(const sf::Vector2f& pos)
 {
 }
 
-Direction Noob_Snake::set_direction_of_food(std::unique_ptr<Noob_Snake>& position, std::unique_ptr<Noob_Snake>& position1, std::unique_ptr<Noob_Snake>& position2, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
+Direction Noob_Snake::set_direction_to_food(std::unique_ptr<Noob_Snake>& position, std::unique_ptr<Noob_Snake>& position1, std::unique_ptr<Noob_Snake>& position2, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
 
     if (position->get_positions()[0].x < food.x) {
 		position2->set_direction(Right);
