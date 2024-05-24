@@ -14,9 +14,9 @@ public:
 
 	std::vector<sf::Vector2f> get_positions();
 
-	void setSkin(const SnakeSkin&);
+	void setSkin(const std::shared_ptr<SnakeSkin>);
 
-	void copyFrom(const Snake& other);
+	void copyFrom(const std::unique_ptr<Snake> other);
 
 	void move();
 	bool legal_move();
@@ -36,7 +36,7 @@ public:
 private:
 	std::vector<sf::Vector2f> positions;
 
-	std::unique_ptr<SnakeSkin> skin;
+	std::shared_ptr<SnakeSkin> skin;
 
 	Direction current_dir;
 	Direction last_dir;

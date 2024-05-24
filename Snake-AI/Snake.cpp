@@ -70,24 +70,24 @@ bool Snake::eats(const sf::Vector2f& jedlo)
     }
 }
 
-void Snake::setSkin(const SnakeSkin& sskin) {
+void Snake::setSkin(const std::shared_ptr<SnakeSkin> set) {
 
-    skin = std::make_unique<SnakeSkin>(sskin);
+    skin = set;
 }
 
-void Snake::copyFrom(const Snake& other)
+void Snake::copyFrom(const std::unique_ptr<Snake> other)
 {
-    positions = other.positions;
+    positions = other->positions;
 
-	if (other.skin) {
-		skin = std::make_unique<SnakeSkin>(*other.skin);
+	if (other->skin) {
+		skin = std::make_unique<SnakeSkin>(*other->skin);
 	}
 	else {
 		skin.reset();
 	}
 
-	current_dir = other.current_dir;
-	last_dir = other.last_dir;
+	current_dir = other->current_dir;
+	last_dir = other->last_dir;
 }
 
 void Snake::draw(sf::RenderWindow& window) {
