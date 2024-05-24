@@ -142,7 +142,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>mysql8.4.0\lib64\vs14;SFML-2.6.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);SFML-audio.lib;SFML-window.lib;SFML-system.lib;mysqlcppconn-static.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);SFML-system.lib;SFML-graphics.lib;SFML-audio.lib;SFML-window.lib;mysqlcppconn-static.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -151,6 +151,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NeuralNetwork.cpp" />
     <ClCompile Include="Snake.cpp" />
+    <ClCompile Include="SnakeDB.cpp" />
     <ClCompile Include="SnakeGame.cpp" />
     <ClCompile Include="SnakeSkin.cpp" />
     <ClCompile Include="StartMenu.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="NeuralNetwork.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Snake.hpp" />
+    <ClInclude Include="SnakeDB.hpp" />
     <ClInclude Include="SnakeGame.hpp" />
     <ClInclude Include="SnakeSkin.hpp" />
     <ClInclude Include="StartMenu.hpp" />
