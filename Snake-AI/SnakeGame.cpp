@@ -588,8 +588,8 @@ void SnakeGame::battleRoyal()
     std::vector<std::unique_ptr<Snake>> to_reset;
 
     snake.move();
-    if (!snake.legal_move()) to_reset.push_back();
-    else if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
+    //if (!snake.legal_move()) to_reset.push_back();
+    //else if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
     snake.set_old_direction();
 
     for (auto& ai_snake : ai_snakes) {
