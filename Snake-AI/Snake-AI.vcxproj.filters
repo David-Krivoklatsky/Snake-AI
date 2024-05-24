@@ -71,6 +71,9 @@
     <ClInclude Include="SnakeSkin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Direction.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Snake-AI.rc">
