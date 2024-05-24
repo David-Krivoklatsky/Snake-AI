@@ -13,10 +13,13 @@ public:
 
 	bool click(const sf::RenderWindow&);
 
+	std::string playerInput;
+	sf::Text playerText;
 private:
 	sf::Font papyrus;
 
 	sf::Text endOfGame;
 	sf::Text restart;
 	sf::RectangleShape retry;
+
 };

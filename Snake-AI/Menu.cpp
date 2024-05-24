@@ -26,6 +26,12 @@ Menu::Menu()
     restart.setStyle(sf::Text::Bold);
     restart.setOrigin(restart.getLocalBounds().width / 2, restart.getLocalBounds().height / 2);
     restart.setPosition(WINDOW_SIZE / 2.f, WINDOW_SIZE / 2.f + 70);
+
+	playerText.setFont(papyrus);
+	playerText.setFillColor(sf::Color::White);
+	playerText.setStyle(sf::Text::Bold);
+	playerText.setCharacterSize(30);
+    playerText.setPosition(200, 500);
 }
 
 void Menu::draw(sf::RenderWindow& window)

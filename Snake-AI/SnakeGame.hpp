@@ -9,6 +9,7 @@
 #include "Food.hpp"
 #include "Menu.hpp"
 #include "StartMenu.hpp"
+#include "SnakeDB.hpp"
 
 enum Type {
     thisSnake,
@@ -60,6 +61,7 @@ private:
     Food food;
     Menu menu;
     StartMenu startMenu;
+    DB db;
 
     std::vector<std::unique_ptr<SnakeSkin>> skins;
 

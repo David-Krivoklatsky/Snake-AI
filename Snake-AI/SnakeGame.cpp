@@ -13,6 +13,7 @@
 #include "StartMenu.hpp"
 #include "NeuralNetwork.hpp"
 #include "SnakeSkin.hpp"
+#include "SnakeDB.hpp"
 
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
@@ -41,7 +42,7 @@ SnakeGame::SnakeGame()
 
 void SnakeGame::run() {
     gameOver = false;
-
+    
     while (window.isOpen() && start_menu) {
         startInput();
 
@@ -106,6 +107,7 @@ void SnakeGame::retryMenu() {
 
 	scoreText.setPosition(WINDOW_SIZE / 2 - (scoreText.getGlobalBounds().width), WINDOW_SIZE / 2 - 20);
 	scoreText.setCharacterSize(50);
+    //db.noteScore(0, "n");
 
     while (window.isOpen() && !restartGame) {
 
@@ -113,6 +115,7 @@ void SnakeGame::retryMenu() {
         window.clear();
         menu.draw(window);
         window.draw(scoreText);
+        window.draw(menu.playerText);
         window.display();
     }
     scoreText.setCharacterSize(30);
@@ -257,17 +260,35 @@ void SnakeGame::retryInput() {
         {
             if (menu.click(window))
             {
+                if (menu.playerInput.length() > 0) {
+                    db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
+                    db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput);
+                }
                 restartGame = true;
             }
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             restartGame = true;
+            if (menu.playerInput.length() > 0) {
+                db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
+                db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput);
+            }
         }
+        if (event.type == sf::Event::TextEntered && menu.playerInput.length() < 20)
+        {
+            menu.playerInput += event.text.unicode;
+            menu.playerText.setString(menu.playerInput);
+        }
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			if (menu.playerInput.length() > 0) {
+				db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
+				db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput);
+			}
             window.close();
-        }
-    }
+        }    }
+
 }
 
 void SnakeGame::update() {
