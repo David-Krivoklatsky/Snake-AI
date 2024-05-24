@@ -572,7 +572,7 @@ void SnakeGame::aiNoobMode()
         had2->copyFrom(*noob_snake);
         had3->copyFrom(*noob_snake);
 
-        noob_snake->set_direction(noob_snake->set_direction_of_food(had1, had2, had3, food.get_position(), noob_snake->get_direction()));
+        noob_snake->set_direction(noob_snake->set_direction_to_food(had1, had2, had3, food.get_position(), noob_snake->get_direction()));
 
         noob_snake->move();
         if (!noob_snake->legal_move()) noob_snake->reset(find_empty_cell());
@@ -646,11 +646,12 @@ void SnakeGame::battleRoyal()
         std::unique_ptr<Noob_Snake> had1 = std::make_unique<Noob_Snake>(find_empty_cell());
         std::unique_ptr<Noob_Snake> had2 = std::make_unique<Noob_Snake>(find_empty_cell());
         std::unique_ptr<Noob_Snake> had3 = std::make_unique<Noob_Snake>(find_empty_cell());
-        had1->copyFrom(st*noob_snake
-        had2->copyFrom(st*noob_snake
-        had3->copyFrom(st*noob_snake
 
-        noob_snake->set_direction(noob_snake->set_direction_of_food(had1, had2, had3, food.get_position(), noob_snake->get_direction()));
+        had1->copyFrom(*noob_snake);
+        had2->copyFrom(*noob_snake);
+        had3->copyFrom(*noob_snake);
+
+        noob_snake->set_direction(noob_snake->set_direction_to_food(had1, had2, had3, food.get_position(), noob_snake->get_direction()));
 
         noob_snake->move();
         if (!noob_snake->legal_move()) noob_snake->reset(find_empty_cell());

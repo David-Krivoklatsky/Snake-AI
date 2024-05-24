@@ -75,19 +75,19 @@ void Snake::setSkin(const std::shared_ptr<SnakeSkin> set) {
     skin = set;
 }
 
-void Snake::copyFrom(const std::unique_ptr<Snake> other)
+void Snake::copyFrom(const Snake& other)
 {
-    positions = other->positions;
+    positions = other.positions;
 
-	if (other->skin) {
-		skin = std::make_unique<SnakeSkin>(*other->skin);
+	if (other.skin) {
+		skin = std::make_unique<SnakeSkin>(*other.skin);
 	}
 	else {
 		skin.reset();
 	}
 
-	current_dir = other->current_dir;
-	last_dir = other->last_dir;
+	current_dir = other.current_dir;
+	last_dir = other.last_dir;
 }
 
 void Snake::draw(sf::RenderWindow& window) {
@@ -226,7 +226,7 @@ Noob_Snake::Noob_Snake(const sf::Vector2f& pos)
 {
 }
 
-Direction Noob_Snake::set_direction_of_food(std::unique_ptr<Noob_Snake>& position, std::unique_ptr<Noob_Snake>& position1, std::unique_ptr<Noob_Snake>& position2, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
+Direction Noob_Snake::set_direction_to_food(std::unique_ptr<Noob_Snake>& position, std::unique_ptr<Noob_Snake>& position1, std::unique_ptr<Noob_Snake>& position2, sf::Vector2f food, Direction old) {//std::vector<sf::Vector2f> positions
 
     if (position->get_positions()[0].x < food.x) {
 		position2->set_direction(Right);

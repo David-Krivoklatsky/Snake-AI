@@ -16,7 +16,7 @@ public:
 
 	void setSkin(const std::shared_ptr<SnakeSkin>);
 
-	void copyFrom(const std::unique_ptr<Snake> other);
+	void copyFrom(const Snake& other);
 
 	void move();
 	bool legal_move();
@@ -56,6 +56,6 @@ class Noob_Snake : public Snake {
 public:
 	Noob_Snake(const sf::Vector2f&);
 
-	Direction set_direction_of_food(std::unique_ptr<Noob_Snake>&, std::unique_ptr<Noob_Snake>&, std::unique_ptr<Noob_Snake>&, sf::Vector2f, Direction);
+	Direction set_direction_to_food(std::unique_ptr<Noob_Snake>&, std::unique_ptr<Noob_Snake>&, std::unique_ptr<Noob_Snake>&, sf::Vector2f, Direction);
 
 };
