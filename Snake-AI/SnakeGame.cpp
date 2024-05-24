@@ -747,7 +747,9 @@ std::vector<std::vector<Type>> SnakeGame::get_all_positions(const std::vector<sf
     }
 
     for (const sf::Vector2f& s : these_positions) {
-        all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = thisSnake;
+        if (s.x < WINDOW_SIZE && s.x >= 0 && s.y < WINDOW_SIZE && s.y >= 0) {
+            all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = thisSnake;
+        }
     }
 
 	all_positions[food.get_position().x / BLOCK_SIZE][food.get_position().y / BLOCK_SIZE] = Food_type;
