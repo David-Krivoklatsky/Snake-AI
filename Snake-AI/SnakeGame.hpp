@@ -52,6 +52,7 @@ private:
 public:
     bool restartGame = false;
     int skinChose = 0;
+    StartMenu startMenu;
 
 private:
     sf::RenderWindow window;
@@ -60,7 +61,6 @@ private:
     Snake snake;
     Food food;
     Menu menu;
-    StartMenu startMenu;
     DB db;
 
     std::vector<std::shared_ptr<SnakeSkin>> skins;

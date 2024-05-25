@@ -8,9 +8,9 @@ void DB::connectDB(sql::mysql::MySQL_Driver* driver) {
 }
 
 
-void DB::noteScore(int score, const std::string& nick) {
+void DB::noteScore(int score, const std::string& nick, std::string &mode) {
 	stmt = con->createStatement();
-	std::string query = "INSERT INTO scoreboard (Nick, Score) VALUES ('" + nick + "', " + std::to_string(score) + ")";
+	std::string query = "INSERT INTO scoreboard (Nick, Score, Mode) VALUES (trim('" + nick + "'), " + std::to_string(score) + ",'" + mode + "')";
 	std::cout << query << std::endl;
 	try {
 		stmt->execute(query);
@@ -20,4 +20,5 @@ void DB::noteScore(int score, const std::string& nick) {
 		std::cerr << "SQL Exception: " << e.what() << " (Error code: " << e.getErrorCode() << ")" << std::endl;
 		// Handle the exception
 	}
+
 }

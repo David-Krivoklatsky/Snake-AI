@@ -262,7 +262,8 @@ void SnakeGame::retryInput() {
             {
                 if (menu.playerInput.length() > 0) {
                     db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
-                    db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput);
+                    db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput, startMenu.gameModes[startMenu.mode]);
+                    menu.playerInput = "";
                 }
                 restartGame = true;
             }
@@ -272,7 +273,8 @@ void SnakeGame::retryInput() {
             restartGame = true;
             if (menu.playerInput.length() > 0) {
                 db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
-                db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput);
+                db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput, startMenu.gameModes[startMenu.mode]);
+                menu.playerInput = "";
             }
         }
         if (event.type == sf::Event::TextEntered && menu.playerInput.length() < 20)
@@ -280,11 +282,17 @@ void SnakeGame::retryInput() {
             menu.playerInput += event.text.unicode;
             menu.playerText.setString(menu.playerInput);
         }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) && menu.playerInput.length() > 0)
+        {
+			menu.playerInput.pop_back();
+			menu.playerText.setString(menu.playerInput);
+		}
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 			if (menu.playerInput.length() > 0) {
 				db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
-				db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput);
+                db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput, startMenu.gameModes[startMenu.mode]);
+				menu.playerInput = "";
 			}
             window.close();
         }    }

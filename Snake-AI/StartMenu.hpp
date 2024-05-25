@@ -27,6 +27,7 @@ public:
 	int button = 0;
 	bool sound = false;
 	int mode = 0;
+	std::string gameModes[number_of_modes] = { "Classic", "Random Mode", "Train AI", "    AI    ", "Train with freesnake" , "AI - noob", "Battle Royal"};
 
 private:
 	sf::Font papyrus; //toto by sa mohlo zdedit asi 
@@ -53,7 +54,6 @@ private:
 	sf::Text skin;
 	sf::speedValue;
 	*/
-	std::string gameModes[number_of_modes] = { "Classic", "Random Mode", "Train AI", "    AI    ", "Train with freesnake" , "AI - noob", "Battle Royal"};
 
 	sf::RectangleShape background;
 	sf::RectangleShape choiceOfGameMod_button;
