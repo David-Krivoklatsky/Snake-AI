@@ -260,7 +260,7 @@ void SnakeGame::retryInput() {
         {
             if (menu.click(window))
             {
-                if (menu.playerInput.length() > 0) {
+                if (menu.playerInput.length() > 0 && menu.playerInput[menu.playerInput.length()-1] != ' ') {
                     db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
                     db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput, startMenu.gameModes[startMenu.mode]);
                     menu.playerInput = "";
@@ -271,7 +271,7 @@ void SnakeGame::retryInput() {
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             restartGame = true;
-            if (menu.playerInput.length() > 0) {
+            if (menu.playerInput.length() > 0 && menu.playerInput[menu.playerInput.length() - 1] != ' ') {
                 db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
                 db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput, startMenu.gameModes[startMenu.mode]);
                 menu.playerInput = "";
@@ -289,7 +289,7 @@ void SnakeGame::retryInput() {
 		}
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			if (menu.playerInput.length() > 0) {
+			if (menu.playerInput.length() > 0 && menu.playerInput[menu.playerInput.length() - 1] != ' ') {
 				db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
                 db.noteScore(std::stoi(scoreText.getString().toAnsiString()), menu.playerInput, startMenu.gameModes[startMenu.mode]);
 				menu.playerInput = "";
