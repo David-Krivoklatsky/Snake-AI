@@ -606,18 +606,19 @@ void SnakeGame::aiNoobMode()
 //pridat reset list, resetovat na konci pohnutia
 void SnakeGame::battleRoyal()
 {
-    std::vector<std::unique_ptr<Snake>> to_reset;
+    std::vector<Snake*> to_reset;
 
     snake.move();
-    //if (!snake.legal_move()) to_reset.push_back();
-    if (!snake.legal_move()) snake.reset(find_empty_cell());
-    else if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
+    if (!snake.legal_move()) to_reset.push_back(&snake);
+    //if (!snake.legal_move()) snake.reset(find_empty_cell());
+    if (snake.eats(food.get_position())) food.generateFood(find_empty_cell());
     snake.set_old_direction();
 
     for (auto& ai_snake : ai_snakes) {
         for (const sf::Vector2f& s : ai_snake->get_positions()) {
             if (snake.get_positions()[0] == s) {
-                snake.reset(find_empty_cell());
+                //snake.reset(find_empty_cell());
+                to_reset.push_back(&snake);
                 break;
             }
         }
@@ -626,7 +627,8 @@ void SnakeGame::battleRoyal()
     for (auto& noob_snake : noob_snakes) {
         for (const sf::Vector2f& s : noob_snake->get_positions()) {
             if (snake.get_positions()[0] == s) {
-                snake.reset(find_empty_cell());
+                //snake.reset(find_empty_cell());
+                to_reset.push_back(&snake);
                 break;
             }
         }
@@ -637,15 +639,17 @@ void SnakeGame::battleRoyal()
         ai_snake->set_direction_from_ai(ai_snake->ai.forwardPass(type_matrix_to_vector(get_all_positions(ai_snake->get_positions()))));
 
         ai_snake->move();
-        if (!ai_snake->legal_move()) ai_snake->reset(find_empty_cell());
-        else if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
+        //if (!ai_snake->legal_move()) ai_snake->reset(find_empty_cell());
+        if (!ai_snake->legal_move()) to_reset.push_back(ai_snake.get());
+        if (ai_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
         ai_snake->set_old_direction();
 
         for (auto& as : ai_snakes) {
             if (as != ai_snake) {
                 for (const sf::Vector2f& s : as->get_positions()) {
                     if (ai_snake->get_positions()[0] == s) {
-                        ai_snake->reset(find_empty_cell());
+                        //ai_snake->reset(find_empty_cell());
+                        to_reset.push_back(ai_snake.get());
                         break;
                     }
                 }
@@ -655,7 +659,8 @@ void SnakeGame::battleRoyal()
         for (auto& noob_snake : noob_snakes) {
             for (const sf::Vector2f& s : noob_snake->get_positions()) {
                 if (ai_snake->get_positions()[0] == s) {
-                    ai_snake->reset(find_empty_cell());
+                    //ai_snake->reset(find_empty_cell());
+                    to_reset.push_back(ai_snake.get());
                     break;
                 }
             }
@@ -675,15 +680,17 @@ void SnakeGame::battleRoyal()
         noob_snake->set_direction(noob_snake->set_direction_to_food(had1, had2, had3, food.get_position(), noob_snake->get_direction()));
 
         noob_snake->move();
-        if (!noob_snake->legal_move()) noob_snake->reset(find_empty_cell());
-        else if (noob_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
+        //if (!noob_snake->legal_move()) noob_snake->reset(find_empty_cell());
+        if (!noob_snake->legal_move()) to_reset.push_back(noob_snake.get());
+        if (noob_snake->eats(food.get_position())) food.generateFood(find_empty_cell());
         noob_snake->set_old_direction();
 
         for (auto& ns : noob_snakes) {
             if (ns != noob_snake) {
                 for (const sf::Vector2f& s : ns->get_positions()) {
                     if (noob_snake->get_positions()[0] == s) {
-                        noob_snake->reset(find_empty_cell());
+                        //noob_snake->reset(find_empty_cell());
+                        to_reset.push_back(noob_snake.get());
                         break;
                     }
                 }
@@ -693,11 +700,16 @@ void SnakeGame::battleRoyal()
         for (auto& ai_snake : ai_snakes) {
             for (const sf::Vector2f& s : ai_snake->get_positions()) {
                 if (noob_snake->get_positions()[0] == s) {
-                    noob_snake->reset(find_empty_cell());
+                    //noob_snake->reset(find_empty_cell());
+                    to_reset.push_back(noob_snake.get());
                     break;
                 }
             }
         }
+    }
+
+    for (Snake* p : to_reset) {
+        p->reset(find_empty_cell());
     }
 }
 
@@ -752,8 +764,10 @@ std::vector<std::vector<Type>> SnakeGame::get_all_positions(const std::vector<sf
     //chyba - ak je had mimo okna, program padne
 
     for (const sf::Vector2f& s : snake.get_positions()) {
-
-	    all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;    }
+        if (s.x < WINDOW_SIZE && s.x >= 0 && s.y < WINDOW_SIZE && s.y >= 0) {
+            all_positions[s.x / BLOCK_SIZE][s.y / BLOCK_SIZE] = otherSnake;
+        }
+    }
 
     for (const auto& ai_snake : ai_snakes) {
         for (const sf::Vector2f& s : ai_snake->get_positions()) {
