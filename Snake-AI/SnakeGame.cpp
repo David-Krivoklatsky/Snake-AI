@@ -97,7 +97,7 @@ void SnakeGame::run() {
         gameOver = false;
     }
 
-    if (startMenu.mode == 4) ai_snakes[0]->ai.save2file("test.snake");
+    if (startMenu.mode == 4) ai_snakes[0]->ai.save2file("peternagy.snake");
 }
 
 void SnakeGame::retryMenu() {
@@ -352,6 +352,8 @@ void SnakeGame::setMode(int)
 			ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
 		}
 
+        ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), "test.snake"));
+
         for (auto& ai_snake : ai_snakes) {
 			ai_snake->setSkin(skins[1 % numberOfSkins]);
 		}
@@ -361,7 +363,7 @@ void SnakeGame::setMode(int)
     
     // train ai
     case 4: {
-        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
+        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, 3 * PIXEL_SIZE, PIXEL_SIZE, 2 * PIXEL_SIZE, PIXEL_SIZE, 20, 3 };
 
         ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
 
