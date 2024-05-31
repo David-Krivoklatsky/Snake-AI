@@ -82,6 +82,7 @@ void SnakeGame::run() {
 
                 case 5: aiNoobMode();
                     break;
+
                 case 6: battleRoyal();
                     break;
 
@@ -103,7 +104,6 @@ void SnakeGame::run() {
 void SnakeGame::retryMenu() {
     restartGame = false;
 
-    snake.reset(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2));
 
 	scoreText.setPosition(WINDOW_SIZE / 2 - (scoreText.getGlobalBounds().width), WINDOW_SIZE / 2 - 20);
 	scoreText.setCharacterSize(50);
@@ -118,7 +118,10 @@ void SnakeGame::retryMenu() {
         window.draw(menu.playerText);
         window.display();
     }
+    
     scoreText.setCharacterSize(30);
+
+    snake.reset(sf::Vector2f(WINDOW_SIZE / 2, WINDOW_SIZE / 2));
 }
 
 void SnakeGame::startInput()
@@ -260,7 +263,7 @@ void SnakeGame::retryInput() {
         {
             if (menu.click(window))
             {
-                if (menu.playerInput.length() > 0 && menu.playerInput[menu.playerInput.length()-1] != ' ') {
+                if (menu.playerInput.length() > 0 && !menu.playerInput.empty()) {
                     db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
                     db.noteScore(snake.get_score(), menu.playerInput, startMenu.gameModes[startMenu.mode]);
                     menu.playerInput = "";
@@ -271,7 +274,7 @@ void SnakeGame::retryInput() {
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             restartGame = true;
-            if (menu.playerInput.length() > 0 && menu.playerInput[menu.playerInput.length() - 1] != ' ') {
+            if (menu.playerInput.length() > 0 && !menu.playerInput.empty()) {
                 db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
                 db.noteScore(snake.get_score(), menu.playerInput, startMenu.gameModes[startMenu.mode]);
                 menu.playerInput = "";
@@ -289,7 +292,7 @@ void SnakeGame::retryInput() {
 		}
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-			if (menu.playerInput.length() > 0 && menu.playerInput[menu.playerInput.length() - 1] != ' ') {
+			if (menu.playerInput.length() > 0 && !menu.playerInput.empty()) {
 				db.connectDB(sql::mysql::get_driver_instance()); // spojenie s databázou
                 db.noteScore(snake.get_score(), menu.playerInput, startMenu.gameModes[startMenu.mode]);
 				menu.playerInput = "";
