@@ -385,7 +385,8 @@ void SnakeGame::setMode(int)
 
         break;
     }
-
+    
+    // battle royale
     case 6: {
         for (int i = 0; i < 5; i++) {
             noob_snakes.push_back(std::make_unique<Noob_Snake>(find_empty_cell()));
