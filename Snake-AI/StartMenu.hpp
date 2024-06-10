@@ -27,7 +27,7 @@ public:
 	int button = 0;
 	bool sound = false;
 	int mode = 0;
-	std::string gameModes[number_of_modes] = { "Classic", "Random Mode", "Train AI", "    AI    ", "Train with freesnake" , "AI - noob", "Battle Royal"};
+	std::string gameModes[number_of_modes] = { "Classic", "Random Mode", "Train AI", "    AI    ", "Freesnake" , "AI - noob", "Battle Royale"};
 
 private:
 	sf::Font papyrus; //toto by sa mohlo zdedit asi 
