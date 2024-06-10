@@ -98,7 +98,7 @@ void SnakeGame::run() {
         gameOver = false;
     }
 
-    if (startMenu.mode == 4) ai_snakes[0]->ai.save2file("test.snake");
+    if (startMenu.mode == 4) ai_snakes[0]->ai.save2file("new.snake");
 }
 
 void SnakeGame::retryMenu() {
@@ -357,7 +357,7 @@ void SnakeGame::setMode(int)
 
     // ai
     case 3: {
-        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, 5 * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE, 20, 10, 5 , 10, 3 };
+        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE + 4, 5 * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE, 20, 10, 5 , 10, 3 };
 
         for (int i = 0; i < 2; i++) {
 			ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
@@ -372,7 +372,7 @@ void SnakeGame::setMode(int)
     
     // train ai
     case 4: {
-        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE, PIXEL_SIZE, 3 };
+        std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE + 4, PIXEL_SIZE, 3 };
 
         ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
 
@@ -519,7 +519,13 @@ void SnakeGame::aiMode()
 
     for (size_t i = 0; i < ai_snakes.size(); i++) {
 
-        ai_snakes[i]->set_direction_from_ai(ai_snakes[i]->ai.forwardPass(type_matrix_to_vector(get_all_positions(ai_snakes[i]->get_positions()))));
+        std::vector<double> input = type_matrix_to_vector(get_all_positions(ai_snakes[i]->get_positions()));
+        input.push_back(ai_snakes[i]->get_positions()[0].x);
+        input.push_back(ai_snakes[i]->get_positions()[0].y);
+        input.push_back(food.get_position().x);
+        input.push_back(food.get_position().y);
+
+        ai_snakes[i]->set_direction_from_ai(ai_snakes[i]->ai.forwardPass(input));
 
         ai_snakes[i]->move();
         if (!ai_snakes[i]->legal_move()) ai_snakes[i]->reset(find_empty_cell());
@@ -552,6 +558,11 @@ void SnakeGame::trainAiMode()
 
     std::vector<double> grid = type_matrix_to_vector(get_all_positions(had.get_positions()));
     std::vector<double> output = had.ai.forwardPass(grid);
+    output.push_back(had.get_positions()[0].x);
+    output.push_back(had.get_positions()[0].y);
+    output.push_back(food.get_position().x);
+    output.push_back(food.get_position().y);
+
     had.set_direction_from_ai(output);
     had.ai.backprop(grid, target);
     had.move();
@@ -577,6 +588,15 @@ void SnakeGame::trainAiMode()
     freeSnake.ai = had.ai;
 
     freeSnake.set_direction_from_ai(freeSnake.ai.forwardPass(type_matrix_to_vector(get_all_positions(freeSnake.get_positions()))));
+
+    std::vector<double> input = type_matrix_to_vector(get_all_positions(freeSnake.get_positions()));
+    input.push_back(freeSnake.get_positions()[0].x);
+    input.push_back(freeSnake.get_positions()[0].y);
+    input.push_back(food.get_position().x);
+    input.push_back(food.get_position().y);
+
+    freeSnake.set_direction_from_ai(freeSnake.ai.forwardPass(input));
+
     freeSnake.move();
 
     freeSnake.set_old_direction();
@@ -645,7 +665,13 @@ void SnakeGame::battleRoyal()
 
     for (auto& ai_snake : ai_snakes) {
 
-        ai_snake->set_direction_from_ai(ai_snake->ai.forwardPass(type_matrix_to_vector(get_all_positions(ai_snake->get_positions()))));
+        std::vector<double> input = type_matrix_to_vector(get_all_positions(ai_snake->get_positions()));
+        input.push_back(ai_snake->get_positions()[0].x);
+        input.push_back(ai_snake->get_positions()[0].y);
+        input.push_back(food.get_position().x);
+        input.push_back(food.get_position().y);
+
+        ai_snake->set_direction_from_ai(ai_snake->ai.forwardPass(input));
 
         ai_snake->move();
         if (!ai_snake->legal_move()) ai_snake->reset(find_empty_cell());
@@ -803,13 +829,13 @@ std::vector<double> SnakeGame::type_matrix_to_vector(const std::vector<std::vect
 				inputs[i * PIXEL_SIZE + j] = 0.;
 			}
             else if (matrix[i][j] == otherSnake) {
-                inputs[i * PIXEL_SIZE + j] = 0.2;
+                inputs[i * PIXEL_SIZE + j] = 20.;
 			}
             else if (matrix[i][j] == Food_type) {
-                inputs[i * PIXEL_SIZE + j] = 1.;
+                inputs[i * PIXEL_SIZE + j] = 100.;
 			}
             else {
-                inputs[i * PIXEL_SIZE + j] = 0.5;
+                inputs[i * PIXEL_SIZE + j] = 50.;
 			}
 		}
 	}
