@@ -282,7 +282,8 @@ void SnakeGame::retryInput() {
         }
         if (event.type == sf::Event::TextEntered && menu.playerInput.length() < 20)
         {
-            menu.playerInput += event.text.unicode;
+            if ((event.text.unicode >= 65 && event.text.unicode <= 90) || (event.text.unicode >= 97 && event.text.unicode <= 122) || event.text.unicode == 95 || (event.text.unicode >= 40 && event.text.unicode <= 62))
+                menu.playerInput += event.text.unicode;
             menu.playerText.setString(menu.playerInput);
         }
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) && menu.playerInput.length() > 0)
