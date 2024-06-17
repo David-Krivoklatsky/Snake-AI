@@ -14,6 +14,7 @@
 #include "NeuralNetwork.hpp"
 #include "SnakeSkin.hpp"
 #include "SnakeDB.hpp"
+#include "DrawNN.hpp"
 
 SnakeGame::SnakeGame()
     : window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake AI")
@@ -357,10 +358,12 @@ void SnakeGame::setMode(int)
 
     // ai
     case 3: {
+
         std::vector<int> layers = { PIXEL_SIZE * PIXEL_SIZE + 4, 5 * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE, 20, 10, 5 , 10, 3 };
 
         for (int i = 0; i < 2; i++) {
 			ai_snakes.push_back(std::make_unique<AI_Snake>(find_empty_cell(), layers));
+            NN_windows.push_back(std::make_shared<sf::RenderWindow>(sf::VideoMode(1000, 600), "Neural Network " + i));
 		}
 
         for (auto& ai_snake : ai_snakes) {
@@ -543,6 +546,10 @@ void SnakeGame::aiMode()
 		}
 
         ai_snakes[i]->set_old_direction();
+
+        drawNN(ai_snakes[i]->ai, NN_windows[i]);
+        NN_windows[i]->display();
+
     }
 }
 

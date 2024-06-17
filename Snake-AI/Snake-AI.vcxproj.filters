@@ -39,6 +39,15 @@
     <ClCompile Include="SnakeSkin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SnakeDB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawNN.hpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawNN.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -72,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Direction.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SnakeDB.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

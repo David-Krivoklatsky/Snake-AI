@@ -22,6 +22,10 @@ public:
     void backprop(const std::vector<double>&, const std::vector<double>&);
 
     void save2file(const std::string&);
+
+    const std::vector<std::vector<Neuron>>& getNetwork() const { return net; }
+    const std::vector<int>& getLayers() const { return layers; }
+
 private:
     std::vector<std::vector<Neuron>> net;
 

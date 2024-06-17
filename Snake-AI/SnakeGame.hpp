@@ -54,6 +54,8 @@ public:
     int skinChose = 0;
     StartMenu startMenu;
 
+    std::vector<std::shared_ptr<sf::RenderWindow>> NN_windows;
+
 private:
     sf::RenderWindow window;
     sf::Event event;
